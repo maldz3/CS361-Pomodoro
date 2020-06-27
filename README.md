@@ -1,4 +1,6 @@
-# CS361-Pomodoro
+# 🍅 CS361-Pomodoro
 
-Jamie Mott
-Maliha Syed
+## 🤓 Authors
+- Jamie Mott  
+- Maliha Syed  
+- [Noah Johnston](https://github.com/NDJ-1701)
