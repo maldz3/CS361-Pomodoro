@@ -1,5 +1,8 @@
 # 🍅 CS361-Pomodoro
 
+## :construction: High Level Architecture
+![Image of High Level Architecture](https://github.com/maldz3/CS361-Pomodoro/blob/master/high_level_architecture.png)
+
 ## 🤓 Authors
 - Jamie Mott  
 - Maliha Syed  
