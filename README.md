@@ -5,7 +5,7 @@
 
 ## 🤓 Authors
 - Jamie Mott  
-- Maliha Syed  
+- [Maliha Syed](https://github.com/maldz3)
 - [Noah Johnston](https://github.com/NDJ-1701)
 - Leonard LoBiondo
 - [Justin Lin](https://github.com/jlin88)
