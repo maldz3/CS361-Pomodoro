@@ -10,11 +10,12 @@ jobs:
     name: Build Flutter (Web)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@master
     - uses: subosito/flutter-action@v1
       with:
         channel: 'dev'
     - run: flutter config --enable-web
+    - run: flutter pub get
     - run: flutter build web --release
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
