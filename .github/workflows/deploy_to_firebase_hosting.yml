@@ -14,13 +14,10 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
           channel: 'beta'
-    - name: Install Dependencies
-      run: flutter pub get
+    - run: flutter pub get
       working-directory: ./pomodoro
-    - name: Enable Web
-      run: flutter config --enable-web
-    - name: Build for Web 
-      run: flutter build web
+    - run: flutter config --enable-web
+    - run: flutter build web
       working-directory: ./pomodoro
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
