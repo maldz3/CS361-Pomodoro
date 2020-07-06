@@ -19,6 +19,8 @@ jobs:
       - uses: actions/checkout@master
 
       # Enabling Flutter Web
+      - run: flutter channel beta
+      - run: flutter upgrade
       - run: flutter config --enable-web
       
       # Get the latst dependencies
