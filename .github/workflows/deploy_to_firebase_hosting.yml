@@ -15,10 +15,8 @@ jobs:
       with:
           channel: 'beta'
     - run: flutter pub get
-      working-directory: ./pomodoro
     - run: flutter config --enable-web
     - run: flutter build web
-      working-directory: ./pomodoro
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
       with:
