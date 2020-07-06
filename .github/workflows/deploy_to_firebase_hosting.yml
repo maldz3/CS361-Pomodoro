@@ -1,22 +1,36 @@
 name: deploy_to_firebase_hosting
 
+# Define trigger point, on push on master branch, this workflow will be triggered.
 on:
   push:
-    tags:
-      - release-production-*
+    branches: [ master ]
 
+# The job(s) you want to do when the workflow is triggered
+# We will be using an ubuntu-latest virtual machine to perform these processes
 jobs:
-  deploy_to_firebase_hosting:
-
+  build:
     runs-on: ubuntu-latest
-    
+
+    # Job consists of instructions that you want to trigger
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@master
+
+      # Checkout our code
+      - uses: actions/checkout@master
+
+      # Enabling Flutter Web
+      - run: flutter config --enable-web
       
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
+      # Get the latst dependencies
+      - run: flutter pub get
+      
+      # Build our 
+      - run: flutter build web
+      
+      # Using Firebase Actions to deploy to our Firebase Hosting
+      - uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          # This is where our stored secret will come in use
