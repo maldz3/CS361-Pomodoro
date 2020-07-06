@@ -5,34 +5,35 @@ on:
   push:
     branches: [ master ]
 
-# The job(s) you want to do when the workflow is triggered
-# We will be using an ubuntu-latest virtual machine to perform these processes
 jobs:
-  build:
+  build_web:
+    name: Build Flutter (Web)
     runs-on: ubuntu-latest
-
-    # Job consists of instructions that you want to trigger
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
-      # Checkout our code
-      - uses: actions/checkout@master
-
-      # Enabling Flutter Web
-      - run: flutter channel beta
-      - run: flutter upgrade
-      - run: flutter config --enable-web
-      
-      # Get the latst dependencies
-      - run: flutter pub get
-      
-      # Build our 
-      - run: flutter build web
-      
-      # Using Firebase Actions to deploy to our Firebase Hosting
-      - uses: w9jds/firebase-action@master
+    - uses: actions/checkout@master
+    - run: flutter pub get
+    - run: flutter config --enable-web
+    - run: flutter build web
+    - name: Archive Production Artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: web-build
+        path: build/web
+  deploy_web:
+    name: Deploy Web to Firebase Hosting
+    needs: build_web
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: web-build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          # This is where our stored secret will come in use
+          PROJECT_ID: default
