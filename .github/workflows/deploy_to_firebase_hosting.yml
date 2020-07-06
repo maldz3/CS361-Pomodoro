@@ -10,7 +10,9 @@ jobs:
     name: Build Flutter (Web)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
+      with:
+        channel: 'dev'
     - run: flutter pub get
     - run: flutter config --enable-web
     - run: flutter build web
