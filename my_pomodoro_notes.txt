@@ -1,8 +1,0 @@
-
-To generate a release build for web:
-    flutter build web
-To build and run the web app in debug mode:
-    flutter run -d chrome
-
-to regenerate the web files in an existing project so you can emulate on web:
-    flutter create .
