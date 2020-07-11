@@ -22,4 +22,17 @@ class User {
   void addTask(Task job) {
     tasks.add(job);
   }
+
+  void changeName(String newName) {
+    username = newName;
+  }
+
+  void changeEmail(String newEmail) {
+    email = newEmail;
+  }
+
+  void changePwd(String newPwd) {
+    password = newPwd;
+  }
+
 }

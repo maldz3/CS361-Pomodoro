@@ -19,4 +19,12 @@ class Task {
   void addTime(int newTime) {
     totalTime += newTime;
   }
+
+  void changeWorkTime(int newTime) {
+    durationWork = newTime;
+  }
+
+  void changeBreakTime(int newTime) {
+    durationBreak = newTime;
+  }
 }
