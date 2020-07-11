@@ -16,6 +16,7 @@ class AccountPage extends StatelessWidget {
             FlatButton(
                 color: Colors.red,
                 textColor: Colors.white,
+                splashColor: Colors.redAccent,
                 child: Text('Remove Account Data'),
                 onPressed: () {})
           ],
@@ -38,6 +39,7 @@ class AccountPage extends StatelessWidget {
       FlatButton(
           color: Colors.blueGrey,
           textColor: Colors.white,
+          splashColor: Colors.blueAccent,
           padding: EdgeInsets.all(8.0),
           child: Text('Update'),
           onPressed: () {})
