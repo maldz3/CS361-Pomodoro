@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/models/user.dart';
+import 'package:email_validator/email_validator.dart';
+// import 'components/change_email.dart';
+// import 'components/change_name.dart';
 
 class AccountPage extends StatefulWidget {
   //User curUser = User('Test username', 'Test email', 'test password');
@@ -73,7 +76,7 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeName(context);
+              changeName(context);//, curUser);
             }),
         FlatButton(
             color: Colors.blueGrey,
@@ -82,7 +85,7 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeEmail(context);
+              changeEmail(context);//, curUser);
             })
       ]),
     ]);
@@ -98,13 +101,13 @@ class _AccountPageState extends State<AccountPage> {
           body: Center(
               child: Column(children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text('Please enter a new username:'),
+              Text('Please enter a new username: '),
               Expanded(
                   child: TextField(
                       controller: myController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Enter UserName Here')))
+                          hintText: 'New User Name')))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               FlatButton(
@@ -156,36 +159,146 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   void changeEmail(BuildContext context) {
+
+    final myController = TextEditingController();
+
     Navigator.push(context, MaterialPageRoute<void>(
       builder: (BuildContext context) {
         return Scaffold(
           appBar: AppBar(title: Text('Update Email')),
           body: Center(
-            child: FlatButton(
-              child: Text('Click here to return'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
+              child: Column(children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text('Please enter a new email: '),
+              Expanded(
+                  child: TextField(
+                      controller: myController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'New Email')))
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              FlatButton(
+                color: Colors.blueGrey,
+                textColor: Colors.white,
+                splashColor: Colors.blueAccent,
+                padding: EdgeInsets.all(8.0),
+                child: Text('Don\'t Change'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              Padding(padding: EdgeInsets.all(8)),
+              FlatButton(
+                  color: Colors.blueGrey,
+                  textColor: Colors.white,
+                  splashColor: Colors.blueAccent,
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Save'),
+                  onPressed: () => setState(
+                        () {
+                          var newEmail = myController.text;
+                          //assert(EmailValidator.validate(newEmail));
+                          if (EmailValidator.validate(newEmail)) {
+                            curUser.changeEmail(newEmail);
+                            Navigator.pop(context);
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                      content:
+                                          Text('Invalid Email.'),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                            child: Text('Close'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            })
+                                      ]);
+                                });
+                          }
+                        },
+                      ))
+            ])
+          ])),
         );
       },
     ));
   }
 
   void changePassword(BuildContext context) {
+
+    final myController = TextEditingController();
+
     Navigator.push(context, MaterialPageRoute<void>(
       builder: (BuildContext context) {
         return Scaffold(
           appBar: AppBar(title: Text('Change Password')),
+          // body: Center(
+          //   child: FlatButton(
+          //     child: Text('Click here to return'),
+          //     onPressed: () {
+          //       Navigator.pop(context);
+          //     },
+          //   ),
+          // ),
           body: Center(
-            child: FlatButton(
-              child: Text('Click here to return'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
+              child: Column(children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text('Please enter a new password: '),
+              Expanded(
+                  child: TextField(
+                      controller: myController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'New Password')))
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              FlatButton(
+                color: Colors.blueGrey,
+                textColor: Colors.white,
+                splashColor: Colors.blueAccent,
+                padding: EdgeInsets.all(8.0),
+                child: Text('Don\'t Change'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              Padding(padding: EdgeInsets.all(8)),
+              FlatButton(
+                  color: Colors.blueGrey,
+                  textColor: Colors.white,
+                  splashColor: Colors.blueAccent,
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Save'),
+                  onPressed: () => setState(
+                        () {
+                          var newPassword = myController.text;
+                          if (newPassword.length >= 6) {
+                            curUser.changePwd(newPassword);
+                            Navigator.pop(context);
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                      content:
+                                          Text('Password must be at lest 6 characters long.'),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                            child: Text('Close'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            })
+                                      ]);
+                                });
+                          }
+                        },
+                      ))
+            ])
+          ])),
         );
       },
     ));
