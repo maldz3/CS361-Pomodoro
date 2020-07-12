@@ -130,6 +130,21 @@ class _AccountPageState extends State<AccountPage> {
                           if (newUserName != '') {
                             curUser.changeName(newUserName);
                             Navigator.pop(context);
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                      content:
+                                          Text('Username cannot be blank.'),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                            child: Text('Close'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            })
+                                      ]);
+                                });
                           }
                         },
                       ))
