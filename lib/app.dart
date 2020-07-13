@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'build_tabs.dart';
+import 'account_page.dart';
+import 'home_page.dart';
+import 'timer_page.dart';
 
 class App extends StatelessWidget {
-
   final String title;
 
   const App({Key key, this.title}) : super(key: key);
@@ -10,16 +11,17 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: title,
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: DefaultTabController(
-        length: 3,
-        initialIndex: 0,
-        child: BuildTabs(title: 'Pomodoro'),
-      )
-    );
+        title: title,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blueGrey,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => HomePage(),
+          '/settings': (context) => AccountPage(),
+          '/timer': (context) => TimerPage()
+        });
   }
 }
