@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'build_tabs.dart';
+import 'account_page.dart';
+import 'home_page.dart';
+import 'timer_page.dart';
 
 class App extends StatelessWidget {
   final String title;
@@ -10,14 +12,16 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: title,
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: DefaultTabController(
-          length: 3,
-          initialIndex: 0,
-          child: BuildTabs(title: title),
-        ));
+        initialRoute: '/',
+        routes: {
+          '/': (context) => HomePage(),
+          '/settings': (context) => AccountPage(),
+          '/timer': (context) => TimerPage()
+        });
   }
 }

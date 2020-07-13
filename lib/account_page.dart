@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/models/user.dart';
+import 'package:pomodoro/components/menu.dart';
 import 'package:email_validator/email_validator.dart';
 // import 'components/change_email.dart';
 // import 'components/change_name.dart';
@@ -16,31 +17,33 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        pageTitle(),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Scaffold(
+        appBar: MenuApp('Settings'),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            rowBuilder('Username: ', 'Email :', context),
-            FlatButton(
-                child: Text('Change Password'),
-                onPressed: () {
-                  changePassword(context);
-                }),
-            FlatButton(
-                color: Colors.red,
-                textColor: Colors.white,
-                splashColor: Colors.redAccent,
-                child: Text('Remove Account Data'),
-                onPressed: () {
-                  deleteData(context);
-                })
+            pageTitle(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                rowBuilder('Username: ', 'Email :', context),
+                FlatButton(
+                    child: Text('Change Password'),
+                    onPressed: () {
+                      changePassword(context);
+                    }),
+                FlatButton(
+                    color: Colors.red,
+                    textColor: Colors.white,
+                    splashColor: Colors.redAccent,
+                    child: Text('Remove Account Data'),
+                    onPressed: () {
+                      deleteData(context);
+                    })
+              ],
+            )
           ],
-        )
-      ],
-    );
+        ));
   }
 
   Widget pageTitle() {
@@ -76,7 +79,7 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeName(context);//, curUser);
+              changeName(context); //, curUser);
             }),
         FlatButton(
             color: Colors.blueGrey,
@@ -85,7 +88,7 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeEmail(context);//, curUser);
+              changeEmail(context); //, curUser);
             })
       ]),
     ]);
@@ -106,8 +109,7 @@ class _AccountPageState extends State<AccountPage> {
                   child: TextField(
                       controller: myController,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'New User Name')))
+                          border: InputBorder.none, hintText: 'New User Name')))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               FlatButton(
@@ -159,7 +161,6 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   void changeEmail(BuildContext context) {
-
     final myController = TextEditingController();
 
     Navigator.push(context, MaterialPageRoute<void>(
@@ -174,8 +175,7 @@ class _AccountPageState extends State<AccountPage> {
                   child: TextField(
                       controller: myController,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'New Email')))
+                          border: InputBorder.none, hintText: 'New Email')))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               FlatButton(
@@ -207,8 +207,7 @@ class _AccountPageState extends State<AccountPage> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                      content:
-                                          Text('Invalid Email.'),
+                                      content: Text('Invalid Email.'),
                                       actions: <Widget>[
                                         FlatButton(
                                             child: Text('Close'),
@@ -228,7 +227,6 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   void changePassword(BuildContext context) {
-
     final myController = TextEditingController();
 
     Navigator.push(context, MaterialPageRoute<void>(
@@ -252,8 +250,7 @@ class _AccountPageState extends State<AccountPage> {
                       controller: myController,
                       obscureText: true,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'New Password')))
+                          border: InputBorder.none, hintText: 'New Password')))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               FlatButton(
@@ -284,8 +281,8 @@ class _AccountPageState extends State<AccountPage> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                      content:
-                                          Text('Password must be at lest 6 characters long.'),
+                                      content: Text(
+                                          'Password must be at lest 6 characters long.'),
                                       actions: <Widget>[
                                         FlatButton(
                                             child: Text('Close'),
