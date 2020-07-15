@@ -38,6 +38,9 @@ class _LogInState extends State<LogIn> {
               // Email box              
               SizedBox(height: 20.0),
               TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Email"
+                ),
                 validator: (val) => val.isEmpty ? "Enter an email" : null,
                 onChanged: (val) {
                   setState(() => _email = val);
@@ -46,6 +49,9 @@ class _LogInState extends State<LogIn> {
               // Password box
               SizedBox(height: 20.0),
               TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Password"
+                ),
                 validator: (val) => val.length < 6 ? "Password must be 6 or more characters" : null,
                 obscureText: true,
                 onChanged: (val) {
