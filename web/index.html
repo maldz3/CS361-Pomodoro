@@ -29,5 +29,21 @@
     }
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCdc1uMGly7a7zJ_l2v8vM2cibnhpCu8bU",
+      authDomain: "cs361-pomodoro.firebaseapp.com",
+      databaseURL: "https://cs361-pomodoro.firebaseio.com",
+      projectId: "cs361-pomodoro",
+      storageBucket: "cs361-pomodoro.appspot.com",
+      messagingSenderId: "439905512526",
+      appId: "1:439905512526:web:2e6e541c5b4b0c2170a71f"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </body>
 </html>

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'account_page.dart';
 import 'home_page.dart';
 import 'timer_page.dart';
+import 'root_page.dart';
+import 'package:provider/provider.dart';
+import 'services/auth.dart';
+import 'models/user.dart';
 
 class App extends StatelessWidget {
   final String title;
@@ -10,18 +14,17 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return StreamProvider<User>.value(
+      value: AuthService().userAuth,
+      child: MaterialApp(
         title: title,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => HomePage(),
-          '/settings': (context) => AccountPage(),
-          '/timer': (context) => TimerPage()
-        });
+        home: RootPage() 
+      )    
+    );
   }
 }
