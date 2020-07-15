@@ -33,9 +33,12 @@ class _RegisterState extends State<Register> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              // Email box              
+              // Username box              
               SizedBox(height: 20.0),
               TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Name"
+                ),
                 validator: (val) => val.isEmpty ? "Enter a username" : null,
                 onChanged: (val) {
                   setState(() => _username = val);
@@ -44,6 +47,9 @@ class _RegisterState extends State<Register> {
               // Email box
               SizedBox(height: 20.0),
               TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Email"
+                ),
                 validator: (val) => val.isEmpty ? "Enter an email" : null,
                 onChanged: (val) {
                   setState(() => _email = val);
@@ -52,6 +58,9 @@ class _RegisterState extends State<Register> {
               // Password box 
               SizedBox(height: 20.0),
               TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Passsword"
+                ),
                 validator: (val) => val.length < 6 ? "Password must be 6 or more characters" : null,
                 obscureText: true,
                 onChanged: (val) {
