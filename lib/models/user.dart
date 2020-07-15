@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'category.dart';
 import 'task.dart';
 
 class User {
-  int id;
+  String uid;
   String username;
   String email;
   String password;
@@ -12,12 +13,14 @@ class User {
 
   User(String username, String email, String password) {
     this.username = username;
-    this.email = email;
     this.password = password;
+    this.email = email;
     this.level = 1;
     tasks = [];
     categories = [];
   }
+
+  User.fromFirebaseUser({this.uid});
 
   void addTask(Task job) {
     tasks.add(job);
