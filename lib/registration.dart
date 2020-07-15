@@ -11,8 +11,10 @@ class _RegisterState extends State<Register> {
   String _email = "";
   String _password = "";
   String _username = "";
+  String _error = "";
 
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,29 +28,32 @@ class _RegisterState extends State<Register> {
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               // Email box              
               SizedBox(height: 20.0),
               TextFormField(
+                validator: (val) => val.isEmpty ? "Enter a username" : null,
+                onChanged: (val) {
+                  setState(() => _username = val);
+                }
+              ),
+              // Email box
+              SizedBox(height: 20.0),
+              TextFormField(
+                validator: (val) => val.isEmpty ? "Enter an email" : null,
                 onChanged: (val) {
                   setState(() => _email = val);
                 }
               ),
-              // Password box
+              // Password box 
               SizedBox(height: 20.0),
               TextFormField(
+                validator: (val) => val.length < 6 ? "Password must be 6 or more characters" : null,
                 obscureText: true,
                 onChanged: (val) {
                   setState(() => _password = val);
-                }
-              ),
-              // Username box
-              SizedBox(height: 20.0),
-              TextFormField(
-                obscureText: true,
-                onChanged: (val) {
-                  setState(() => _username = val);
                 }
               ),
               // Register button
@@ -56,9 +61,27 @@ class _RegisterState extends State<Register> {
               RaisedButton( 
                 child: Text("Register now"),
                 onPressed: () async {
-                  print(_email);
-                  print(_password);
+                  // Check validation
+                  if (_formKey.currentState.validate()) {
+                    dynamic result = await _auth.register(_username, _email, _password);
+
+                    // Error catch
+                    if (result == null) {
+                       setState(() => _error = "Registration error!");
+                    } else {
+                      Navigator.of(context).pop();
+                    }
+                    // print(_username);
+                    // print(_email);
+                    // print(_password);
+                  }
                 }
+              ),
+              // Error box
+              SizedBox(height: 20.0),
+              Text(
+                _error,
+                style: TextStyle(color: Colors.red, fontSize: 20),
               )
             ]
           )   

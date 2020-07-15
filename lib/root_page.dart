@@ -10,7 +10,6 @@ class RootPage extends StatelessWidget {
 
     // Get instance of User
     final user = Provider.of<User>(context);
-    print(user);
 
     // Check user value to decide which page to show
     if (user != null) {

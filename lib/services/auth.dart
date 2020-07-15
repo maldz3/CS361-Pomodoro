@@ -15,7 +15,7 @@ class AuthService {
     return _auth.onAuthStateChanged.map(_firebaseUserToUser);
   }
 
-  //TODO: signin with email and password
+  //signin with email and password
   Future signIn(String email, String password) async {
     try {
       AuthResult auth_result = await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -27,9 +27,22 @@ class AuthService {
     }
   }
 
-  //TODO:register user
+  //register user
+  Future register(String username, String email, String password) async {
+    try {
+      AuthResult result = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+      FirebaseUser user = result.user;
+      //TODO: call to API to update display name
+      
+      return _firebaseUserToUser(user);
+    } catch(error) {
+      print(error.toString());
+      return null;
+    }
+  }
   
-  //TODO: signout 
+  //signout 
   Future signOut() async {
     try {
       return await _auth.signOut();
