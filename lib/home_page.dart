@@ -3,6 +3,8 @@ import 'package:pomodoro/components/menu.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:pomodoro/services/auth.dart';
 
+// Logged in page
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();

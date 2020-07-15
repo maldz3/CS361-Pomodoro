@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'services/auth.dart';
 import 'registration.dart';
 
+// Sign in page
+
 class LogIn extends StatefulWidget {
   
   @override

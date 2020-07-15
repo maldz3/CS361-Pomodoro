@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
 
+// Registration page
+
 class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
