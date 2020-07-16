@@ -32,8 +32,9 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
       FirebaseUser user = result.user;
-      //TODO: call to API to update display name
-      
+      UserUpdateInfo updateInfo = UserUpdateInfo();
+      updateInfo.displayName = username;
+      user.updateProfile(updateInfo);
       return _firebaseUserToUser(user);
     } catch(error) {
       print(error.toString());
