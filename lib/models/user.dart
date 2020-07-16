@@ -26,6 +26,8 @@ class User {
     return firebaseUser.email;
   }
 
+  String get userName => username;
+
   void addTask(Task job) {
     tasks.add(job);
   }
@@ -33,4 +35,10 @@ class User {
   void changeName(String newName) {
     username = newName;
   }
+
+  void changeEmail(String newEmail) {
+    firebaseUser.updateEmail(newEmail);
+  }
+
+  
 }
