@@ -4,6 +4,7 @@ import 'package:pomodoro/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'services/auth.dart';
 import 'models/user.dart';
+import 'package:pomodoro/components/app_bar.dart';
 
 // Logged in page
 
@@ -19,7 +20,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Scaffold(
-        appBar: AppBar(title: Text('Home Page'),
+        appBar: CustomAppBar('Home Page'),
+        /*AppBar(title: Text('Home Page'),
             // Logout button
             actions: <Widget>[
               FlatButton.icon(
@@ -28,7 +30,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () async {
                     await _auth.signOut();
                   })
-            ]),
+            ]),*/
         drawer: BuildDrawer(),
         body: Center(child: Text('No')));
   }

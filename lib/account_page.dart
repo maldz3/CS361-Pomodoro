@@ -4,6 +4,8 @@ import 'package:pomodoro/components/build_drawer.dart';
 import 'package:email_validator/email_validator.dart';
 // import 'components/change_email.dart';
 // import 'components/change_name.dart';
+import 'package:pomodoro/components/app_bar.dart';
+import 'package:pomodoro/services/auth.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -12,11 +14,12 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   User curUser = User('Test username', 'Test email', 'test password');
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Settings')),
+        appBar: CustomAppBar('Settings'),
         drawer: BuildDrawer(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
