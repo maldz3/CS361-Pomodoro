@@ -7,7 +7,7 @@ class AuthService {
   // Instantiate our custom user object from Firebase User
   User _firebaseUserToUser(FirebaseUser user) {
     return user != null ? User.fromFirebaseUser(
-      uid: user.uid) : null;
+      user, user.uid) : null;
   }
 
   // Auth stream

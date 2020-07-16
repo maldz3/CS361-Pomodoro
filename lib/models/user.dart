@@ -3,6 +3,7 @@ import 'category.dart';
 import 'task.dart';
 
 class User {
+  FirebaseUser firebaseUser;
   String uid;
   String username;
   String email;
@@ -13,14 +14,16 @@ class User {
 
   User(String username, String email, String password) {
     this.username = username;
-    this.password = password;
     this.email = email;
     this.level = 1;
     tasks = [];
     categories = [];
   }
 
-  User.fromFirebaseUser({this.uid});
+  User.fromFirebaseUser(FirebaseUser user, String uid){
+    this.firebaseUser = user;
+    this.uid = uid;
+  }
 
   void addTask(Task job) {
     tasks.add(job);
