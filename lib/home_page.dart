@@ -12,13 +12,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Scaffold(
         appBar: CustomAppBar('Home Page'),
         drawer: BuildDrawer(),
-        body: Center(child: Text('${user.getEmail()}')));
+        body: Center(child: Image.asset('assets/images/tomato.png')));
   }
 }

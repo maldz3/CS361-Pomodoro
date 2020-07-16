@@ -28,12 +28,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               }
           )
         ]
-        /*Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/settings'),
-                child: Icon(Icons.settings))),
-      ],*/
         );
   }
 
