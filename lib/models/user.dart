@@ -26,8 +26,6 @@ class User {
     return firebaseUser.email;
   }
 
-  String get userName => username;
-
   void addTask(Task job) {
     tasks.add(job);
   }
