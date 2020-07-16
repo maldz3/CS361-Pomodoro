@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
-import 'registration.dart';
 
 
 class Authenticate extends StatefulWidget {

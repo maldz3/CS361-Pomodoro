@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:email_validator/email_validator.dart';
-// import 'components/change_email.dart';
-// import 'components/change_name.dart';
 import 'package:pomodoro/components/app_bar.dart';
-import 'package:pomodoro/services/auth.dart';
+
+import 'package:provider/provider.dart';
+import 'models/user.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -13,11 +13,9 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  User curUser = User('Test username', 'Test email', 'test password');
-  final AuthService _auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Scaffold(
         appBar: CustomAppBar('Settings'),
         drawer: BuildDrawer(),
@@ -28,11 +26,11 @@ class _AccountPageState extends State<AccountPage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                rowBuilder('Username: ', 'Email :', context),
+                rowBuilder('Username: ', 'Email :', user, context),
                 FlatButton(
                     child: Text('Change Password'),
                     onPressed: () {
-                      changePassword(context);
+                      changePassword(user, context);
                     }),
                 FlatButton(
                     color: Colors.red,
@@ -55,7 +53,8 @@ class _AccountPageState extends State<AccountPage> {
             style: TextStyle(fontSize: 25.0, height: 2.0)));
   }
 
-  Widget rowBuilder(String title1, String title2, BuildContext context) {
+  Widget rowBuilder(String title1, String title2, User user, BuildContext context) {
+    var user1 = Provider.of<User>(context);
     return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -69,9 +68,9 @@ class _AccountPageState extends State<AccountPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(curUser.username),
+            Text('${user1.getName()}'),
             Padding(padding: EdgeInsets.all(8)),
-            Text(curUser.email),
+            Text('${user.getEmail()}'),
           ]),
       Column(children: [
         FlatButton(
@@ -81,7 +80,7 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeName(context); //, curUser);
+              changeName(user, context); //, curUser);
             }),
         FlatButton(
             color: Colors.blueGrey,
@@ -90,13 +89,13 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeEmail(context); //, curUser);
+              changeEmail(user, context); //, curUser);
             })
       ]),
     ]);
   }
 
-  void changeName(BuildContext context) {
+  void changeName(User user, BuildContext context) {
     final myController = TextEditingController();
 
     Navigator.push(context, MaterialPageRoute<void>(
@@ -135,7 +134,7 @@ class _AccountPageState extends State<AccountPage> {
                         () {
                           var newUserName = myController.text;
                           if (newUserName != '') {
-                            curUser.changeName(newUserName);
+                            //curUser.changeName(newUserName);
                             Navigator.pop(context);
                           } else {
                             showDialog(
@@ -162,7 +161,7 @@ class _AccountPageState extends State<AccountPage> {
     ));
   }
 
-  void changeEmail(BuildContext context) {
+  void changeEmail(User user, BuildContext context) {
     final myController = TextEditingController();
 
     Navigator.push(context, MaterialPageRoute<void>(
@@ -202,8 +201,11 @@ class _AccountPageState extends State<AccountPage> {
                           var newEmail = myController.text;
                           //assert(EmailValidator.validate(newEmail));
                           if (EmailValidator.validate(newEmail)) {
-                            curUser.changeEmail(newEmail);
-                            Navigator.pop(context);
+                            //curUser.changeEmail(newEmail);
+                            user.changeEmail(newEmail);
+                            //Navigator.pop(context);
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => AccountPage()));
                           } else {
                             showDialog(
                                 context: context,
@@ -228,7 +230,7 @@ class _AccountPageState extends State<AccountPage> {
     ));
   }
 
-  void changePassword(BuildContext context) {
+  void changePassword(User user, BuildContext context) {
     final myController = TextEditingController();
 
     Navigator.push(context, MaterialPageRoute<void>(
@@ -276,7 +278,8 @@ class _AccountPageState extends State<AccountPage> {
                         () {
                           var newPassword = myController.text;
                           if (newPassword.length >= 6) {
-                            curUser.changePwd(newPassword);
+                            //curUser.changePwd(newPassword);
+                            user.changePassword(newPassword);
                             Navigator.pop(context);
                           } else {
                             showDialog(
@@ -284,7 +287,7 @@ class _AccountPageState extends State<AccountPage> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                       content: Text(
-                                          'Password must be at lest 6 characters long.'),
+                                          'Password must be at least 6 characters long.'),
                                       actions: <Widget>[
                                         FlatButton(
                                             child: Text('Close'),
