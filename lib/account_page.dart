@@ -3,7 +3,7 @@ import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:pomodoro/components/app_bar.dart';
-import 'package:pomodoro/services/auth.dart';
+
 import 'package:provider/provider.dart';
 
 class AccountPage extends StatefulWidget {
@@ -66,9 +66,9 @@ class _AccountPageState extends State<AccountPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(user1.getName()),
+            Text('${user1.getName()}'),
             Padding(padding: EdgeInsets.all(8)),
-            Text(user1.getEmail()),
+            Text('${user1.getEmail()}'),
           ]),
       Column(children: [
         FlatButton(
@@ -281,7 +281,7 @@ class _AccountPageState extends State<AccountPage> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                       content: Text(
-                                          'Password must be at lest 6 characters long.'),
+                                          'Password must be at least 6 characters long.'),
                                       actions: <Widget>[
                                         FlatButton(
                                             child: Text('Close'),
