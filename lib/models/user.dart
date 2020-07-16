@@ -18,6 +18,10 @@ class User {
     this.categories = [];
   }
 
+  String get userEmail => firebaseUser.email;
+
+  String get userName => username;
+
   void addTask(Task job) {
     tasks.add(job);
   }
@@ -25,5 +29,10 @@ class User {
   void changeName(String newName) {
     username = newName;
   }
+
+  set changeEmail(String newEmail) {
+    firebaseUser.updateEmail(newEmail);
+  }
+
 
 }
