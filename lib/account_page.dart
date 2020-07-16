@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/models/user.dart';
-import 'package:pomodoro/components/menu.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:email_validator/email_validator.dart';
 // import 'components/change_email.dart';
 // import 'components/change_name.dart';
 
 class AccountPage extends StatefulWidget {
-  //User curUser = User('Test username', 'Test email', 'test password');
-
   @override
   _AccountPageState createState() => _AccountPageState();
 }
@@ -19,7 +16,7 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MenuApp('Settings'),
+        appBar: AppBar(title: Text('Settings')),
         drawer: BuildDrawer(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,

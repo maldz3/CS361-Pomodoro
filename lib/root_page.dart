@@ -6,8 +6,7 @@ import 'models/user.dart';
 
 class RootPage extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
-
+  Widget build(BuildContext context) {
     // Get instance of User
     final user = Provider.of<User>(context);
 
@@ -16,8 +15,8 @@ class RootPage extends StatelessWidget {
       return HomePage();
     } else {
       return Authenticate();
-    } 
+    }
 
-    // return Authenticate(); 
+    // return Authenticate();
   }
 }

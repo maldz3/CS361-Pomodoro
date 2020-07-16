@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'account_page.dart';
-import 'home_page.dart';
 import 'timer_page.dart';
 import 'root_page.dart';
 import 'package:provider/provider.dart';
