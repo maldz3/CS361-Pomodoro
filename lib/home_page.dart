@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:pomodoro/services/auth.dart';
+import 'package:provider/provider.dart';
+import 'services/auth.dart';
+import 'models/user.dart';
 
 // Logged in page
 
 class HomePage extends StatefulWidget {
-  
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -15,6 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Scaffold(
         appBar: AppBar(title: Text('Home Page'),
             // Logout button
@@ -27,6 +30,6 @@ class _HomePageState extends State<HomePage> {
                   })
             ]),
         drawer: BuildDrawer(),
-        body: Center(child: Text('No luck yet')));
+        body: Center(child: Text('No')));
   }
 }

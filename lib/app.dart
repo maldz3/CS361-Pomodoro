@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'account_page.dart';
-import 'timer_page.dart';
 import 'root_page.dart';
 import 'package:provider/provider.dart';
 import 'services/auth.dart';
@@ -22,10 +20,6 @@ class App extends StatelessWidget {
               primarySwatch: Colors.blueGrey,
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
-            home: RootPage(),
-            routes: {
-              '/settings': (context) => AccountPage(),
-              '/timer': (context) => TimerPage()
-            }));
+            home: RootPage()));
   }
 }
