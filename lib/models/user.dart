@@ -10,7 +10,7 @@ class User {
   List<Task> tasks;
   List<Category> categories;
 
-  User.fromFirebaseUser(FirebaseUser user){
+  User.fromFirebaseUser(FirebaseUser user) {
     this.firebaseUser = user;
     this.uid = user.uid;
     this.level = 1;
@@ -25,5 +25,4 @@ class User {
   void changeName(String newName) {
     username = newName;
   }
-
 }

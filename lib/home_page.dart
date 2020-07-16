@@ -18,20 +18,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final user1 = Provider.of<User>(context);
     return Scaffold(
         appBar: CustomAppBar('Home Page'),
-        /*AppBar(title: Text('Home Page'),
-            // Logout button
-            actions: <Widget>[
-              FlatButton.icon(
-                  icon: Icon(Icons.person),
-                  label: Text("logout"),
-                  onPressed: () async {
-                    await _auth.signOut();
-                  })
-            ]),*/
         drawer: BuildDrawer(),
-        body: Center(child: Text('No')));
+        body: Center(child: Text(user1.firebaseUser.displayName)));
   }
 }
