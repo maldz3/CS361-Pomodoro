@@ -10,9 +10,12 @@ class User {
   List<Task> tasks;
   List<Category> categories;
 
-  User.fromFirebaseUser(FirebaseUser user, String uid){
+  User.fromFirebaseUser(FirebaseUser user){
     this.firebaseUser = user;
-    this.uid = uid;
+    this.uid = user.uid;
+    this.level = 1;
+    this.tasks = [];
+    this.categories = [];
   }
 
   void addTask(Task job) {
