@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro/timer_page.dart';
+import 'package:pomodoro/account_page.dart';
 
 class BuildDrawer extends StatelessWidget {
   @override
@@ -12,11 +14,17 @@ class BuildDrawer extends StatelessWidget {
       createDrawerItem(
           icon: Icons.settings,
           text: 'Settings',
-          onTap: () => Navigator.pushNamed(context, '/settings')),
+          onTap: () => {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AccountPage()))
+              }),
       createDrawerItem(
           icon: Icons.timer,
           text: 'Timer',
-          onTap: () => Navigator.pushNamed(context, '/timer'))
+          onTap: () => {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TimerPage()))
+              })
     ]));
   }
 
