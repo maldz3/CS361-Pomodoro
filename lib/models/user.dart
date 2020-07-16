@@ -38,5 +38,9 @@ class User {
     firebaseUser.updateEmail(newEmail);
   }
 
+  void changePassword(String newPassword) {
+    firebaseUser.updatePassword(newPassword);
+  }
+
   
 }
