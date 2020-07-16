@@ -53,8 +53,8 @@ class _AccountPageState extends State<AccountPage> {
             style: TextStyle(fontSize: 25.0, height: 2.0)));
   }
 
-  Widget rowBuilder(String title1, String title2, User user, BuildContext context) {
-    var user1 = Provider.of<User>(context);
+  Widget rowBuilder(
+      String title1, String title2, User user, BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +68,7 @@ class _AccountPageState extends State<AccountPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${user1.getName()}'),
+            Text('${user.getName()}'),
             Padding(padding: EdgeInsets.all(8)),
             Text('${user.getEmail()}'),
           ]),
@@ -80,7 +80,7 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeName(user, context); //, curUser);
+              changeName(user, context);
             }),
         FlatButton(
             color: Colors.blueGrey,
@@ -89,7 +89,7 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeEmail(user, context); //, curUser);
+              changeEmail(user, context);
             })
       ]),
     ]);
@@ -134,7 +134,7 @@ class _AccountPageState extends State<AccountPage> {
                         () {
                           var newUserName = myController.text;
                           if (newUserName != '') {
-                            //curUser.changeName(newUserName);
+                            user.changeName(newUserName);
                             Navigator.pop(context);
                           } else {
                             showDialog(
@@ -204,8 +204,10 @@ class _AccountPageState extends State<AccountPage> {
                             //curUser.changeEmail(newEmail);
                             user.changeEmail(newEmail);
                             //Navigator.pop(context);
-                            Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => AccountPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AccountPage()));
                           } else {
                             showDialog(
                                 context: context,

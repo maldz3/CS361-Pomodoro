@@ -31,7 +31,9 @@ class User {
   }
 
   void changeName(String newName) {
-    username = newName;
+    UserUpdateInfo updateInfo = UserUpdateInfo();
+    updateInfo.displayName = newName;
+    firebaseUser.updateProfile(updateInfo);
   }
 
   void changeEmail(String newEmail) {
@@ -41,6 +43,4 @@ class User {
   void changePassword(String newPassword) {
     firebaseUser.updatePassword(newPassword);
   }
-
-  
 }
