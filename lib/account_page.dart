@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:email_validator/email_validator.dart';
-// import 'components/change_email.dart';
-// import 'components/change_name.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -13,9 +12,6 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  User curUser = User('Test username', 'Test email', 'test password');
-  final AuthService _auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +52,7 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   Widget rowBuilder(String title1, String title2, BuildContext context) {
+    var user1 = Provider.of<User>(context);
     return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -69,9 +66,9 @@ class _AccountPageState extends State<AccountPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(curUser.username),
+            Text(user1.getName()),
             Padding(padding: EdgeInsets.all(8)),
-            Text(curUser.email),
+            Text(user1.getEmail()),
           ]),
       Column(children: [
         FlatButton(
@@ -81,7 +78,7 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeName(context); //, curUser);
+              //changeName(context); //, curUser);
             }),
         FlatButton(
             color: Colors.blueGrey,
@@ -90,7 +87,7 @@ class _AccountPageState extends State<AccountPage> {
             padding: EdgeInsets.all(8.0),
             child: Text('Update'),
             onPressed: () {
-              changeEmail(context); //, curUser);
+              //changeEmail(context); //, curUser);
             })
       ]),
     ]);
@@ -135,7 +132,7 @@ class _AccountPageState extends State<AccountPage> {
                         () {
                           var newUserName = myController.text;
                           if (newUserName != '') {
-                            curUser.changeName(newUserName);
+                            //curUser.changeName(newUserName);
                             Navigator.pop(context);
                           } else {
                             showDialog(
@@ -202,7 +199,7 @@ class _AccountPageState extends State<AccountPage> {
                           var newEmail = myController.text;
                           //assert(EmailValidator.validate(newEmail));
                           if (EmailValidator.validate(newEmail)) {
-                            curUser.changeEmail(newEmail);
+                            //curUser.changeEmail(newEmail);
                             Navigator.pop(context);
                           } else {
                             showDialog(
@@ -276,7 +273,7 @@ class _AccountPageState extends State<AccountPage> {
                         () {
                           var newPassword = myController.text;
                           if (newPassword.length >= 6) {
-                            curUser.changePwd(newPassword);
+                            //curUser.changePwd(newPassword);
                             Navigator.pop(context);
                           } else {
                             showDialog(

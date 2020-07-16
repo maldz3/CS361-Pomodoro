@@ -10,7 +10,7 @@ class User {
   List<Task> tasks;
   List<Category> categories;
 
-  User.fromFirebaseUser(FirebaseUser user){
+  User.fromFirebaseUser(FirebaseUser user) {
     this.firebaseUser = user;
     this.uid = user.uid;
     this.level = 1;
@@ -18,9 +18,13 @@ class User {
     this.categories = [];
   }
 
-  String get userEmail => firebaseUser.email;
+  String getName() {
+    return firebaseUser.displayName;
+  }
 
-  String get userName => username;
+  String getEmail() {
+    return firebaseUser.email;
+  }
 
   void addTask(Task job) {
     tasks.add(job);
@@ -29,10 +33,4 @@ class User {
   void changeName(String newName) {
     username = newName;
   }
-
-  set changeEmail(String newEmail) {
-    firebaseUser.updateEmail(newEmail);
-  }
-
-
 }
