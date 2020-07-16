@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:email_validator/email_validator.dart';
-// import 'components/change_email.dart';
-// import 'components/change_name.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +12,6 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  final AuthService _auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,9 +66,9 @@ class _AccountPageState extends State<AccountPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(user1.firebaseUser.displayName),
+            Text(user1.getName()),
             Padding(padding: EdgeInsets.all(8)),
-            Text(user1.firebaseUser.email),
+            Text(user1.getEmail()),
           ]),
       Column(children: [
         FlatButton(
