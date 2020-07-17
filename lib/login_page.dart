@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
 import 'registration.dart';
-
+import 'root_page.dart';
 // Sign in page
 
 class LogIn extends StatefulWidget {
@@ -14,9 +14,11 @@ class _LogInState extends State<LogIn> {
   String _email = "";
   String _password = "";
   String _error = "";
+  String _passResetEmail = "";
 
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  final _passwordKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +59,10 @@ class _LogInState extends State<LogIn> {
                       child: Text("Log in"),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          dynamic result =
-                              await _auth.signIn(_email, _password);
+                          dynamic result = await _auth.signIn(_email, _password);
                           if (result == null) {
                             setState(() => _error = "Invalid credentials");
-                          }
+                          } 
                         }
                       }),
                   // Register account link
@@ -76,6 +77,44 @@ class _LogInState extends State<LogIn> {
                       }),
                   // Error box
                   SizedBox(height: 20.0),
+                    InkWell(
+                      child: Text("Forgot your password?  Click here."),
+                      onTap: () async {
+                        return showDialog<void>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Send Password Reset E-mail'),
+                              content: Form(
+                                key: _passwordKey,
+                                child: Column(
+                                  children: [
+                                  SizedBox(height: 20.0),
+                                  TextFormField(
+                                  decoration: InputDecoration(hintText: "Email"),
+                                  validator: (val) => val.isEmpty ? "Enter an email" : null,
+                                  onChanged: (val) {
+                                    setState(() => _passResetEmail = val);
+                                  }),
+                                  ])
+                              ),
+                              actions: [
+                                RaisedButton(
+                                  child: Text("Send"),
+                                    onPressed: () {
+                                      if (_passwordKey.currentState.validate()) {
+                                        _auth.resetPassword(_passResetEmail);
+                                        Navigator.pop(context);
+                                      }
+                                    }
+                                ),
+                              ],
+                            );
+                          }
+                        );
+                      }
+                    ),
                   Text(
                     _error,
                     style: TextStyle(color: Colors.red, fontSize: 20),
