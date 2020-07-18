@@ -12,13 +12,13 @@ class User {
   List<Category> categories;
 
   User.fromFirebaseUser(FirebaseUser user) {
-    this.firebaseUser = user;
-    this.username = firebaseUser.displayName;
-    this.email = firebaseUser.email;
-    this.uid = user.uid;
-    this.level = 1;
-    this.tasks = [];
-    this.categories = [];
+    firebaseUser = user;
+    username = firebaseUser.displayName;
+    email = firebaseUser.email;
+    uid = user.uid;
+    level = 1;
+    tasks = [];
+    categories = [];
   }
 
   void addTask(Task job) {
