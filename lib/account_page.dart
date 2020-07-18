@@ -3,7 +3,6 @@ import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:pomodoro/components/app_bar.dart';
-
 import 'package:provider/provider.dart';
 import 'models/user.dart';
 
@@ -135,7 +134,10 @@ class _AccountPageState extends State<AccountPage> {
                           var newUserName = myController.text;
                           if (newUserName != '') {
                             user.changeName(newUserName);
-                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AccountPage()));
                           } else {
                             showDialog(
                                 context: context,
@@ -199,11 +201,8 @@ class _AccountPageState extends State<AccountPage> {
                   onPressed: () => setState(
                         () {
                           var newEmail = myController.text;
-                          //assert(EmailValidator.validate(newEmail));
                           if (EmailValidator.validate(newEmail)) {
-                            //curUser.changeEmail(newEmail);
                             user.changeEmail(newEmail);
-                            //Navigator.pop(context);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -239,14 +238,6 @@ class _AccountPageState extends State<AccountPage> {
       builder: (BuildContext context) {
         return Scaffold(
           appBar: AppBar(title: Text('Change Password')),
-          // body: Center(
-          //   child: FlatButton(
-          //     child: Text('Click here to return'),
-          //     onPressed: () {
-          //       Navigator.pop(context);
-          //     },
-          //   ),
-          // ),
           body: Center(
               child: Column(children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -280,9 +271,11 @@ class _AccountPageState extends State<AccountPage> {
                         () {
                           var newPassword = myController.text;
                           if (newPassword.length >= 6) {
-                            //curUser.changePwd(newPassword);
                             user.changePassword(newPassword);
-                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AccountPage()));
                           } else {
                             showDialog(
                                 context: context,

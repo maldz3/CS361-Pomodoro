@@ -33,7 +33,6 @@ class User {
   void changeName(String newName) {
     UserUpdateInfo updateInfo = UserUpdateInfo();
     updateInfo.displayName = newName;
-    firebaseUser.updateProfile(updateInfo);
   }
 
   void changeEmail(String newEmail) {
