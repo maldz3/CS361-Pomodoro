@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
 import 'registration.dart';
-import 'root_page.dart';
+
 // Sign in page
 
 class LogIn extends StatefulWidget {
