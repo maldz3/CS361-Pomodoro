@@ -161,6 +161,8 @@ class _AccountPageState extends State<AccountPage> {
     ));
   }
 
+  
+
   void changeEmail(User user, BuildContext context) {
     final myController = TextEditingController();
 

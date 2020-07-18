@@ -1,14 +1,15 @@
 class Category {
+  String key;
   String name;
-  List<int> tasks;
+  List<String> tasks;
 
   Category(String name) {
     this.name = name;
     tasks = [];
   }
 
-  void addTask(int taskID) {
-    tasks.add(taskID);
+  void addTask(String taskKey) {
+    tasks.add(taskKey);
   }
 
 }
