@@ -134,10 +134,7 @@ class _AccountPageState extends State<AccountPage> {
                           var newUserName = myController.text;
                           if (newUserName != '') {
                             user.changeName(newUserName);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AccountPage()));
+                            Navigator.pop(context);
                           } else {
                             showDialog(
                                 context: context,
@@ -203,10 +200,7 @@ class _AccountPageState extends State<AccountPage> {
                           var newEmail = myController.text;
                           if (EmailValidator.validate(newEmail)) {
                             user.changeEmail(newEmail);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AccountPage()));
+                            Navigator.pop(context);
                           } else {
                             showDialog(
                                 context: context,
@@ -272,10 +266,7 @@ class _AccountPageState extends State<AccountPage> {
                           var newPassword = myController.text;
                           if (newPassword.length >= 6) {
                             user.changePassword(newPassword);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AccountPage()));
+                            Navigator.pop(context);
                           } else {
                             showDialog(
                                 context: context,
