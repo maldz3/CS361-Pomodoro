@@ -23,12 +23,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () async {
                 await _auth.signOut();
                 Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RootPage()));
-                
-              }
-          )
-        ]
-        );
+                    MaterialPageRoute(builder: (context) => RootPage()));
+              })
+        ]);
   }
 
   @override

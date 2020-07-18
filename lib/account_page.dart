@@ -67,9 +67,9 @@ class _AccountPageState extends State<AccountPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${user.getName()}'),
+            Text(user.username),
             Padding(padding: EdgeInsets.all(8)),
-            Text('${user.getEmail()}'),
+            Text(user.email),
           ]),
       Column(children: [
         FlatButton(
