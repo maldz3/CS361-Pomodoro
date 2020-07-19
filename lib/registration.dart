@@ -80,11 +80,23 @@ class _RegisterState extends State<Register> {
                     if (result == null) {
                        setState(() => _error = "Registration error!");
                     } else {
-                      Navigator.of(context).pop();
+                      //show registered dialogue
+                      
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) {
+                          Future.delayed(Duration(seconds: 3), () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+
+                          });
+                          return AlertDialog(
+                          title:Text('Registered!'),
+                        );
+                        });
+                        await _auth.signOut();  
                     }
-                    // print(_username);
-                    // print(_email);
-                    // print(_password);
                   }
                 }
               ),
@@ -101,4 +113,12 @@ class _RegisterState extends State<Register> {
       )
     );
   }
+
+  void snackBar(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text("Registration complete!"));
+                      
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
 }

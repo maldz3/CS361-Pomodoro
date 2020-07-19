@@ -10,6 +10,7 @@ class User {
   FirebaseUser firebaseUser;
   String uid;
   String username;
+  String email;
   int level;
   Tasks tasks;
   Categories categories;
@@ -63,10 +64,12 @@ class User {
     UserUpdateInfo updateInfo = UserUpdateInfo();
     updateInfo.displayName = newName;
     firebaseUser.updateProfile(updateInfo);
+    username = newName;
   }
 
   void changeEmail(String newEmail) {
     firebaseUser.updateEmail(newEmail);
+    email = newEmail;
   }
 
   void changePassword(String newPassword) {
