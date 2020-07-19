@@ -28,9 +28,14 @@
       });
     }
   </script>
-  <script src="main.dart.js" type="application/javascript"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+  
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+
   <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
@@ -45,5 +50,7 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   </script>
+
+    <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
