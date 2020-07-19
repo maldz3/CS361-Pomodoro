@@ -8,17 +8,24 @@ import 'package:provider/provider.dart';
 import 'models/user.dart';
 
 class AccountPage extends StatefulWidget {
+  final User user;
+  final BuildDrawer buildDrawer;
+  AccountPage(this.user, this.buildDrawer);
+
   @override
   _AccountPageState createState() => _AccountPageState();
 }
 
 class _AccountPageState extends State<AccountPage> {
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final User user = this.widget.user;
+    final BuildDrawer buildDrawer = this.widget.buildDrawer;
+
     return Scaffold(
         appBar: CustomAppBar('Settings'),
-        drawer: BuildDrawer(),
+        drawer: buildDrawer, // BuildDrawer(user),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -164,6 +171,9 @@ class _AccountPageState extends State<AccountPage> {
   
 
   void changeEmail(User user, BuildContext context) {
+    final User user = this.widget.user;
+    final BuildDrawer buildDrawer = this.widget.buildDrawer;
+
     final myController = TextEditingController();
 
     Navigator.push(context, MaterialPageRoute<void>(
@@ -209,7 +219,7 @@ class _AccountPageState extends State<AccountPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AccountPage()));
+                                    builder: (context) => AccountPage(user, buildDrawer)));
                           } else {
                             showDialog(
                                 context: context,

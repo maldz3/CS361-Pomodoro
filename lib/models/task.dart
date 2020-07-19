@@ -20,6 +20,8 @@ class Tasks {
   List<Task> get list => _innerList;
 
   add(Task taskToCopy) {
+    // by now the task in the list is already corrupted.
+    log('prior to instantiation');
     Task task = Task.fromTask(taskToCopy);
     // add task to database
     log('before adding:');
@@ -40,7 +42,7 @@ class Tasks {
 
   retrieve() {
     log('retrieving tasks...');
-    //DataSnapshot snapshot = tasksRef.snapshot
+    
     tasksRef.once().then((DataSnapshot snapshot) {
        Map<dynamic,dynamic> map = snapshot.value;
        log('existing user tasks: ' + map.toString());

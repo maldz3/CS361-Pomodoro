@@ -36,8 +36,7 @@ class User {
     WidgetsFlutterBinding.ensureInitialized();
     log('connecting to database with client id: ' + uid);
     firebaseApp = await FirebaseApp.configure(
-        name:
-            'cs361-pomodoro', // just made this up, AFAIK it just needs to be unique in case multiple apps are loaded.
+        name: 'cs361-pomodoro', // just made this up, AFAIK it just needs to be unique in case multiple apps are loaded.
         options: FirebaseOptions(
           clientID: uid,
           googleAppID: '1:439905512526:web:2e6e541c5b4b0c2170a71f',
@@ -46,6 +45,7 @@ class User {
         ));
     database = FirebaseDatabase(app: firebaseApp);
   }
+
 
   String getName() {
     return firebaseUser.displayName;
