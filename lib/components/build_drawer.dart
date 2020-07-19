@@ -21,7 +21,9 @@ class BuildDrawer extends StatelessWidget {
           text: 'Tasks',
           onTap: () => {
                 navPushPop(context,
-                    MaterialPageRoute(builder: (context) => TasksPage(user, this)))
+                    MaterialPageRoute(
+                      settings: RouteSettings(name: "/tasksPage"),
+                      builder: (context) => TasksPage(user, this)))
               }),
       createDrawerItem(
           icon: Icons.settings,

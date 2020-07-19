@@ -20,24 +20,13 @@ class Tasks {
   List<Task> get list => _innerList;
 
   add(Task taskToCopy) {
-    // by now the task in the list is already corrupted.
-    log('prior to instantiation');
     Task task = Task.fromTask(taskToCopy);
     // add task to database
-    log('before adding:');
-    for (task in _innerList)
-      log(task.name);
-    log('Adding the task json: ' + task.toJson().toString());
     DatabaseReference insertionRef = tasksRef.push();
     insertionRef.set(task.toJson());
     task.key = insertionRef.key;
-    log('hopefully this looks like a key: ' + task.key);
     // add task to inner list
     _innerList.add(task);
-
-    log('after adding:');
-    for (task in _innerList)
-      log(task.name);
   }
 
   retrieve() {
@@ -59,6 +48,7 @@ class Tasks {
 }
 
 class Task {
+  bool selected = false;
   String key = 'unset_task_key';
   String name = 'task name';
   int durationWork = 20;
@@ -67,8 +57,8 @@ class Task {
   int goalTime = 60;
   String categoryKey = 'unset_task_category_key';
 
-  Task({String name, int durationWork, int durationBreak, int totalTime,
-      int goalTime}) {
+  Task({String name, int durationWork = 20, int durationBreak = 10, int totalTime = 0,
+      int goalTime = 60}) {
     this.name = name.toString();
     this.durationWork = durationWork;
     this.durationBreak = durationBreak;

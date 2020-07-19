@@ -12,7 +12,7 @@ class User {
   String username;
   int level;
   Tasks tasks;
-  List<Category> categories;
+  Categories categories;
   FirebaseApp firebaseApp;
   FirebaseDatabase database;
 
@@ -20,7 +20,6 @@ class User {
     this.firebaseUser = user;
     this.uid = user.uid;
     this.level = 1;
-    this.categories = [];
 
     asyncSetupShit();
   }
@@ -29,6 +28,7 @@ class User {
     await connectFirebase();
     log('got this far1');
     tasks = Tasks(database, uid);
+    categories = Categories(database, uid);
     log('tasks was instantiated');
   }
 
