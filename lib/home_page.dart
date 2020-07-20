@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final User user = this.widget.user;
     return Scaffold(
-        appBar: CustomAppBar('Home Page'),
+        appBar: CustomAppBar('Home Page', user),
         drawer: BuildDrawer(user),
         body: Center(child: Image.asset('assets/images/tomato.png')));
   }

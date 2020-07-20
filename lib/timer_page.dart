@@ -16,7 +16,7 @@ class _TimerPageState extends State<TimerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar('Timer'),
+        appBar: CustomAppBar('Timer', this.widget.user),
         drawer: this.widget.buildDrawer,
         body: Center(child: Text('Testing Routes')));
   }

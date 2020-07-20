@@ -23,7 +23,7 @@ class _AccountPageState extends State<AccountPage> {
     final BuildDrawer buildDrawer = this.widget.buildDrawer;
 
     return Scaffold(
-        appBar: CustomAppBar('Settings'),
+        appBar: CustomAppBar('Settings', user),
         drawer: buildDrawer, // BuildDrawer(user),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,

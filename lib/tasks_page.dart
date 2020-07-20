@@ -27,7 +27,7 @@ class _TasksPageState extends State<TasksPage> {
 
     log("building tasks page");
     return Scaffold(
-        appBar: CustomAppBar('Tasks'),
+        appBar: CustomAppBar('Tasks', user),
         drawer: buildDrawer,
         body: Container (
             child: theTaskList(context),
@@ -42,9 +42,9 @@ class _TasksPageState extends State<TasksPage> {
         );
   }
 
-  void addTask (User user, BuildDrawer buildDrawer) /*async*/ {
-    /*await*/ Navigator.push(context, MaterialPageRoute(builder: (context) => TasksAddPage(user, buildDrawer)));
-    //setState(() => {});
+  void addTask (User user, BuildDrawer buildDrawer) async {
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => TasksAddPage(user, buildDrawer)));
+    setState(() => {});
   }
 
   ListView theTaskList(BuildContext context) {

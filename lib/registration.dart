@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
+import 'package:pomodoro/models/user.dart';
 
 // Registration page
 
 class Register extends StatefulWidget {
+  final User user;
+  Register(this.user);  
+
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -95,7 +99,7 @@ class _RegisterState extends State<Register> {
                           title:Text('Registered!'),
                         );
                         });
-                        await _auth.signOut();  
+                        await _auth.signOut(this.widget.user);  
                     }
                   }
                 }

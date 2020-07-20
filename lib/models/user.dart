@@ -1,10 +1,11 @@
+import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pomodoro/models/category.dart';
 import 'package:pomodoro/models/task.dart';
-import 'dart:developer'; // for debug printing with "log"
+
 
 class User {
   FirebaseUser firebaseUser;
@@ -22,22 +23,31 @@ class User {
     this.uid = user.uid;
     this.level = 1;
 
+    print("WARNING: user instantiated");
     asyncSetupShit();
+  }
+
+  void logout() async {
+    // I have no idea if this even works.
+    if (database != null)
+      await FirebaseDatabase.instance.goOffline();
+    database = null;
+    firebaseApp = null;    
   }
 
   asyncSetupShit() async {
     await connectFirebase();
-    log('got this far1');
     tasks = Tasks(database, uid);
     categories = Categories(database, uid);
-    log('tasks was instantiated');
+    print('tasks was instantiated');
   }
 
   Future<void> connectFirebase() async {
     WidgetsFlutterBinding.ensureInitialized();
-    log('connecting to database with client id: ' + uid);
+    int randomToken = Random().nextInt(999999999);
+    print("connecting to database with client id: " + uid + " and token " + randomToken.toString());
     firebaseApp = await FirebaseApp.configure(
-        name: 'cs361-pomodoro', // just made this up, AFAIK it just needs to be unique in case multiple apps are loaded.
+        name: 'cs361-pomodoro-' + randomToken.toString(), // just made this up, AFAIK it just needs to be unique in case multiple apps are loaded.
         options: FirebaseOptions(
           clientID: uid,
           googleAppID: '1:439905512526:web:2e6e541c5b4b0c2170a71f',

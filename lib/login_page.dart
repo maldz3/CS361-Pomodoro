@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
 import 'registration.dart';
+import 'package:pomodoro/models/user.dart';
 
 // Sign in page
 
 class LogIn extends StatefulWidget {
+  final User user;
+  LogIn(this.user);  
+
   @override
   _LogInState createState() => _LogInState();
 }
@@ -16,12 +20,14 @@ class _LogInState extends State<LogIn> {
   String _error = "";
   String _passResetEmail = "";
 
-  final AuthService _auth = AuthService();
+  AuthService _auth;
   final _formKey = GlobalKey<FormState>();
   final _passwordKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    _auth = AuthService();
+
     return Scaffold(
         // Title Bar
         appBar: AppBar(
@@ -73,7 +79,7 @@ class _LogInState extends State<LogIn> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Register()));
+                                builder: (context) => Register(this.widget.user)));
                       }),
                   // Error box
                   SizedBox(height: 20.0),
