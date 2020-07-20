@@ -22,8 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               label: Text("logout"),
               onPressed: () async {
                 await _auth.signOut();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RootPage()));
+                Navigator.popUntil(context, ModalRoute.withName('/'));
               })
         ]);
   }

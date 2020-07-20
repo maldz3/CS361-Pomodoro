@@ -20,7 +20,7 @@ class AuthService {
       AuthResult auth_result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = auth_result.user;
-      return _firebaseUserToUser(user);
+      return user;
     } catch (error) {
       print(error.toString());
       return null;
@@ -36,7 +36,7 @@ class AuthService {
       UserUpdateInfo updateInfo = UserUpdateInfo();
       updateInfo.displayName = username;
       user.updateProfile(updateInfo);
-      return _firebaseUserToUser(user);
+      return user;
     } catch (error) {
       print(error.toString());
       return null;
@@ -56,4 +56,6 @@ class AuthService {
   Future<void> resetPassword(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
+
+  FirebaseAuth get getAuth => _auth;
 }

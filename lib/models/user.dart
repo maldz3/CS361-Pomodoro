@@ -13,12 +13,13 @@ class User {
 
   User.fromFirebaseUser(FirebaseUser user) {
     firebaseUser = user;
-    username = firebaseUser.displayName;
     email = firebaseUser.email;
+    username = user.displayName;
     uid = user.uid;
     level = 1;
     tasks = [];
     categories = [];
+    print("user object created: ${user.uid}");
   }
 
   void addTask(Task job) {

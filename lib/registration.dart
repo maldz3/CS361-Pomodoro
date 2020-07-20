@@ -77,7 +77,7 @@ class _RegisterState extends State<Register> {
                     dynamic result = await _auth.register(_username, _email, _password);
 
                     // Error catch
-                    if (result == null) {
+                    if (result.uid == null) {
                        setState(() => _error = "Registration error!");
                     } else {
                       //show registered dialogue
@@ -87,9 +87,7 @@ class _RegisterState extends State<Register> {
                         barrierDismissible: false,
                         builder: (context) {
                           Future.delayed(Duration(seconds: 3), () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-
+                            Navigator.popUntil(context, ModalRoute.withName('/'));
                           });
                           return AlertDialog(
                           title:Text('Registered!'),
