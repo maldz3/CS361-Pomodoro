@@ -3,6 +3,7 @@ import 'authenticate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'models/user.dart';
+import 'login_page.dart';
 
 class RootPage extends StatelessWidget {
   @override
@@ -14,9 +15,7 @@ class RootPage extends StatelessWidget {
     if (user != null) {
       return HomePage();
     } else {
-      return Authenticate();
+      return LogIn();
     }
-
-    // return Authenticate();
   }
 }
