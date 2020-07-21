@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pomodoro/models/category.dart';
 import 'package:pomodoro/models/task.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class User {
@@ -20,6 +21,19 @@ class User {
     this.level = 1;
     this.tasks = Tasks();
   }
+
+// Query db
+Future<void> query() async {
+  await Firestore.instance.collection("users").document(this.uid).get().then((result){
+      print(result.data);
+      this.uid = result.data["uid"];
+      this.username = result.data["username"];
+      this.email = result.data["email"];
+      this.level = result.data["level"];
+      this.tasks = Tasks();
+      print("user stuff is set");
+    });
+}
 
   String getName() {
     return firebaseUser.displayName;
