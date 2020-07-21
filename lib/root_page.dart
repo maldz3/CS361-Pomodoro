@@ -10,9 +10,10 @@ class RootPage extends StatelessWidget {
     // Generate the grand placeholder of the user
     User user = Provider.of<User>(context);
     // would love to get rid of this provider, I think it's more trouble than it's worth.
-
+    
     // Check user value to decide which page to show
     if (user != null) {
+      print(user.username);
       return HomePage(user);
 
     } else {
