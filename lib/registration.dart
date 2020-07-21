@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
 import 'package:pomodoro/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Registration page
 
@@ -77,7 +78,15 @@ class _RegisterState extends State<Register> {
                   // Check validation
                   if (_formKey.currentState.validate()) {
                     dynamic result = await _auth.register(_username, _email, _password);
-
+                    
+                    // Store user in database
+                    Firestore db = Firestore.instance;                  
+                    await db.collection("users").document(result.uid).setData({
+                      "uid": result.uid,
+                      "username": _username,
+                      "email": _email
+                    });
+            
                     // Error catch
                     if (result.uid == null) {
                        setState(() => _error = "Registration error!");
