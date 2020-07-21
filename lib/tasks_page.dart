@@ -11,9 +11,7 @@ import 'package:pomodoro/tasks_add_page.dart';
 import 'package:pomodoro/models/user.dart';
 
 class TasksPage extends StatefulWidget {
-  final User user;
-  final BuildDrawer buildDrawer;
-  TasksPage(this.user, this.buildDrawer);
+  User user;
 
   @override
   _TasksPageState createState() => _TasksPageState();
@@ -22,19 +20,19 @@ class TasksPage extends StatefulWidget {
 class _TasksPageState extends State<TasksPage> {
   @override
   Widget build(BuildContext context) {
-    final User user = this.widget.user;
-    final BuildDrawer buildDrawer = this.widget.buildDrawer;
+    this.widget.user = ModalRoute.of(context).settings.arguments;
+    User user = this.widget.user;
 
     log("building tasks page");
     return Scaffold(
         appBar: CustomAppBar('Tasks', user),
-        drawer: buildDrawer,
+        drawer: BuildDrawer(user),
         body: Container (
             child: theTaskList(context),
           ),
         floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addTask(user, buildDrawer);
+          addTask(user);
         },
         child: Icon(Icons.playlist_add),
         backgroundColor: Colors.green,
@@ -42,8 +40,8 @@ class _TasksPageState extends State<TasksPage> {
         );
   }
 
-  void addTask (User user, BuildDrawer buildDrawer) async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => TasksAddPage(user, buildDrawer)));
+  void addTask (User user) async {
+    await Navigator.pushNamed(context, 'addTask', arguments: user);
     setState(() => {});
   }
 

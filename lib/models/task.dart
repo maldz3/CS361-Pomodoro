@@ -5,13 +5,6 @@ import 'dart:developer'; // for debug printing with "log"
 
 class Tasks {
   final List<Task> _innerList = List<Task>();
-  DatabaseReference tasksRef;
-
-  Tasks(FirebaseDatabase database, String uid) {
-    tasksRef = database.reference().child('users/' + uid + '/tasks');
-
-    retrieve();
-  }
 
   int get length {
     return _innerList.length;
@@ -19,16 +12,21 @@ class Tasks {
 
   List<Task> get list => _innerList;
 
+
   add(Task taskToCopy) {
+    
     Task task = Task.fromTask(taskToCopy);
+    /*
     // add task to database
     DatabaseReference insertionRef = tasksRef.push();
     insertionRef.set(task.toJson());
     task.key = insertionRef.key;
+    */
     // add task to inner list
     _innerList.add(task);
   }
 
+  /*
   retrieve() {
     log('retrieving tasks...');
     
@@ -41,6 +39,7 @@ class Tasks {
          });
     });
   }
+  */
 
   void fromSnapshot(DataSnapshot snapshot) {
     // for every task in snapshot, create task and add to list

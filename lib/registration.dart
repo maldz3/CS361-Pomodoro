@@ -4,9 +4,7 @@ import 'package:pomodoro/models/user.dart';
 
 // Registration page
 
-class Register extends StatefulWidget {
-  final User user;
-  Register(this.user);  
+class Register extends StatefulWidget { 
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -97,7 +95,7 @@ class _RegisterState extends State<Register> {
                           title:Text('Registered!'),
                         );
                         });
-                        await _auth.signOut(this.widget.user);  
+                        await _auth.signOut();  
                     }
                   }
                 }

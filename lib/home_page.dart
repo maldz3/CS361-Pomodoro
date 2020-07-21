@@ -6,7 +6,8 @@ import 'package:pomodoro/models/user.dart';
 // Logged in page
 
 class HomePage extends StatefulWidget {
-  final User user;
+  User user;
+
   HomePage(this.user);
 
   @override
@@ -16,7 +17,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final User user = this.widget.user;
+    this.widget.user = ModalRoute.of(context).settings.arguments;
+    User user = this.widget.user; 
     return Scaffold(
         appBar: CustomAppBar('Home Page', user),
         drawer: BuildDrawer(user),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pomodoro/components/build_drawer.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
@@ -28,10 +27,8 @@ class TasksAddPage extends StatelessWidget {
 */
 
 class TasksAddPage extends StatefulWidget {
-  final User user;
-  final BuildDrawer buildDrawer;
-  TasksAddPage(this.user, this.buildDrawer);
-
+  User user;
+ 
   @override
   _TasksAddPageState createState() => _TasksAddPageState();
 }
@@ -100,6 +97,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
   }
 
   void submit() {
+    this.widget.user = ModalRoute.of(context).settings.arguments;
     User user = this.widget.user;
     Task newTask = Task(name: taskNameController.text);
 

@@ -8,7 +8,6 @@ class AuthService {
   // Instantiate our custom user object from Firebase User
   User _firebaseUserToUser(FirebaseUser fbUser) {
     
-    
     if (fbUser != null) {
       print("user instantiation attempted from _firebaseUserToUser\n");
       return User.fromFirebaseUser(fbUser);
@@ -52,7 +51,7 @@ class AuthService {
   }
 
   //signout
-  Future signOut(User user) async {
+  Future signOut() async {
     try {
       await _auth.signOut();      
     } catch (error) {

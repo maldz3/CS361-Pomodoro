@@ -1,8 +1,4 @@
-import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:pomodoro/models/category.dart';
 import 'package:pomodoro/models/task.dart';
 
@@ -15,13 +11,46 @@ class User {
   int level;
   Tasks tasks;
   Categories categories;
-  FirebaseApp firebaseApp;
-  FirebaseDatabase database;
 
   User.fromFirebaseUser(FirebaseUser user) {
+    this.firebaseUser = user;
+    this.uid = user.uid;
+    this.username = user.displayName;
+    this.email = user.email;
     this.level = 1;
+    this.tasks = Tasks();
   }
 
+  String getName() {
+    return firebaseUser.displayName;
+  }
+
+  String getEmail() {
+    return firebaseUser.email;
+  }
+
+  void addTask(Task job) {
+    tasks.add(job);
+  }
+
+  void changeName(String newName) {
+    UserUpdateInfo updateInfo = UserUpdateInfo();
+    updateInfo.displayName = newName;
+    firebaseUser.updateProfile(updateInfo);
+    username = newName;
+  }
+
+  void changeEmail(String newEmail) {
+    firebaseUser.updateEmail(newEmail);
+    email = newEmail;
+  }
+
+  void changePassword(String newPassword) {
+    firebaseUser.updatePassword(newPassword);
+  }
+
+  //OLD DB CODE
+  /*
   void logout() async {
     // I have no idea if this even works.
     if (database != null)
@@ -51,33 +80,5 @@ class User {
         ));
     database = FirebaseDatabase(app: firebaseApp);
   }
-
-
-  String getName() {
-    return firebaseUser.displayName;
-  }
-
-  String getEmail() {
-    return firebaseUser.email;
-  }
-
-  void addTask(Task job) {
-    tasks.add(job);
-  }
-
-  void changeName(String newName) {
-    UserUpdateInfo updateInfo = UserUpdateInfo();
-    updateInfo.displayName = newName;
-    firebaseUser.updateProfile(updateInfo);
-    username = newName;
-  }
-
-  void changeEmail(String newEmail) {
-    firebaseUser.updateEmail(newEmail);
-    email = newEmail;
-  }
-
-  void changePassword(String newPassword) {
-    firebaseUser.updatePassword(newPassword);
-  }
+  */
 }

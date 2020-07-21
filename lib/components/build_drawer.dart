@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pomodoro/timer_page.dart';
-import 'package:pomodoro/account_page.dart';
-import 'package:pomodoro/tasks_page.dart';
 import 'package:pomodoro/models/user.dart';
 
 class BuildDrawer extends StatelessWidget {
@@ -19,27 +16,12 @@ class BuildDrawer extends StatelessWidget {
       createDrawerItem(
           icon: Icons.list,
           text: 'Tasks',
-          onTap: () => {
-                navPushPop(context,
-                    MaterialPageRoute(
-                      settings: RouteSettings(name: "/tasksPage"),
-                      builder: (context) => TasksPage(user, this)))
-              }),
+          onTap: () => Navigator.popAndPushNamed(context, 'tasks', arguments: user)),
       createDrawerItem(
           icon: Icons.settings,
           text: 'Settings',
-          onTap: () => Navigator.popAndPushNamed(context, 'account')),
-      createDrawerItem(
-          icon: Icons.timer,
-          text: 'Timer',
-          onTap: () => Navigator.popAndPushNamed(context, 'timer')),
+          onTap: () => Navigator.popAndPushNamed(context, 'account', arguments: user)),
     ]));
-  }
-
-  // close the drawer before moving to next view
-  void navPushPop(BuildContext context, MaterialPageRoute route) {
-    Navigator.pop(context);
-    Navigator.push(context, route);
   }
 
   Widget createDrawerItem(

@@ -8,11 +8,13 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Generate the grand placeholder of the user
-    User user = Provider.of<User>(context); // would love to get rid of this provider, I think it's more trouble than it's worth.
+    User user = Provider.of<User>(context);
+    // would love to get rid of this provider, I think it's more trouble than it's worth.
 
     // Check user value to decide which page to show
     if (user != null) {
       return HomePage(user);
+
     } else {
       return LogIn();
     }

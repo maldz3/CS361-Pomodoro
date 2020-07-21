@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
-import 'registration.dart';
-import 'package:pomodoro/models/user.dart';
 
 // Sign in page
 
 class LogIn extends StatefulWidget {
-  final User user;
-  LogIn(this.user);  
+ 
 
   @override
   _LogInState createState() => _LogInState();
@@ -27,7 +24,6 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     _auth = AuthService();
-
     return Scaffold(
         // Title Bar
         appBar: AppBar(
