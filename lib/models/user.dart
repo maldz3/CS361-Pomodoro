@@ -19,12 +19,7 @@ class User {
   FirebaseDatabase database;
 
   User.fromFirebaseUser(FirebaseUser user) {
-    this.firebaseUser = user;
-    this.uid = user.uid;
     this.level = 1;
-
-    print("WARNING: user instantiated");
-    asyncSetupShit();
   }
 
   void logout() async {

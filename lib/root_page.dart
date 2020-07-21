@@ -1,8 +1,8 @@
 import 'home_page.dart';
-import 'authenticate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pomodoro/models/user.dart';
+import 'login_page.dart';
+import 'models/user.dart';
 
 class RootPage extends StatelessWidget {
   @override
@@ -14,9 +14,7 @@ class RootPage extends StatelessWidget {
     if (user != null) {
       return HomePage(user);
     } else {
-      return Authenticate(user);
+      return LogIn();
     }
-
-    // return Authenticate();
   }
 }

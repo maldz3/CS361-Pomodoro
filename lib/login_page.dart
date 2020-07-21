@@ -66,9 +66,9 @@ class _LogInState extends State<LogIn> {
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           dynamic result = await _auth.signIn(_email, _password);
-                          if (result == null) {
+                          if (result.uid == null) {
                             setState(() => _error = "Invalid credentials");
-                          } 
+                          }
                         }
                       }),
                   // Register account link
@@ -76,10 +76,7 @@ class _LogInState extends State<LogIn> {
                   InkWell(
                       child: Text("Create Account"),
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Register(this.widget.user)));
+                        Navigator.pushNamed(context, 'register');
                       }),
                   // Error box
                   SizedBox(height: 20.0),

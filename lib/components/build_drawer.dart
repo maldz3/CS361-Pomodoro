@@ -15,7 +15,7 @@ class BuildDrawer extends StatelessWidget {
       createDrawerItem(
           icon: Icons.home,
           text: 'Home',
-          onTap: () => Navigator.pushNamed(context, '/')),
+          onTap: () => Navigator.popAndPushNamed(context, '/')),
       createDrawerItem(
           icon: Icons.list,
           text: 'Tasks',
@@ -28,17 +28,11 @@ class BuildDrawer extends StatelessWidget {
       createDrawerItem(
           icon: Icons.settings,
           text: 'Settings',
-          onTap: () => {
-                navPushPop(context,MaterialPageRoute(builder: (context) => AccountPage(user, this)))
-              }
-            ),
+          onTap: () => Navigator.popAndPushNamed(context, 'account')),
       createDrawerItem(
           icon: Icons.timer,
           text: 'Timer',
-          onTap: () => {
-                navPushPop(context,
-                    MaterialPageRoute(builder: (context) => TimerPage(user, this)))
-              })
+          onTap: () => Navigator.popAndPushNamed(context, 'timer')),
     ]));
   }
 
