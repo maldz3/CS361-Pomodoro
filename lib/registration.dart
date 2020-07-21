@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
+import 'package:pomodoro/models/user.dart';
 
 // Registration page
 
-class Register extends StatefulWidget {
+class Register extends StatefulWidget { 
+
   @override
   _RegisterState createState() => _RegisterState();
 }

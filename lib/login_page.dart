@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
-import 'registration.dart';
 
 // Sign in page
 
 class LogIn extends StatefulWidget {
+ 
+
   @override
   _LogInState createState() => _LogInState();
 }
@@ -16,12 +17,13 @@ class _LogInState extends State<LogIn> {
   String _error = "";
   String _passResetEmail = "";
 
-  final AuthService _auth = AuthService();
+  AuthService _auth;
   final _formKey = GlobalKey<FormState>();
   final _passwordKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    _auth = AuthService();
     return Scaffold(
         // Title Bar
         appBar: AppBar(

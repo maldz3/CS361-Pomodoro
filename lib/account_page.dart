@@ -3,21 +3,25 @@ import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:pomodoro/components/app_bar.dart';
-import 'package:provider/provider.dart';
 import 'models/user.dart';
 
 class AccountPage extends StatefulWidget {
+  User user;
+  
   @override
   _AccountPageState createState() => _AccountPageState();
 }
 
 class _AccountPageState extends State<AccountPage> {
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    this.widget.user = ModalRoute.of(context).settings.arguments;
+    User user = this.widget.user;
+
     return Scaffold(
-        appBar: CustomAppBar('Settings'),
-        drawer: BuildDrawer(),
+        appBar: CustomAppBar('Settings', user),
+        drawer: BuildDrawer(user),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -160,7 +164,11 @@ class _AccountPageState extends State<AccountPage> {
     ));
   }
 
+  
+
   void changeEmail(User user, BuildContext context) {
+    final User user = this.widget.user;
+
     final myController = TextEditingController();
 
     Navigator.push(context, MaterialPageRoute<void>(

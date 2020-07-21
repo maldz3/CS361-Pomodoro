@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pomodoro/timer_page.dart';
-import 'package:pomodoro/account_page.dart';
+import 'package:pomodoro/models/user.dart';
 
 class BuildDrawer extends StatelessWidget {
+  final User user;
+  BuildDrawer(this.user);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -12,13 +14,13 @@ class BuildDrawer extends StatelessWidget {
           text: 'Home',
           onTap: () => Navigator.popAndPushNamed(context, '/')),
       createDrawerItem(
+          icon: Icons.list,
+          text: 'Tasks',
+          onTap: () => Navigator.popAndPushNamed(context, 'tasks', arguments: user)),
+      createDrawerItem(
           icon: Icons.settings,
           text: 'Settings',
-          onTap: () => Navigator.popAndPushNamed(context, 'account')),
-      createDrawerItem(
-          icon: Icons.timer,
-          text: 'Timer',
-          onTap: () => Navigator.popAndPushNamed(context, 'timer')),
+          onTap: () => Navigator.popAndPushNamed(context, 'account', arguments: user)),
     ]));
   }
 

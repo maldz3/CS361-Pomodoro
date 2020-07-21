@@ -1,12 +1,19 @@
+import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../models/user.dart';
+import 'package:pomodoro/models/user.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Instantiate our custom user object from Firebase User
-  User _firebaseUserToUser(FirebaseUser user) {
-    return user != null ? User.fromFirebaseUser(user) : null;
+  User _firebaseUserToUser(FirebaseUser fbUser) {
+    
+    if (fbUser != null) {
+      print("user instantiation attempted from _firebaseUserToUser\n");
+      return User.fromFirebaseUser(fbUser);
+    }
+    else
+      return null;
   }
 
   // Auth stream
@@ -46,7 +53,7 @@ class AuthService {
   //signout
   Future signOut() async {
     try {
-      return await _auth.signOut();
+      await _auth.signOut();      
     } catch (error) {
       print(error.toString());
       return null;

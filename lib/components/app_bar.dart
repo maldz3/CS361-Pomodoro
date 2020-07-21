@@ -3,14 +3,14 @@ import 'package:pomodoro/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pomodoro/root_page.dart';
+import 'package:pomodoro/models/user.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  String title;
+  final String title;
   final AuthService _auth = AuthService();
+  final User user;
 
-  CustomAppBar(String title) {
-    this.title = title;
-  }
+  CustomAppBar(this.title, this.user);
 
   @override
   Widget build(BuildContext context) {
