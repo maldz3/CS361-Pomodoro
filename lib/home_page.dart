@@ -19,9 +19,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     User user = this.widget.user; 
 
-    User user = User.fromFirebaseUser(firebaseUser);
-    user.query();
-
     return Scaffold(
         appBar: CustomAppBar('Home Page', user),
         drawer: BuildDrawer(user),
