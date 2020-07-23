@@ -48,6 +48,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
   }
 
   String dropdownValue = 'Category';
+  List<Categories> categories;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +103,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   dropdownValue = newValue;
                 });
               },
-              items: <String>['Category', 'One', 'Two', 'Free', 'Four']
+              items: <String>['Category', 'School', 'Work', 'Exercise', 'Home', 'Family', 'Other']
                 .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
