@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
+import 'package:pomodoro/models/category.dart';
 
 /*
 class TasksAddPage extends StatelessWidget {
@@ -46,6 +47,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
     super.dispose();
   }
 
+  String dropdownValue = 'Category';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,25 +68,51 @@ class _TasksAddPageState extends State<TasksAddPage> {
                 controller: taskDurationWorkController,
                 autofocus: false,
                 decoration: InputDecoration(
-                    labelText: 'Work Time Per Interval (Minutes)',
+                    labelText: 'Task Duration (Minutes)',
                     border: OutlineInputBorder()),
               ),
               SizedBox(height: 10),
-        TextFormField(
+          TextFormField(
                 controller: taskDurationBreakController,
                 autofocus: false,
                 decoration: InputDecoration(
-                    labelText: 'Break Time Per Interval (Minutes)',
+                    labelText: 'Break Duration (Minutes)',
                     border: OutlineInputBorder()),
               ),
               SizedBox(height: 10),
-        TextFormField(
+          TextFormField(
                 controller: taskGoalTimeController,
                 autofocus: false,
                 decoration: InputDecoration(
                     labelText: 'Goal (Minutes)',
                     border: OutlineInputBorder()),
               ),
+              SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.only(left: 12),
+            alignment: Alignment.topLeft,
+            child: DropdownButton<String>(
+              value: dropdownValue,
+              icon: Icon(Icons.arrow_downward),
+              iconSize: 21,
+              elevation: 16,
+              style: TextStyle(color: Colors.grey[700]),
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                });
+              },
+              items: <String>['Category', 'One', 'Two', 'Free', 'Four']
+                .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                })
+                .toList(),
+            ),
+          )
+
         ],)
       ),
       floatingActionButton: FloatingActionButton(
