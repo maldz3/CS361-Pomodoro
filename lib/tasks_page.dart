@@ -100,7 +100,8 @@ class _TasksPageState extends State<TasksPage> {
                     ),
                   ),
                 // category
-                subtitle: new Text("category"),//user.categories[task.categoryKey].name),
+                //subtitle: new Text("category"),//user.categories[task.categoryKey].name),
+                subtitle: new Text("${task.category}"),
                 value: task.selected,
                 onChanged: (bool value) {
                 setState(() {

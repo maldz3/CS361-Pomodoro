@@ -129,7 +129,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
   void submit() {
     this.widget.user = ModalRoute.of(context).settings.arguments;
     User user = this.widget.user;
-    Task newTask = Task(name: taskNameController.text);
+    Task newTask = Task(name: taskNameController.text, category: dropdownValue);
 
     user.tasks.add(newTask);
 

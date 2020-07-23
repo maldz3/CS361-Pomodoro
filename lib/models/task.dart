@@ -55,14 +55,16 @@ class Task {
   int totalTime = 0;
   int goalTime = 60;
   String categoryKey = 'unset_task_category_key';
+  String category = 'category';
 
   Task({String name, int durationWork = 20, int durationBreak = 10, int totalTime = 0,
-      int goalTime = 60}) {
+      int goalTime = 60, String category}) { //
     this.name = name.toString();
     this.durationWork = durationWork;
     this.durationBreak = durationBreak;
     this.totalTime = totalTime;
     this.goalTime = goalTime;
+    this.category = category; //
   }
 
   Task.fromTask(Task t) {
@@ -73,6 +75,7 @@ class Task {
     totalTime = t.totalTime;
     goalTime = t.goalTime;
     categoryKey = t.categoryKey.toString();
+    category = t.category.toString(); //
   }
 
   void addTime(int newTime) {
