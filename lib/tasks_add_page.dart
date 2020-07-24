@@ -1,31 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
 import 'package:pomodoro/models/category.dart';
-
-/*
-class TasksAddPage extends StatelessWidget {
-  final User user;
-  final BuildDrawer buildDrawer;
-  TasksAddPage(this.user, this.buildDrawer);
-
-
-  @override
-  Widget build(BuildContext context) {
-    final appTitle = 'Form Validation Demo';
-
-    return MaterialApp(
-      title: appTitle,
-      home: Scaffold(
-        appBar: CustomAppBar('Add a Task', user),
-        //drawer: buildDrawer,
-        body: TasksAddForm(user, buildDrawer),
-      ),
-    );
-  }
-}
-*/
 
 class TasksAddPage extends StatefulWidget {
   User user;
@@ -67,6 +45,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
               SizedBox(height: 10),
               TextFormField(
                 controller: taskDurationWorkController,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 autofocus: false,
                 decoration: InputDecoration(
                     labelText: 'Task Duration (Minutes)',
@@ -75,6 +54,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
               SizedBox(height: 10),
               TextFormField(
                 controller: taskDurationBreakController,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 autofocus: false,
                 decoration: InputDecoration(
                     labelText: 'Break Duration (Minutes)',
