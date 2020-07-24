@@ -5,88 +5,163 @@ import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
 import 'package:pomodoro/models/category.dart';
 
+class TaskDTO {
+  String name;
+  String description;
+  int durationWork;
+  int durationBreak;
+  int totalTime = 0;
+  int goalTime;
+  String category;
+}
+
+//New Task Entry form
 class TasksAddPage extends StatefulWidget {
   User user;
 
-  @override
   _TasksAddPageState createState() => _TasksAddPageState();
 }
 
 class _TasksAddPageState extends State<TasksAddPage> {
-  final taskNameController = TextEditingController();
-  final taskDurationWorkController = TextEditingController();
-  final taskDurationBreakController = TextEditingController();
-  final taskGoalTimeController = TextEditingController();
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    taskNameController.dispose();
-    super.dispose();
-  }
-
-  String dropdownValue = 'Category';
-  List<Categories> categories;
-  int workTime;
-  int breakTime;
-  int goalTime;
+  final formKey = GlobalKey<FormState>();
+  TaskDTO newTask = TaskDTO();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('Add a Task', this.widget.user),
-      body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: taskNameController,
-                autofocus: false,
-                decoration: InputDecoration(
-                    labelText: 'Task Name', border: OutlineInputBorder()),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: taskDurationWorkController,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                autofocus: false,
-                onChanged: (value) {
-                  setState(() {
-                    workTime = int.tryParse(value);
-                  });
-                },
-                decoration: InputDecoration(
-                    labelText: 'Task Duration (Minutes)',
-                    border: OutlineInputBorder()),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: taskDurationBreakController,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                autofocus: false,
-                onChanged: (value) {
-                  setState(() {
-                    breakTime = int.tryParse(value);
-                  });
-                },
-                decoration: InputDecoration(
-                    labelText: 'Break Duration (Minutes)',
-                    border: OutlineInputBorder()),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: taskGoalTimeController,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                autofocus: false,
-                onChanged: (value) {
-                  setState(() {
-                    goalTime = int.tryParse(value);
-                  });
-                },
-                decoration: InputDecoration(
-                    labelText: 'Goal (Minutes)', border: OutlineInputBorder()),
-              ),
-              SizedBox(height: 10),
+        appBar: CustomAppBar('Add a Task', this.widget.user),
+        body: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Form(
+                key: formKey,
+                child: SingleChildScrollView(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      TextFormField(
+                          autofocus: true,
+                          decoration: InputDecoration(
+                              labelText: 'Task Name',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.name = value;
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a task name';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      TextFormField(
+                          autofocus: true,
+                          decoration: InputDecoration(
+                              labelText: 'Description',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.description = value;
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a description';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      TextFormField(
+                          autofocus: true,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: InputDecoration(
+                              labelText: 'Task Duration (Minutes)',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.durationWork = int.tryParse(value);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a task duration';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      TextFormField(
+                          autofocus: true,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: InputDecoration(
+                              labelText: 'Break Duration (Minutes)',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.durationBreak = int.tryParse(value);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a break duration';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      TextFormField(
+                          autofocus: true,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: InputDecoration(
+                              labelText: 'Goal Time (Minutes)',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.goalTime = int.tryParse(value);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a goal time';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      SizedBox(height: 10),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            RaisedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Cancel')),
+                            RaisedButton(
+                                color: Colors.red,
+                                onPressed: () async {
+                                  if (formKey.currentState.validate()) {
+                                    formKey.currentState.save();
+                                    this.widget.user = ModalRoute.of(context)
+                                        .settings
+                                        .arguments;
+                                    User user = this.widget.user;
+                                    Task addTask = Task(
+                                        name: newTask.name,
+                                        description: newTask.description,
+                                        durationWork: newTask.durationWork,
+                                        durationBreak: newTask.durationBreak,
+                                        goalTime: newTask.goalTime,
+                                        category: 'TBD');
+
+                                    user.tasks.add(addTask);
+                                    Navigator.of(context).pop();
+                                  }
+                                },
+                                child: Text('SaveEntry'))
+                          ])
+                    ])))));
+  }
+}
+
+/* Save until category is updated
+  String dropdownValue = 'Category';
+  List<Categories> categories;
+  
               Container(
                 padding: const EdgeInsets.only(left: 12),
                 alignment: Alignment.topLeft,
@@ -119,28 +194,6 @@ class _TasksAddPageState extends State<TasksAddPage> {
               )
             ],
           )),
-      floatingActionButton: FloatingActionButton(
-        // When the user presses the button, show an alert dialog containing
-        // the text that the user has entered into the text field.
-        onPressed: submit,
-        tooltip: 'Submit',
-        child: Icon(Icons.save),
-      ),
-    );
-  }
+      
 
-  void submit() {
-    this.widget.user = ModalRoute.of(context).settings.arguments;
-    User user = this.widget.user;
-    Task newTask = Task(
-        name: taskNameController.text,
-        durationWork: workTime,
-        durationBreak: breakTime,
-        goalTime: goalTime,
-        category: dropdownValue);
-
-    user.tasks.add(newTask);
-
-    Navigator.of(context).pop();
-  }
-}
+  */

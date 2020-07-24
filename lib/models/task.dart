@@ -46,6 +46,7 @@ class Task {
   bool selected = false;
   String key = 'unset_task_key';
   String name = 'task name';
+  String description;
   int durationWork = 20;
   int durationBreak = 10;
   int totalTime = 0;
@@ -55,6 +56,7 @@ class Task {
 
   Task(
       {String name,
+      String description,
       int durationWork,
       int durationBreak,
       int totalTime = 0,
@@ -62,6 +64,7 @@ class Task {
       String category}) {
     //
     this.name = name.toString();
+    this.description = description.toString();
     this.durationWork = durationWork;
     this.durationBreak = durationBreak;
     this.totalTime = totalTime;
@@ -72,6 +75,7 @@ class Task {
   Task.fromTask(Task t) {
     key = t.key.toString();
     name = t.name.toString();
+    description = t.description.toString();
     durationWork = t.durationWork;
     durationBreak = t.durationBreak;
     totalTime = t.totalTime;
@@ -95,6 +99,7 @@ class Task {
   Task.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
         name = snapshot.value["name"],
+        description = snapshot.value["description"],
         durationWork = snapshot.value["durationWork"],
         durationBreak = snapshot.value["durationBreak"],
         totalTime = snapshot.value["totalTime"],
@@ -105,6 +110,7 @@ class Task {
     log('creating task with json: ' + json.toString());
     key = key;
     name = json['name'];
+    description = json['description'];
     durationWork = json['durationWork'];
     durationBreak = json['durationBreak'];
     totalTime = json['totalTime'];
@@ -115,6 +121,7 @@ class Task {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
+    data['description'] = this.description;
     data['durationWork'] = this.durationWork;
     data['durationBreak'] = this.durationBreak;
     data['totalTime'] = this.totalTime;
