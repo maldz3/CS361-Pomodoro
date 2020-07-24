@@ -96,11 +96,7 @@ class _TasksPageState extends State<TasksPage> {
       ]),
       // category
       //subtitle: new Text("category"),//user.categories[task.categoryKey].name),
-      subtitle: new Row(children: [
-        Text('Set Work Time: ${task.durationWork}'),
-        SizedBox(width: 15),
-        Text('Set Break Time: ${task.durationBreak}')
-      ]),
+      subtitle: new Text('Description: ${task.description}'),
       value: task.selected,
       onChanged: (bool value) {
         setState(() {
@@ -112,6 +108,11 @@ class _TasksPageState extends State<TasksPage> {
     // total time dedicated
     String hours = (task.totalTime ~/ 60).toString();
     String minutes = (task.totalTime % 60).toString();
+    contents.add(Row(children: [
+      Text('Set Work Time: ${task.durationWork}'),
+      SizedBox(width: 15),
+      Text('Set Break Time: ${task.durationBreak}')
+    ]));
     contents.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Text('Goal: ${task.goalTime}'),
       SizedBox(
