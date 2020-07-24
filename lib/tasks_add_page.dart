@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
+import 'package:pomodoro/models/category.dart';
 
 /*
 class TasksAddPage extends StatelessWidget {
@@ -46,6 +47,9 @@ class _TasksAddPageState extends State<TasksAddPage> {
     super.dispose();
   }
 
+  String dropdownValue = 'Category';
+  List<Categories> categories;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,25 +69,51 @@ class _TasksAddPageState extends State<TasksAddPage> {
                 controller: taskDurationWorkController,
                 autofocus: false,
                 decoration: InputDecoration(
-                    labelText: 'Work Time Per Interval (Minutes)',
+                    labelText: 'Task Duration (Minutes)',
                     border: OutlineInputBorder()),
               ),
               SizedBox(height: 10),
-        TextFormField(
+          TextFormField(
                 controller: taskDurationBreakController,
                 autofocus: false,
                 decoration: InputDecoration(
-                    labelText: 'Break Time Per Interval (Minutes)',
+                    labelText: 'Break Duration (Minutes)',
                     border: OutlineInputBorder()),
               ),
               SizedBox(height: 10),
-        TextFormField(
+          TextFormField(
                 controller: taskGoalTimeController,
                 autofocus: false,
                 decoration: InputDecoration(
                     labelText: 'Goal (Minutes)',
                     border: OutlineInputBorder()),
               ),
+              SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.only(left: 12),
+            alignment: Alignment.topLeft,
+            child: DropdownButton<String>(
+              value: dropdownValue,
+              icon: Icon(Icons.arrow_downward),
+              iconSize: 21,
+              elevation: 16,
+              style: TextStyle(color: Colors.grey[700]),
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                });
+              },
+              items: <String>['Category', 'School', 'Work', 'Exercise', 'Home', 'Family', 'Other']
+                .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                })
+                .toList(),
+            ),
+          )
+
         ],)
       ),
       floatingActionButton: FloatingActionButton(
@@ -99,7 +129,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
   void submit() {
     this.widget.user = ModalRoute.of(context).settings.arguments;
     User user = this.widget.user;
-    Task newTask = Task(name: taskNameController.text);
+    Task newTask = Task(name: taskNameController.text, category: dropdownValue);
 
     user.tasks.add(newTask);
 
