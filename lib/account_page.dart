@@ -7,13 +7,11 @@ import 'models/user.dart';
 
 class AccountPage extends StatefulWidget {
   User user;
-  
   @override
   _AccountPageState createState() => _AccountPageState();
 }
 
 class _AccountPageState extends State<AccountPage> {
-
   @override
   Widget build(BuildContext context) {
     this.widget.user = ModalRoute.of(context).settings.arguments;
@@ -163,8 +161,6 @@ class _AccountPageState extends State<AccountPage> {
       },
     ));
   }
-
-  
 
   void changeEmail(User user, BuildContext context) {
     final User user = this.widget.user;

@@ -29,7 +29,7 @@ class TasksAddPage extends StatelessWidget {
 
 class TasksAddPage extends StatefulWidget {
   User user;
- 
+
   @override
   _TasksAddPageState createState() => _TasksAddPageState();
 }
@@ -55,17 +55,17 @@ class _TasksAddPageState extends State<TasksAddPage> {
     return Scaffold(
       appBar: CustomAppBar('Add a Task', this.widget.user),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(children: [
-          TextFormField(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextFormField(
                 controller: taskNameController,
                 autofocus: false,
                 decoration: InputDecoration(
-                    labelText: 'Task Name',
-                    border: OutlineInputBorder()),
+                    labelText: 'Task Name', border: OutlineInputBorder()),
               ),
               SizedBox(height: 10),
-          TextFormField(
+              TextFormField(
                 controller: taskDurationWorkController,
                 autofocus: false,
                 decoration: InputDecoration(
@@ -73,7 +73,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                     border: OutlineInputBorder()),
               ),
               SizedBox(height: 10),
-          TextFormField(
+              TextFormField(
                 controller: taskDurationBreakController,
                 autofocus: false,
                 decoration: InputDecoration(
@@ -81,41 +81,45 @@ class _TasksAddPageState extends State<TasksAddPage> {
                     border: OutlineInputBorder()),
               ),
               SizedBox(height: 10),
-          TextFormField(
+              TextFormField(
                 controller: taskGoalTimeController,
                 autofocus: false,
                 decoration: InputDecoration(
-                    labelText: 'Goal (Minutes)',
-                    border: OutlineInputBorder()),
+                    labelText: 'Goal (Minutes)', border: OutlineInputBorder()),
               ),
               SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.only(left: 12),
-            alignment: Alignment.topLeft,
-            child: DropdownButton<String>(
-              value: dropdownValue,
-              icon: Icon(Icons.arrow_downward),
-              iconSize: 21,
-              elevation: 16,
-              style: TextStyle(color: Colors.grey[700]),
-              onChanged: (String newValue) {
-                setState(() {
-                  dropdownValue = newValue;
-                });
-              },
-              items: <String>['Category', 'School', 'Work', 'Exercise', 'Home', 'Family', 'Other']
-                .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                })
-                .toList(),
-            ),
-          )
-
-        ],)
-      ),
+              Container(
+                padding: const EdgeInsets.only(left: 12),
+                alignment: Alignment.topLeft,
+                child: DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: Icon(Icons.arrow_downward),
+                  iconSize: 21,
+                  elevation: 16,
+                  style: TextStyle(color: Colors.grey[700]),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: <String>[
+                    'Category',
+                    'School',
+                    'Work',
+                    'Exercise',
+                    'Home',
+                    'Family',
+                    'Other'
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              )
+            ],
+          )),
       floatingActionButton: FloatingActionButton(
         // When the user presses the button, show an alert dialog containing
         // the text that the user has entered into the text field.

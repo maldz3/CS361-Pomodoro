@@ -1,13 +1,8 @@
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'dart:developer'; // for debug printing with "log"
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/task.dart';
-import 'package:pomodoro/models/category.dart';
-import 'package:pomodoro/tasks_add_page.dart';
 import 'package:pomodoro/models/user.dart';
 
 class TasksPage extends StatefulWidget {
