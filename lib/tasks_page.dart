@@ -20,22 +20,22 @@ class _TasksPageState extends State<TasksPage> {
 
     log("building tasks page");
     return Scaffold(
-        appBar: CustomAppBar('Tasks', user),
-        drawer: BuildDrawer(user),
-        body: Container (
-            child: theTaskList(context),
-          ),
-        floatingActionButton: FloatingActionButton(
+      appBar: CustomAppBar('Tasks', user),
+      drawer: BuildDrawer(user),
+      body: Container(
+        child: theTaskList(context),
+      ),
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           addTask(user);
         },
         child: Icon(Icons.playlist_add),
         backgroundColor: Colors.green,
       ),
-        );
+    );
   }
 
-  void addTask (User user) async {
+  void addTask(User user) async {
     await Navigator.pushNamed(context, 'addTask', arguments: user);
     setState(() => {});
   }
@@ -49,7 +49,7 @@ class _TasksPageState extends State<TasksPage> {
     // destructive sort alphabetical.
     user.tasks.list.sort((a, b) => a.name.compareTo(b.name));
 
-    for (Task task in user.tasks.list){
+    for (Task task in user.tasks.list) {
       taskList.add(buildTaskCard(context, task));
     }
 
@@ -61,15 +61,15 @@ class _TasksPageState extends State<TasksPage> {
   Widget buildTaskCard(BuildContext context, Task task) {
     toggler = 1 - toggler;
     return Container(
-                //margin: const EdgeInsets.all(15.0),
-                //padding: const EdgeInsets.all(1.0),
-                decoration: taskDecoration(clrs[toggler]),
-                child: Card(
-                  child: Column(
-                    children: taskContents(task),
-                  ),
-                ),
-              );
+      //margin: const EdgeInsets.all(15.0),
+      //padding: const EdgeInsets.all(1.0),
+      decoration: taskDecoration(clrs[toggler]),
+      child: Card(
+        child: Column(
+          children: taskContents(task),
+        ),
+      ),
+    );
   }
 
   BoxDecoration taskDecoration(Color color) {
@@ -84,37 +84,45 @@ class _TasksPageState extends State<TasksPage> {
   List<Widget> taskContents(Task task) {
     final contents = List<Widget>();
 
-    contents.add(
-      CheckboxListTile(
-                // title
-                title: new Text(
-                  task.name,
-                  style: const TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                  ),
-                // category
-                //subtitle: new Text("category"),//user.categories[task.categoryKey].name),
-                subtitle: new Text("${task.category}"),
-                value: task.selected,
-                onChanged: (bool value) {
-                setState(() {
-                  task.selected = value;
-                });
-              },
-              )
-              );
+    contents.add(CheckboxListTile(
+      // title
+      title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Text(task.name,
+            style: const TextStyle(
+                fontSize: 18.0, color: Colors.deepPurpleAccent)),
+        Container(width: 100),
+        Text('Category: ${task.category}',
+            style: const TextStyle(fontSize: 14.0, color: Colors.black)),
+      ]),
+      // category
+      //subtitle: new Text("category"),//user.categories[task.categoryKey].name),
+      subtitle: new Row(children: [
+        Text('Set Work Time: ${task.durationWork}'),
+        SizedBox(width: 15),
+        Text('Set Break Time: ${task.durationBreak}')
+      ]),
+      value: task.selected,
+      onChanged: (bool value) {
+        setState(() {
+          task.selected = value;
+        });
+      },
+    ));
 
     // total time dedicated
     String hours = (task.totalTime ~/ 60).toString();
     String minutes = (task.totalTime % 60).toString();
-    contents.add(Text("Dedicated: " + hours + " hours, " + minutes + " minutes."));
+    contents.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Text('Goal: ${task.goalTime}'),
+      SizedBox(
+        width: 20,
+      ),
+      Text("Dedicated: " + hours + " hours, " + minutes + " minutes.")
+    ]));
 
     return contents;
   }
 }
-
 
 // class TasksPage extends StatelessWidget {
 //   final User user;

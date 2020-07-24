@@ -27,6 +27,9 @@ class _TasksAddPageState extends State<TasksAddPage> {
 
   String dropdownValue = 'Category';
   List<Categories> categories;
+  int workTime;
+  int breakTime;
+  int goalTime;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +50,11 @@ class _TasksAddPageState extends State<TasksAddPage> {
                 controller: taskDurationWorkController,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 autofocus: false,
+                onChanged: (value) {
+                  setState(() {
+                    workTime = int.tryParse(value);
+                  });
+                },
                 decoration: InputDecoration(
                     labelText: 'Task Duration (Minutes)',
                     border: OutlineInputBorder()),
@@ -56,6 +64,11 @@ class _TasksAddPageState extends State<TasksAddPage> {
                 controller: taskDurationBreakController,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 autofocus: false,
+                onChanged: (value) {
+                  setState(() {
+                    breakTime = int.tryParse(value);
+                  });
+                },
                 decoration: InputDecoration(
                     labelText: 'Break Duration (Minutes)',
                     border: OutlineInputBorder()),
@@ -63,7 +76,13 @@ class _TasksAddPageState extends State<TasksAddPage> {
               SizedBox(height: 10),
               TextFormField(
                 controller: taskGoalTimeController,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 autofocus: false,
+                onChanged: (value) {
+                  setState(() {
+                    goalTime = int.tryParse(value);
+                  });
+                },
                 decoration: InputDecoration(
                     labelText: 'Goal (Minutes)', border: OutlineInputBorder()),
               ),
@@ -113,14 +132,15 @@ class _TasksAddPageState extends State<TasksAddPage> {
   void submit() {
     this.widget.user = ModalRoute.of(context).settings.arguments;
     User user = this.widget.user;
-    Task newTask = Task(name: taskNameController.text, category: dropdownValue);
+    Task newTask = Task(
+        name: taskNameController.text,
+        durationWork: workTime,
+        durationBreak: breakTime,
+        goalTime: goalTime,
+        category: dropdownValue);
 
     user.tasks.add(newTask);
 
     Navigator.of(context).pop();
-    // Navigator.popUntil(context, ModalRoute.withName('/'));
-    // Navigator.push(context, MaterialPageRoute(
-    //                   settings: RouteSettings(name: "/tasksPage"),
-    //                   builder: (context) => TasksPage(user, widget.buildDrawer)));
   }
 }

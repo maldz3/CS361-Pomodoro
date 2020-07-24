@@ -1,7 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:developer'; // for debug printing with "log"
 
-
 class Tasks {
   final List<Task> _innerList = List<Task>();
 
@@ -11,9 +10,7 @@ class Tasks {
 
   List<Task> get list => _innerList;
 
-
   add(Task taskToCopy) {
-    
     Task task = Task.fromTask(taskToCopy);
     /*
     // add task to database
@@ -56,8 +53,14 @@ class Task {
   String categoryKey = 'unset_task_category_key';
   String category = 'category';
 
-  Task({String name, int durationWork = 20, int durationBreak = 10, int totalTime = 0,
-      int goalTime = 60, String category}) { //
+  Task(
+      {String name,
+      int durationWork,
+      int durationBreak,
+      int totalTime = 0,
+      int goalTime,
+      String category}) {
+    //
     this.name = name.toString();
     this.durationWork = durationWork;
     this.durationBreak = durationBreak;
