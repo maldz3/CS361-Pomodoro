@@ -113,40 +113,37 @@ class _TasksAddPageState extends State<TasksAddPage> {
                               return null;
                             }
                           }),
-                      Container(
-                        padding: EdgeInsets.all(16),
-                        child: DropDownFormField(
-                          titleText: 'Category',
-                          hintText: 'Please choose one',
-                          value: newTask.category,
-                          onSaved: (value) {
-                            setState(() {
-                              newTask.category = value;
-                            });
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please select a category';
-                            } else {
-                              return null;
-                            }
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              newTask.category = value;
-                            });
-                          },
-                          dataSource: [
-                            {'display': 'School', 'value': 'School'},
-                            {'display': 'Work', 'value': 'Work'},
-                            {'display': 'Exercise', 'value': 'Exercise'},
-                            {'display': 'Home', 'value': 'Home'},
-                            {'display': 'Family', 'value': 'Family'},
-                            {'display': 'Other', 'value': 'Other'}
-                          ],
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
+                      DropDownFormField(
+                        titleText: 'Category',
+                        hintText: 'Please choose one',
+                        value: newTask.category,
+                        onSaved: (value) {
+                          setState(() {
+                            newTask.category = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please select a category';
+                          } else {
+                            return null;
+                          }
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            newTask.category = value;
+                          });
+                        },
+                        dataSource: [
+                          {'display': 'School', 'value': 'School'},
+                          {'display': 'Work', 'value': 'Work'},
+                          {'display': 'Exercise', 'value': 'Exercise'},
+                          {'display': 'Home', 'value': 'Home'},
+                          {'display': 'Family', 'value': 'Family'},
+                          {'display': 'Other', 'value': 'Other'}
+                        ],
+                        textField: 'display',
+                        valueField: 'value',
                       ),
                       SizedBox(height: 10),
                       Row(
