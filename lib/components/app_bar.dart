@@ -14,7 +14,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(title: Text(title),
-        //leading: GestureDetector(onTap: () {}),
         actions: <Widget>[
           FlatButton.icon(
               icon: Icon(Icons.person),
