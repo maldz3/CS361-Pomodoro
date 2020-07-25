@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
-import 'package:pomodoro/models/category.dart';
+import 'package:dropdown_formfield/dropdown_formfield.dart';
 
 class TaskDTO {
   String name;
@@ -31,7 +31,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
     return Scaffold(
         appBar: CustomAppBar('Add a Task', this.widget.user),
         body: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(20),
             child: Form(
                 key: formKey,
                 child: SingleChildScrollView(
@@ -122,6 +122,41 @@ class _TasksAddPageState extends State<TasksAddPage> {
                               return null;
                             }
                           }),
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        child: DropDownFormField(
+                          titleText: 'Category',
+                          hintText: 'Please choose one',
+                          value: newTask.category,
+                          onSaved: (value) {
+                            setState(() {
+                              newTask.category = value;
+                            });
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please select a category';
+                            } else {
+                              return null;
+                            }
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              newTask.category = value;
+                            });
+                          },
+                          dataSource: [
+                            {'display': 'School', 'value': 'School'},
+                            {'display': 'Work', 'value': 'Work'},
+                            {'display': 'Exercise', 'value': 'Exercise'},
+                            {'display': 'Home', 'value': 'Home'},
+                            {'display': 'Family', 'value': 'Family'},
+                            {'display': 'Other', 'value': 'Other'}
+                          ],
+                          textField: 'display',
+                          valueField: 'value',
+                        ),
+                      ),
                       SizedBox(height: 10),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -146,7 +181,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                                         durationWork: newTask.durationWork,
                                         durationBreak: newTask.durationBreak,
                                         goalTime: newTask.goalTime,
-                                        category: 'TBD');
+                                        category: newTask.category);
 
                                     user.tasks.add(addTask);
                                     Navigator.of(context).pop();
@@ -157,43 +192,3 @@ class _TasksAddPageState extends State<TasksAddPage> {
                     ])))));
   }
 }
-
-/* Save until category is updated
-  String dropdownValue = 'Category';
-  List<Categories> categories;
-  
-              Container(
-                padding: const EdgeInsets.only(left: 12),
-                alignment: Alignment.topLeft,
-                child: DropdownButton<String>(
-                  value: dropdownValue,
-                  icon: Icon(Icons.arrow_downward),
-                  iconSize: 21,
-                  elevation: 16,
-                  style: TextStyle(color: Colors.grey[700]),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      dropdownValue = newValue;
-                    });
-                  },
-                  items: <String>[
-                    'Category',
-                    'School',
-                    'Work',
-                    'Exercise',
-                    'Home',
-                    'Family',
-                    'Other'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              )
-            ],
-          )),
-      
-
-  */
