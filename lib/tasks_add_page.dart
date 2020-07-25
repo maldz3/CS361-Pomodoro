@@ -4,16 +4,7 @@ import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
-
-class TaskDTO {
-  String name;
-  String description;
-  int durationWork;
-  int durationBreak;
-  int totalTime = 0;
-  int goalTime;
-  String category;
-}
+import 'package:pomodoro/models/task_dto.dart';
 
 //New Task Entry form
 class TasksAddPage extends StatefulWidget {
