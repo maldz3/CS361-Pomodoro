@@ -123,7 +123,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                           });
                         },
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value == null) {
                             return 'Please select a category';
                           } else {
                             return null;
@@ -145,7 +145,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         textField: 'display',
                         valueField: 'value',
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 20.0),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
