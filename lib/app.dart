@@ -4,6 +4,7 @@ import 'package:pomodoro/tasks_add_page.dart';
 import 'package:pomodoro/tasks_page.dart';
 import 'package:pomodoro/home_page.dart';
 import 'package:pomodoro/login_page.dart';
+import 'package:pomodoro/timer_page.dart';
 import 'root_page.dart';
 import 'package:provider/provider.dart';
 import 'services/auth.dart';
@@ -33,7 +34,8 @@ class App extends StatelessWidget {
             'account': (context) => AccountPage(),
             'register': (context) => Register(),
             'tasks': (context) => TasksPage(),
-            'addTask': (context) => TasksAddPage()
+            'addTask': (context) => TasksAddPage(),
+            'timer': (context) => TimerPage()
           }
       )
     );
