@@ -6,7 +6,7 @@ import 'package:pomodoro/models/user.dart';
 // Logged in page
 
 class HomePage extends StatefulWidget {
-  User user;
+  final User user;
 
   HomePage(this.user);
 
