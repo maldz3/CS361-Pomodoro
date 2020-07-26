@@ -1,4 +1,3 @@
-import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pomodoro/models/user.dart';
 
@@ -24,9 +23,9 @@ class AuthService {
   //signin with email and password
   Future signIn(String email, String password) async {
     try {
-      AuthResult auth_result = await _auth.signInWithEmailAndPassword(
+      AuthResult authResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = auth_result.user;
+      FirebaseUser user = authResult.user;
       return user;
     } catch (error) {
       print(error.toString());
