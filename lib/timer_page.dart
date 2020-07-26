@@ -26,7 +26,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 20));
+        AnimationController(vsync: this, duration: Duration(minutes: 20));
   }
 
   @override
@@ -59,10 +59,56 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                                             backgroundColor: Colors.blue,
                                             color: Colors.yellowAccent,
                                           ));
-                                        }))
+                                        })),
+                                Align(
+                                  alignment: FractionalOffset.center,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text('Time Remaining',
+                                          style: TextStyle(fontSize: 18)),
+                                      AnimatedBuilder(
+                                          animation: controller,
+                                          builder: (BuildContext context,
+                                              Widget child) {
+                                            return Text(timerString,
+                                                style:
+                                                    TextStyle(fontSize: 100));
+                                          })
+                                    ],
+                                  ),
+                                )
                               ],
                             )))),
-                Align(),
+                Container(
+                    margin: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        FloatingActionButton(
+                          child: AnimatedBuilder(
+                              animation: controller,
+                              builder: (BuildContext context, Widget child) {
+                                return new Icon(controller.isAnimating
+                                    ? Icons.pause
+                                    : Icons.play_arrow);
+                              }),
+                          onPressed: () {
+                            if (controller.isAnimating) {
+                              controller.stop();
+                            } else {
+                              controller.reverse(
+                                  from: controller.value == 0.0
+                                      ? 1.0
+                                      : controller.value);
+                            }
+                          },
+                        )
+                      ],
+                    ))
               ],
             )));
   }
