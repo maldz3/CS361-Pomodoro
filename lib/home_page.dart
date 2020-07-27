@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    User user = this.widget.user; 
+    User user = this.widget.user;
 
     return Scaffold(
       appBar: CustomAppBar('Pomodoro Task List', user),
@@ -115,6 +115,20 @@ class _HomePageState extends State<HomePage> {
         width: 20,
       ),
       Text("Dedicated: " + hours + " hours, " + minutes + " minutes.")
+    ]));
+    contents.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      FlatButton(onPressed: () {}, child: Text('Update')),
+      SizedBox(
+        width: 20,
+      ),
+      FlatButton(onPressed: () {}, child: Text('Delete')),
+      SizedBox(
+        width: 20,
+      ),
+      FlatButton(
+          onPressed: () {},
+          child: Container(
+              child: Row(children: [Text('Pomo!  '), Icon(Icons.play_arrow)]))),
     ]));
 
     return contents;
