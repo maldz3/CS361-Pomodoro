@@ -80,8 +80,12 @@ class _HomePageState extends State<HomePage> {
   List<Widget> taskContents(Task task) {
     final contents = List<Widget>();
 
-    contents.add(CheckboxListTile(
+    contents.add(ListTile(
       // title
+      leading: FlatButton(
+          child: Icon(Icons.play_arrow), color: Colors.green, onPressed: () {}),
+      trailing: FlatButton(
+          onPressed: () {}, child: Text('Update'), color: Colors.blue),
       title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Text(task.name,
             style: const TextStyle(
@@ -93,12 +97,6 @@ class _HomePageState extends State<HomePage> {
       // category
       //subtitle: new Text("category"),//user.categories[task.categoryKey].name),
       subtitle: new Text('Description: ${task.description}'),
-      value: task.selected,
-      onChanged: (bool value) {
-        setState(() {
-          task.selected = value;
-        });
-      },
     ));
 
     // total time dedicated
@@ -115,20 +113,6 @@ class _HomePageState extends State<HomePage> {
         width: 20,
       ),
       Text("Dedicated: " + hours + " hours, " + minutes + " minutes.")
-    ]));
-    contents.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      FlatButton(onPressed: () {}, child: Text('Update')),
-      SizedBox(
-        width: 20,
-      ),
-      FlatButton(onPressed: () {}, child: Text('Delete')),
-      SizedBox(
-        width: 20,
-      ),
-      FlatButton(
-          onPressed: () {},
-          child: Container(
-              child: Row(children: [Text('Pomo!  '), Icon(Icons.play_arrow)]))),
     ]));
 
     return contents;
