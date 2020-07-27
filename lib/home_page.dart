@@ -83,7 +83,11 @@ class _HomePageState extends State<HomePage> {
     contents.add(ListTile(
       // title
       leading: FlatButton(
-          child: Icon(Icons.play_arrow), color: Colors.green, onPressed: () {}),
+          child: Icon(Icons.play_arrow),
+          color: Colors.green,
+          onPressed: () {
+            Navigator.pushNamed(context, 'timer', arguments: this.widget.user);
+          }),
       trailing: FlatButton(
           onPressed: () {}, child: Text('Update'), color: Colors.blue),
       title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
