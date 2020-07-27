@@ -12,6 +12,7 @@ class TimerPage extends StatefulWidget {
   _TimerPageState createState() => _TimerPageState();
 }
 
+//Code based on: https://www.youtube.com/watch?v=tRe8teyf9Nk&feature=youtu.be
 class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   AnimationController controller;
 
@@ -39,6 +40,16 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
             padding: EdgeInsets.all(8.0),
             child: Column(
               children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text('Task Name'),
+                    FlatButton(
+                        onPressed: () {},
+                        color: Colors.blue,
+                        child: Text("Skip to next"))
+                  ],
+                ),
                 Expanded(
                     child: Align(
                         alignment: FractionalOffset.center,
@@ -90,9 +101,11 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                           child: AnimatedBuilder(
                               animation: controller,
                               builder: (BuildContext context, Widget child) {
-                                return new Icon(controller.isAnimating
-                                    ? Icons.pause
-                                    : Icons.play_arrow);
+                                return new Row(children: [
+                                  Icon(Icons.play_arrow),
+                                  Text('/'),
+                                  Icon(Icons.pause)
+                                ]);
                               }),
                           onPressed: () {
                             if (controller.isAnimating) {
