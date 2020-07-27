@@ -13,8 +13,6 @@ class TimerPage extends StatefulWidget {
 }
 
 class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
-  //this.widget.user = ModalRoute.of(context).settings.arguments;
-  //User user = this.widget.user;
   AnimationController controller;
 
   String get timerString {
