@@ -13,11 +13,15 @@ class BuildDrawer extends StatelessWidget {
           icon: Icons.home,
           text: 'Home',
           onTap: () => Navigator.popAndPushNamed(context, '/')),
-      createDrawerItem(
+          createDrawerItem(
           icon: Icons.list,
           text: 'Tasks',
           onTap: () => Navigator.popAndPushNamed(context, 'tasks', arguments: user)),
-      createDrawerItem(
+          createDrawerItem(
+              icon: Icons.timer,
+              text: 'Timer',
+              onTap: () => Navigator.popAndPushNamed(context, 'timer', arguments: user)),
+          createDrawerItem(
           icon: Icons.settings,
           text: 'Settings',
           onTap: () => Navigator.popAndPushNamed(context, 'account', arguments: user)),
