@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
-import 'package:pomodoro/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Registration page

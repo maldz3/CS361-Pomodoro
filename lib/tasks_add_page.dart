@@ -1,142 +1,182 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
-import 'package:pomodoro/models/category.dart';
+import 'package:dropdown_formfield/dropdown_formfield.dart';
+import 'package:pomodoro/models/task_dto.dart';
 
-/*
-class TasksAddPage extends StatelessWidget {
-  final User user;
-  final BuildDrawer buildDrawer;
-  TasksAddPage(this.user, this.buildDrawer);
-
-
-  @override
-  Widget build(BuildContext context) {
-    final appTitle = 'Form Validation Demo';
-
-    return MaterialApp(
-      title: appTitle,
-      home: Scaffold(
-        appBar: CustomAppBar('Add a Task', user),
-        //drawer: buildDrawer,
-        body: TasksAddForm(user, buildDrawer),
-      ),
-    );
-  }
-}
-*/
-
+//New Task Entry form
 class TasksAddPage extends StatefulWidget {
   User user;
- 
-  @override
+
   _TasksAddPageState createState() => _TasksAddPageState();
 }
 
 class _TasksAddPageState extends State<TasksAddPage> {
-  final taskNameController = TextEditingController();
-  final taskDurationWorkController = TextEditingController();
-  final taskDurationBreakController = TextEditingController();
-  final taskGoalTimeController = TextEditingController();
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    taskNameController.dispose();
-    super.dispose();
-  }
-
-  String dropdownValue = 'Category';
-  List<Categories> categories;
+  final formKey = GlobalKey<FormState>();
+  TaskDTO newTask = TaskDTO();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('Add a Task', this.widget.user),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(children: [
-          TextFormField(
-                controller: taskNameController,
-                autofocus: false,
-                decoration: InputDecoration(
-                    labelText: 'Task Name',
-                    border: OutlineInputBorder()),
-              ),
-              SizedBox(height: 10),
-          TextFormField(
-                controller: taskDurationWorkController,
-                autofocus: false,
-                decoration: InputDecoration(
-                    labelText: 'Task Duration (Minutes)',
-                    border: OutlineInputBorder()),
-              ),
-              SizedBox(height: 10),
-          TextFormField(
-                controller: taskDurationBreakController,
-                autofocus: false,
-                decoration: InputDecoration(
-                    labelText: 'Break Duration (Minutes)',
-                    border: OutlineInputBorder()),
-              ),
-              SizedBox(height: 10),
-          TextFormField(
-                controller: taskGoalTimeController,
-                autofocus: false,
-                decoration: InputDecoration(
-                    labelText: 'Goal (Minutes)',
-                    border: OutlineInputBorder()),
-              ),
-              SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.only(left: 12),
-            alignment: Alignment.topLeft,
-            child: DropdownButton<String>(
-              value: dropdownValue,
-              icon: Icon(Icons.arrow_downward),
-              iconSize: 21,
-              elevation: 16,
-              style: TextStyle(color: Colors.grey[700]),
-              onChanged: (String newValue) {
-                setState(() {
-                  dropdownValue = newValue;
-                });
-              },
-              items: <String>['Category', 'School', 'Work', 'Exercise', 'Home', 'Family', 'Other']
-                .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                })
-                .toList(),
-            ),
-          )
+        appBar: CustomAppBar('Add a Task', this.widget.user),
+        body: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Form(
+                key: formKey,
+                child: SingleChildScrollView(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      TextFormField(
+                          autofocus: true,
+                          decoration: InputDecoration(
+                              labelText: 'Task Name',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.name = value;
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a task name';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      TextFormField(
+                          autofocus: true,
+                          decoration: InputDecoration(
+                              labelText: 'Description',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.description = value;
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a description';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      TextFormField(
+                          autofocus: true,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: InputDecoration(
+                              labelText: 'Task Duration (Minutes)',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.durationWork = int.tryParse(value);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a task duration';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      TextFormField(
+                          autofocus: true,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: InputDecoration(
+                              labelText: 'Break Duration (Minutes)',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.durationBreak = int.tryParse(value);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a break duration';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      TextFormField(
+                          autofocus: true,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: InputDecoration(
+                              labelText: 'Goal Time (Minutes)',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) {
+                            newTask.goalTime = int.tryParse(value);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a goal time';
+                            } else {
+                              return null;
+                            }
+                          }),
+                      DropDownFormField(
+                        titleText: 'Category',
+                        hintText: 'Please choose one',
+                        value: newTask.category,
+                        onSaved: (value) {
+                          setState(() {
+                            newTask.category = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select a category';
+                          } else {
+                            return null;
+                          }
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            newTask.category = value;
+                          });
+                        },
+                        dataSource: [
+                          {'display': 'School', 'value': 'School'},
+                          {'display': 'Work', 'value': 'Work'},
+                          {'display': 'Exercise', 'value': 'Exercise'},
+                          {'display': 'Home', 'value': 'Home'},
+                          {'display': 'Family', 'value': 'Family'},
+                          {'display': 'Other', 'value': 'Other'}
+                        ],
+                        textField: 'display',
+                        valueField: 'value',
+                      ),
+                      SizedBox(height: 20.0),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            RaisedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Cancel')),
+                            RaisedButton(
+                                color: Colors.red,
+                                onPressed: () async {
+                                  if (formKey.currentState.validate()) {
+                                    formKey.currentState.save();
+                                    this.widget.user = ModalRoute.of(context)
+                                        .settings
+                                        .arguments;
+                                    User user = this.widget.user;
+                                    Task addTask = Task(
+                                        name: newTask.name,
+                                        description: newTask.description,
+                                        durationWork: newTask.durationWork,
+                                        durationBreak: newTask.durationBreak,
+                                        goalTime: newTask.goalTime,
+                                        category: newTask.category);
 
-        ],)
-      ),
-      floatingActionButton: FloatingActionButton(
-        // When the user presses the button, show an alert dialog containing
-        // the text that the user has entered into the text field.
-        onPressed: submit,
-        tooltip: 'Submit',
-        child: Icon(Icons.save),
-      ),
-    );
-  }
-
-  void submit() {
-    this.widget.user = ModalRoute.of(context).settings.arguments;
-    User user = this.widget.user;
-    Task newTask = Task(name: taskNameController.text, category: dropdownValue);
-
-    user.tasks.add(newTask);
-
-    Navigator.of(context).pop();
-    // Navigator.popUntil(context, ModalRoute.withName('/'));
-    // Navigator.push(context, MaterialPageRoute(
-    //                   settings: RouteSettings(name: "/tasksPage"),
-    //                   builder: (context) => TasksPage(user, widget.buildDrawer)));
+                                    user.tasks.add(addTask);
+                                    Navigator.of(context).pop();
+                                  }
+                                },
+                                child: Text('SaveEntry'))
+                          ])
+                    ])))));
   }
 }
