@@ -13,7 +13,7 @@ class RootPage extends StatelessWidget {
     
     // Check user value to decide which page to show
     if (user != null) {
-      print(user.username);
+      
       return HomePage(user);
 
     } else {

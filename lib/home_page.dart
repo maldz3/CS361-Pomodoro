@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     User user = this.widget.user;
 
     return Scaffold(
-      appBar: CustomAppBar('Pomodoro Task List', user),
+      appBar: CustomAppBar("${user.username}'s Task List", user),
       drawer: BuildDrawer(user),
       body: Container(
         child: theTaskList(context),

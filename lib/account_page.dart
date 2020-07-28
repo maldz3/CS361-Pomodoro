@@ -4,313 +4,152 @@ import 'package:pomodoro/components/build_drawer.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'models/user.dart';
+import 'package:pomodoro/styles.dart';
 
 class AccountPage extends StatefulWidget {
   User user;
+
   @override
   _AccountPageState createState() => _AccountPageState();
 }
 
 class _AccountPageState extends State<AccountPage> {
+
+  final userKey = GlobalKey<FormState>();
+  final emailKey = GlobalKey<FormState>();
+
+  var userAutoValidate = false;
+  var emailAutoValidate = false;
+
   @override
   Widget build(BuildContext context) {
     this.widget.user = ModalRoute.of(context).settings.arguments;
-    User user = this.widget.user;
+    var username = this.widget.user.username;
+    var email = this.widget.user.email;
 
     return Scaffold(
-        appBar: CustomAppBar('Settings', user),
-        drawer: BuildDrawer(user),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            pageTitle(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                rowBuilder('Username: ', 'Email :', user, context),
-                FlatButton(
-                    child: Text('Change Password'),
-                    onPressed: () {
-                      changePassword(user, context);
-                    }),
-                FlatButton(
-                    color: Colors.red,
-                    textColor: Colors.white,
-                    splashColor: Colors.redAccent,
-                    child: Text('Remove Account Data'),
-                    onPressed: () {
-                      deleteData(context);
-                    })
-              ],
-            )
-          ],
-        ));
-  }
-
-  Widget pageTitle() {
-    return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text('Account Page',
-            style: TextStyle(fontSize: 25.0, height: 2.0)));
-  }
-
-  Widget rowBuilder(
-      String title1, String title2, User user, BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title1),
-            Padding(padding: EdgeInsets.all(8)),
-            Text(title2),
-          ]),
-      Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(user.username),
-            Padding(padding: EdgeInsets.all(8)),
-            Text(user.email),
-          ]),
-      Column(children: [
-        FlatButton(
-            color: Colors.blueGrey,
-            textColor: Colors.white,
-            splashColor: Colors.blueAccent,
-            padding: EdgeInsets.all(8.0),
-            child: Text('Update'),
-            onPressed: () {
-              changeName(user, context);
-            }),
-        FlatButton(
-            color: Colors.blueGrey,
-            textColor: Colors.white,
-            splashColor: Colors.blueAccent,
-            padding: EdgeInsets.all(8.0),
-            child: Text('Update'),
-            onPressed: () {
-              changeEmail(user, context);
-            })
-      ]),
-    ]);
-  }
-
-  void changeName(User user, BuildContext context) {
-    final myController = TextEditingController();
-
-    Navigator.push(context, MaterialPageRoute<void>(
-      builder: (BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(title: Text('Update Username')),
-          body: Center(
-              child: Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text('Please enter a new username: '),
-              Expanded(
-                  child: TextField(
-                      controller: myController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'New User Name')))
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              FlatButton(
-                color: Colors.blueGrey,
-                textColor: Colors.white,
-                splashColor: Colors.blueAccent,
-                padding: EdgeInsets.all(8.0),
-                child: Text('Don\'t Change'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+        appBar: CustomAppBar('Account Settings', widget.user),
+        drawer: BuildDrawer(widget.user),
+        body: Container(
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                color: Colors.blueGrey[200],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        smallHeader(context, 'User Name'),
+                        sortaBigText(context, '$username')
+                      ]
+                    ),
+                    Column(
+                      children: [
+                        smallHeader(context, 'Email'),
+                        sortaBigText(context, '$email')
+                      ],
+                    )
+                ]),
               ),
-              Padding(padding: EdgeInsets.all(8)),
-              FlatButton(
-                  color: Colors.blueGrey,
-                  textColor: Colors.white,
-                  splashColor: Colors.blueAccent,
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Save'),
-                  onPressed: () => setState(
-                        () {
-                          var newUserName = myController.text;
-                          if (newUserName != '') {
-                            user.changeName(newUserName);
-                            Navigator.pop(context);
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                      content:
-                                          Text('Username cannot be blank.'),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                            child: Text('Close'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            })
-                                      ]);
-                                });
-                          }
-                        },
-                      ))
-            ])
-          ])),
-        );
-      },
-    ));
-  }
-
-  void changeEmail(User user, BuildContext context) {
-    final User user = this.widget.user;
-
-    final myController = TextEditingController();
-
-    Navigator.push(context, MaterialPageRoute<void>(
-      builder: (BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(title: Text('Update Email')),
-          body: Center(
-              child: Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text('Please enter a new email: '),
-              Expanded(
-                  child: TextField(
-                      controller: myController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'New Email')))
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              FlatButton(
-                color: Colors.blueGrey,
-                textColor: Colors.white,
-                splashColor: Colors.blueAccent,
-                padding: EdgeInsets.all(8.0),
-                child: Text('Don\'t Change'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: FractionallySizedBox(
+                  widthFactor: .6,
+                  child: Form(
+                    key: userKey,
+                    autovalidate: userAutoValidate,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              labelText: "New Username", 
+                              border: OutlineInputBorder(),
+                              counterText: ""
+                            ),
+                            onSaved: (value) {
+                              setState(() {
+                                username = value;
+                              });
+                              this.widget.user.changeName(value);
+                              //store it
+                            },
+                            validator: (value) => value.isEmpty ? "Enter a new username" : null
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        RaisedButton(
+                          onPressed: () {
+                            if (userKey.currentState.validate()) {
+                              userKey.currentState.save();
+                            } else {
+                              setState(() {
+                                userAutoValidate = true;
+                              }); 
+                            }
+                          },
+                          child: Text('Update')
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              Padding(padding: EdgeInsets.all(8)),
-              FlatButton(
-                  color: Colors.blueGrey,
-                  textColor: Colors.white,
-                  splashColor: Colors.blueAccent,
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Save'),
-                  onPressed: () => setState(
-                        () {
-                          var newEmail = myController.text;
-                          if (EmailValidator.validate(newEmail)) {
-                            user.changeEmail(newEmail);
-                            Navigator.pop(context);
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                      content: Text('Invalid Email.'),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                            child: Text('Close'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            })
-                                      ]);
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: FractionallySizedBox(
+                  widthFactor: .6,
+                  child: Form(
+                    key: emailKey,
+                    autovalidate: emailAutoValidate,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            maxLength: 30,
+                              decoration: InputDecoration(
+                                labelText: "New Email", 
+                                border: OutlineInputBorder(),
+                                counterText: ""
+                              ),
+                              onSaved: (value) {
+                                setState(() {
+                                  email = value;
                                 });
-                          }
-                        },
-                      ))
-            ])
-          ])),
-        );
-      },
-    ));
-  }
-
-  void changePassword(User user, BuildContext context) {
-    final myController = TextEditingController();
-
-    Navigator.push(context, MaterialPageRoute<void>(
-      builder: (BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(title: Text('Change Password')),
-          body: Center(
-              child: Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text('Please enter a new password: '),
-              Expanded(
-                  child: TextField(
-                      controller: myController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'New Password')))
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              FlatButton(
-                color: Colors.blueGrey,
-                textColor: Colors.white,
-                splashColor: Colors.blueAccent,
-                padding: EdgeInsets.all(8.0),
-                child: Text('Don\'t Change'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                                this.widget.user.changeEmail(value);
+                                //store it
+                              },
+                              validator: (value) => !EmailValidator.validate(value) ? "Enter a valid email" : null
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          RaisedButton(
+                            onPressed: () {
+                              if (emailKey.currentState.validate()) {
+                                emailKey.currentState.save();
+                              } else {
+                                setState(() {
+                                  emailAutoValidate = true;
+                                }); 
+                              }
+                            },
+                            child: Text('Update')
+                          ),
+                      ],
+                    )
+                  ),
+                ),
               ),
-              Padding(padding: EdgeInsets.all(8)),
-              FlatButton(
-                  color: Colors.blueGrey,
-                  textColor: Colors.white,
-                  splashColor: Colors.blueAccent,
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Save'),
-                  onPressed: () => setState(
-                        () {
-                          var newPassword = myController.text;
-                          if (newPassword.length >= 6) {
-                            user.changePassword(newPassword);
-                            Navigator.pop(context);
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                      content: Text(
-                                          'Password must be at least 6 characters long.'),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                            child: Text('Close'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            })
-                                      ]);
-                                });
-                          }
-                        },
-                      ))
-            ])
-          ])),
-        );
-      },
-    ));
+            ]
+        ),
+      ),
+    );
   }
 
-  void deleteData(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute<void>(
-      builder: (BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(title: Text('Remove Account Data')),
-          body: Center(
-            child: FlatButton(
-              child: Text('Click here to return'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        );
-      },
-    ));
-  }
+
 }
