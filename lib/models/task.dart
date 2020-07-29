@@ -1,8 +1,10 @@
 import 'dart:developer'; // for debug printing with "log"
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class Tasks {
   DocumentReference _document;
+  var uuid = Uuid();
   final List<Task> _innerList = List<Task>();
 
   final categories = [
@@ -35,6 +37,11 @@ class Tasks {
 
   Future<void> add(Task taskToCopy) {
     Task task = Task.fromTask(taskToCopy);
+    if (task.id == 'null' || task.id == '' || task.id == null) {
+      String uniqueID = uuid.v1();
+      print('generated unique id: ' + uniqueID);
+      task.id = uniqueID; // apply a unique time based id to the task.
+  }
 
     // add task to inner list
     _innerList.add(task);
@@ -52,7 +59,7 @@ class Tasks {
     print(result.documentID);
     print(result.data['tasks'].toString());
     result.data['tasks'].forEach((key, value) {
-    log('adding task now with name: ' + key);
+    log('adding task now with key: ' + key);
     _innerList.add(Task.fromJson(key, value));
     });
     return _innerList;
@@ -60,6 +67,7 @@ class Tasks {
 }
 
 class Task {
+  String id;
   bool selected = false;
   String name = 'task name';
   String description;
@@ -70,7 +78,9 @@ class Task {
   String category = 'category';
 
   Task(
-      {String name,
+      {
+        String id,
+        String name,
         String description,
         int durationWork,
         int durationBreak,
@@ -78,6 +88,7 @@ class Task {
         int goalTime,
         String category}) {
     //
+    this.id = id;
     this.name = name.toString();
     this.description = description.toString();
     this.durationWork = durationWork;
@@ -88,6 +99,7 @@ class Task {
   }
 
   Task.fromTask(Task t) {
+    id = t.id.toString();
     name = t.name.toString();
     description = t.description.toString();
     durationWork = t.durationWork;
@@ -111,8 +123,8 @@ class Task {
 
   Task.fromJson(String key, Map<dynamic, dynamic> json) {
     log('creating task with json: ' + json.toString());
-    //name = json['name'];
-    name = key;
+    id = key;
+    name = json['name'];
     description = json['description'];
     durationWork = json['durationWork'];
     durationBreak = json['durationBreak'];
@@ -123,6 +135,7 @@ class Task {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
     data['description'] = this.description;
     data['durationWork'] = this.durationWork;
     data['durationBreak'] = this.durationBreak;
@@ -131,7 +144,7 @@ class Task {
     data['category'] = this.category;
 
     final Map<String, dynamic> theTask = new Map<String, dynamic>();
-    theTask[this.name] = data;
+    theTask[this.id] = data;
 
     return theTask;
   }

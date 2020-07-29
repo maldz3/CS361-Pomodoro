@@ -1,4 +1,5 @@
 class TaskDTO {
+  String id;
   String name;
   String description;
   int durationWork;
