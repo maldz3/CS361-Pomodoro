@@ -77,20 +77,19 @@ class _RegisterState extends State<Register> {
                   // Check validation
                   if (_formKey.currentState.validate()) {
                     dynamic result = await _auth.register(_username, _email, _password);
-                    
-                    // Store user in database
-                    Firestore db = Firestore.instance;                  
-                    await db.collection("users").document(result.uid).setData({
-                      "uid": result.uid,
-                      "username": _username,
-                      "email": _email
-                    });
-            
+
                     // Error catch
                     if (result.uid == null) {
                        setState(() => _error = "Registration error!");
                     } else {
                       //show registered dialogue
+                      // Store user in database
+                      Firestore db = Firestore.instance;                  
+                      await db.collection("users").document(result.uid).setData({
+                        "uid": result.uid,
+                        "username": _username,
+                        "email": _email
+                      });
                       
                       showDialog(
                         context: context,
