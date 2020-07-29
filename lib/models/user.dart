@@ -48,15 +48,28 @@ Future<void> query() async {
   }
 
   void changeName(String newName) {
+    // update in firebase
     UserUpdateInfo updateInfo = UserUpdateInfo();
     updateInfo.displayName = newName;
     firebaseUser.updateProfile(updateInfo);
     username = newName;
+    // update in firestore
+    dbUpdate("username", newName);
   }
 
   void changeEmail(String newEmail) {
     firebaseUser.updateEmail(newEmail);
     email = newEmail;
+    dbUpdate("email", newEmail);
+  }
+
+  void dbUpdate(String field, String fieldValue) async {
+    // Update passed in field in database
+    Firestore db = Firestore.instance;
+    await db.collection("users").document(this.uid).updateData({field: fieldValue})
+    .then((_) {
+      print("update success");
+    });
   }
 
   void changePassword(String newPassword) {
