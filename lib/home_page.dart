@@ -3,6 +3,7 @@ import 'package:pomodoro/components/build_drawer.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
+import 'package:pomodoro/tasks_add_page.dart';
 
 // Logged in page
 
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void addTask(User user) async {
-    await Navigator.pushNamed(context, 'addTask', arguments: user);
+    await Navigator.pushNamed(context, 'addTask', arguments: TaskAddPageArgs(user));
     setState(() => {});
   }
 }
@@ -120,7 +121,7 @@ class _TaskListViewState extends State<TaskListView> {
             Navigator.pushNamed(context, 'timer', arguments: this.widget.user);
           }),
       trailing: FlatButton(
-          onPressed: () {}, child: Text('Update'), color: Colors.blue),
+          onPressed: () {editTask(task);}, child: Text('Update'), color: Colors.blue),
       title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Text(task.name,
             style: const TextStyle(
@@ -151,5 +152,10 @@ class _TaskListViewState extends State<TaskListView> {
     ]));
 
     return contents;
+  }
+
+  void editTask(Task task) async {
+    await Navigator.pushNamed(context, 'addTask', arguments: TaskAddPageArgs(this.widget.user, task: task));
+    setState(() => {});
   }
 }

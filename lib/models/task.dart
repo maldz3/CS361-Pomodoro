@@ -5,7 +5,27 @@ class Tasks {
   DocumentReference _document;
   final List<Task> _innerList = List<Task>();
 
+  final categories = [
+    {'id': 'School', 'value': 'School'},
+    {'id': 'Work', 'value': 'Work'},
+    {'id': 'Exercise', 'value': 'Exercise'},
+    {'id': 'Home', 'value': 'Home'},
+    {'id': 'Family', 'value': 'Family'},
+    {'id': 'Other', 'value': 'Other'}
+  ];
+
   Tasks(DocumentReference document): _document = document;
+
+  int getCategoryIndex(String categoryName) {
+    print('looking for:');
+    print(categoryName);
+    for (int i = 0; i < categories.length; i++) {
+      print(categories[i]['value']);
+      if (categories[i]['value'] == categoryName)
+        return i;
+    }
+    return -1;
+  }
 
   int get length {
     return _innerList.length;
@@ -47,7 +67,6 @@ class Task {
   int durationBreak = 10;
   int totalTime = 0;
   int goalTime = 60;
-  String categoryKey = 'unset_task_category_key';
   String category = 'category';
 
   Task(
@@ -75,7 +94,6 @@ class Task {
     durationBreak = t.durationBreak;
     totalTime = t.totalTime;
     goalTime = t.goalTime;
-    categoryKey = t.categoryKey.toString();
     category = t.category.toString(); //
   }
 
@@ -100,7 +118,7 @@ class Task {
     durationBreak = json['durationBreak'];
     totalTime = json['totalTime'];
     goalTime = json['goalTime'];
-    categoryKey = json['categoryKey'];
+    category = json['category'];
   }
 
   Map<String, dynamic> toJson() {
@@ -110,7 +128,7 @@ class Task {
     data['durationBreak'] = this.durationBreak;
     data['totalTime'] = this.totalTime;
     data['goalTime'] = this.goalTime;
-    data['categoryKey'] = this.categoryKey;
+    data['category'] = this.category;
 
     final Map<String, dynamic> theTask = new Map<String, dynamic>();
     theTask[this.name] = data;

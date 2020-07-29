@@ -6,9 +6,18 @@ import 'package:pomodoro/models/task.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:pomodoro/models/task_dto.dart';
 
+class TaskAddPageArgs {
+  User user;
+  Task task;
+  TaskAddPageArgs(this.user, {Task task}): task = task;
+}
+
 //New Task Entry form
 class TasksAddPage extends StatefulWidget {
-  User user;
+//  User user;
+//  Task taskToEdit;
+//
+//  TasksAddPage(TaskAddPageArgs args): user = args.user, taskToEdit = args.task;
 
   _TasksAddPageState createState() => _TasksAddPageState();
 }
@@ -19,8 +28,17 @@ class _TasksAddPageState extends State<TasksAddPage> {
 
   @override
   Widget build(BuildContext context) {
+    TaskAddPageArgs args = ModalRoute.of(context).settings.arguments;
+    User user = args.user;
+    Task taskToEdit = args.task;
+
+    String title = 'Add a Task';
+    if (taskToEdit != null) {
+      title = 'Edit Task';
+      newTask.category = taskToEdit.category;
+    }
     return Scaffold(
-      appBar: CustomAppBar('Add a Task', this.widget.user),
+      appBar: CustomAppBar(title, user),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Form(
@@ -32,6 +50,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextFormField(
+                    initialValue: (taskToEdit == null)? null : taskToEdit.name,
                     autofocus: true,
                     decoration: InputDecoration(
                         labelText: 'Task Name',
@@ -49,6 +68,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   ),
                   SizedBox(height: 8),    
                   TextFormField(
+                      initialValue: (taskToEdit == null)? null : taskToEdit.description,
                     autofocus: true,
                     decoration: InputDecoration(
                       labelText: 'Description',
@@ -66,6 +86,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   ),
                   SizedBox(height: 8),
                   TextFormField(
+                      initialValue: (taskToEdit == null)? null : taskToEdit.durationWork.toString(),
                     autofocus: true,
                     inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly
@@ -87,6 +108,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   ),
                   SizedBox(height: 8),
                   TextFormField(
+                      initialValue: (taskToEdit == null)? null : taskToEdit.durationBreak.toString(),
                     autofocus: true,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly
@@ -107,6 +129,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   ),
                   SizedBox(height: 8),
                   TextFormField(
+                      initialValue: (taskToEdit == null)? null : taskToEdit.goalTime.toString(),
                     autofocus: true,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly
@@ -147,15 +170,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         newTask.category = value;
                       });
                     },
-                    dataSource: [
-                      {'display': 'School', 'value': 'School'},
-                      {'display': 'Work', 'value': 'Work'},
-                      {'display': 'Exercise', 'value': 'Exercise'},
-                      {'display': 'Home', 'value': 'Home'},
-                      {'display': 'Family', 'value': 'Family'},
-                      {'display': 'Other', 'value': 'Other'}
-                    ],
-                    textField: 'display',
+                    dataSource: user.tasks.categories,
+                    textField: 'id',
                     valueField: 'value',
                   ),
                   SizedBox(height: 20.0),
@@ -173,10 +189,6 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         onPressed: () async {
                           if (formKey.currentState.validate()) {
                             formKey.currentState.save();
-                            this.widget.user = ModalRoute.of(context)
-                                .settings
-                                .arguments;
-                            User user = this.widget.user;
                             Task addTask = Task(
                                 name: newTask.name,
                                 description: newTask.description,
