@@ -1,8 +1,11 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'dart:developer'; // for debug printing with "log"
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Tasks {
+  DocumentReference _document;
   final List<Task> _innerList = List<Task>();
+
+  Tasks(DocumentReference document): _document = document;
 
   int get length {
     return _innerList.length;
@@ -10,41 +13,34 @@ class Tasks {
 
   List<Task> get list => _innerList;
 
-  add(Task taskToCopy) {
+  Future<void> add(Task taskToCopy) {
     Task task = Task.fromTask(taskToCopy);
-    /*
-    // add task to database
-    DatabaseReference insertionRef = tasksRef.push();
-    insertionRef.set(task.toJson());
-    task.key = insertionRef.key;
-    */
+
     // add task to inner list
     _innerList.add(task);
+
+    // add task to database
+    return _document.setData({'tasks': task.toJson()}, merge: true);
   }
 
-  /*
-  retrieve() {
-    log('retrieving tasks...');
-    
-    tasksRef.once().then((DataSnapshot snapshot) {
-       Map<dynamic,dynamic> map = snapshot.value;
-       log('existing user tasks: ' + map.toString());
-       map.forEach((key, value) {
-         log('adding task now with name: ' + value['name']);
-         _innerList.add(Task.fromJson(key, value));
-         });
+  Future<List<Task>> retrieve() async {
+    // dump existing tasks
+    _innerList.clear();
+
+    // get new tasks (wasteful, but ok for this app in the sake of brevity)
+    var result = await _document.get();
+    print(result.documentID);
+    print(result.data['tasks'].toString());
+    result.data['tasks'].forEach((key, value) {
+    log('adding task now with name: ' + key);
+    _innerList.add(Task.fromJson(key, value));
     });
-  }
-  */
-
-  void fromSnapshot(DataSnapshot snapshot) {
-    // for every task in snapshot, create task and add to list
+    return _innerList;
   }
 }
 
 class Task {
   bool selected = false;
-  String key = 'unset_task_key';
   String name = 'task name';
   String description;
   int durationWork = 20;
@@ -56,12 +52,12 @@ class Task {
 
   Task(
       {String name,
-      String description,
-      int durationWork,
-      int durationBreak,
-      int totalTime = 0,
-      int goalTime,
-      String category}) {
+        String description,
+        int durationWork,
+        int durationBreak,
+        int totalTime = 0,
+        int goalTime,
+        String category}) {
     //
     this.name = name.toString();
     this.description = description.toString();
@@ -73,7 +69,6 @@ class Task {
   }
 
   Task.fromTask(Task t) {
-    key = t.key.toString();
     name = t.name.toString();
     description = t.description.toString();
     durationWork = t.durationWork;
@@ -96,20 +91,10 @@ class Task {
     durationBreak = newTime;
   }
 
-  Task.fromSnapshot(DataSnapshot snapshot)
-      : key = snapshot.key,
-        name = snapshot.value["name"],
-        description = snapshot.value["description"],
-        durationWork = snapshot.value["durationWork"],
-        durationBreak = snapshot.value["durationBreak"],
-        totalTime = snapshot.value["totalTime"],
-        goalTime = snapshot.value["goalTime"],
-        categoryKey = snapshot.value["categoryKey"];
-
   Task.fromJson(String key, Map<dynamic, dynamic> json) {
     log('creating task with json: ' + json.toString());
-    key = key;
-    name = json['name'];
+    //name = json['name'];
+    name = key;
     description = json['description'];
     durationWork = json['durationWork'];
     durationBreak = json['durationBreak'];
@@ -120,13 +105,16 @@ class Task {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
     data['description'] = this.description;
     data['durationWork'] = this.durationWork;
     data['durationBreak'] = this.durationBreak;
     data['totalTime'] = this.totalTime;
     data['goalTime'] = this.goalTime;
     data['categoryKey'] = this.categoryKey;
-    return data;
+
+    final Map<String, dynamic> theTask = new Map<String, dynamic>();
+    theTask[this.name] = data;
+
+    return theTask;
   }
 }

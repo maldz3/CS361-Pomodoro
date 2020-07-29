@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pomodoro/models/category.dart';
 import 'package:pomodoro/models/task.dart';
+import 'dart:developer'; // for debug printing with "log"
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
@@ -14,23 +15,23 @@ class User {
   Categories categories;
 
   User.fromFirebaseUser(FirebaseUser user) {
-    this.firebaseUser = user;
-    this.uid = user.uid;
-    this.username = user.displayName;
-    this.email = user.email;
-    this.level = 1;
-    this.tasks = Tasks();
+    firebaseUser = user;
+    uid = user.uid;
+    username = user.displayName;
+    email = user.email;
+    level = 1;
+    tasks = Tasks(Firestore.instance.collection("users").document(this.uid));
   }
 
 // Query db
-Future<void> query() async {
-  await Firestore.instance.collection("users").document(this.uid).get().then((result){
+  Future<void> query() async {
+  await Firestore.instance.collection("users").document(uid).get().then((result){
       print(result.data);
-      this.uid = result.data["uid"];
-      this.username = result.data["username"];
-      this.email = result.data["email"];
-      this.level = result.data["level"];
-      this.tasks = Tasks();
+      uid = result.data["uid"];
+      username = result.data["username"];
+      email = result.data["email"];
+      level = result.data["level"];
+      tasks = Tasks(Firestore.instance.collection("users").document(this.uid));
       print("user stuff is set");
     });
 }
@@ -62,37 +63,4 @@ Future<void> query() async {
   void changePassword(String newPassword) {
     firebaseUser.updatePassword(newPassword);
   }
-
-  //OLD DB CODE
-  /*
-  void logout() async {
-    // I have no idea if this even works.
-    if (database != null)
-      await FirebaseDatabase.instance.goOffline();
-    database = null;
-    firebaseApp = null;    
-  }
-
-  asyncSetupShit() async {
-    await connectFirebase();
-    tasks = Tasks(database, uid);
-    categories = Categories(database, uid);
-    print('tasks was instantiated');
-  }
-
-  Future<void> connectFirebase() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    int randomToken = Random().nextInt(999999999);
-    print("connecting to database with client id: " + uid + " and token " + randomToken.toString());
-    firebaseApp = await FirebaseApp.configure(
-        name: 'cs361-pomodoro-' + randomToken.toString(), // just made this up, AFAIK it just needs to be unique in case multiple apps are loaded.
-        options: FirebaseOptions(
-          clientID: uid,
-          googleAppID: '1:439905512526:web:2e6e541c5b4b0c2170a71f',
-          apiKey: 'AIzaSyCdc1uMGly7a7zJ_l2v8vM2cibnhpCu8bU',
-          databaseURL: 'https://cs361-pomodoro.firebaseio.com',
-        ));
-    database = FirebaseDatabase(app: firebaseApp);
-  }
-  */
 }
