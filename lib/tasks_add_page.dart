@@ -24,7 +24,7 @@ class TasksAddPage extends StatefulWidget {
 
 class _TasksAddPageState extends State<TasksAddPage> {
   final formKey = GlobalKey<FormState>();
-  TaskDTO newTask = TaskDTO();
+  TaskDTO taskInfo = TaskDTO();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
     String title = 'Add a Task';
     if (taskToEdit != null) {
       title = 'Edit Task';
-      newTask.category = taskToEdit.category;
+      taskInfo.category = taskToEdit.category;
+      taskInfo.id = taskToEdit.id;
     }
     return Scaffold(
       appBar: CustomAppBar(title, user),
@@ -56,7 +57,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         labelText: 'Task Name',
                         border: OutlineInputBorder()),
                     onSaved: (value) {
-                      newTask.name = value;
+                      taskInfo.name = value;
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -74,7 +75,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                       labelText: 'Description',
                       border: OutlineInputBorder()),
                     onSaved: (value) {
-                      newTask.description = value;
+                      taskInfo.description = value;
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -96,7 +97,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                       border: OutlineInputBorder()
                     ),
                     onSaved: (value) {
-                      newTask.durationWork = int.tryParse(value);
+                      taskInfo.durationWork = int.tryParse(value);
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -117,7 +118,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         labelText: 'Break Duration (Minutes)',
                         border: OutlineInputBorder()),
                     onSaved: (value) {
-                      newTask.durationBreak = int.tryParse(value);
+                      taskInfo.durationBreak = int.tryParse(value);
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -138,7 +139,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         labelText: 'Goal Time (Minutes)',
                         border: OutlineInputBorder()),
                     onSaved: (value) {
-                      newTask.goalTime = int.tryParse(value);
+                      taskInfo.goalTime = int.tryParse(value);
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -152,10 +153,10 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   DropDownFormField(
                     titleText: 'Category',
                     hintText: 'Please choose one',
-                    value: newTask.category,
+                    value: taskInfo.category,
                     onSaved: (value) {
                       setState(() {
-                        newTask.category = value;
+                        taskInfo.category = value;
                       });
                     },
                     validator: (value) {
@@ -167,7 +168,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                     },
                     onChanged: (value) {
                       setState(() {
-                        newTask.category = value;
+                        taskInfo.category = value;
                       });
                     },
                     dataSource: user.tasks.categories,
@@ -189,15 +190,16 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         onPressed: () async {
                           if (formKey.currentState.validate()) {
                             formKey.currentState.save();
-                            Task addTask = Task(
-                                name: newTask.name,
-                                description: newTask.description,
-                                durationWork: newTask.durationWork,
-                                durationBreak: newTask.durationBreak,
-                                goalTime: newTask.goalTime,
-                                category: newTask.category);
+                            Task newTask = Task(
+                                id: taskInfo.id,
+                                name: taskInfo.name,
+                                description: taskInfo.description,
+                                durationWork: taskInfo.durationWork,
+                                durationBreak: taskInfo.durationBreak,
+                                goalTime: taskInfo.goalTime,
+                                category: taskInfo.category);
 
-                            user.tasks.add(addTask);
+                            user.tasks.add(newTask);
                             Navigator.of(context).pop();
                           }
                         },

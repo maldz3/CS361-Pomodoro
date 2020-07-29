@@ -1,5 +1,6 @@
 import 'dart:developer'; // for debug printing with "log"
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class Tasks {
@@ -8,25 +9,23 @@ class Tasks {
   final List<Task> _innerList = List<Task>();
 
   final categories = [
-    {'id': 'School', 'value': 'School'},
-    {'id': 'Work', 'value': 'Work'},
-    {'id': 'Exercise', 'value': 'Exercise'},
-    {'id': 'Home', 'value': 'Home'},
-    {'id': 'Family', 'value': 'Family'},
-    {'id': 'Other', 'value': 'Other'}
+    {'id': 'School', 'value': 'School', 'color': Colors.black12},
+    {'id': 'Work', 'value': 'Work', 'color': Colors.deepOrangeAccent},
+    {'id': 'Exercise', 'value': 'Exercise', 'color': Colors.blueAccent},
+    {'id': 'Home', 'value': 'Home', 'color': Colors.yellowAccent},
+    {'id': 'Family', 'value': 'Family', 'color': Colors.deepPurple},
+    {'id': 'Other', 'value': 'Other', 'color': Colors.green},
   ];
 
   Tasks(DocumentReference document): _document = document;
 
-  int getCategoryIndex(String categoryName) {
-    print('looking for:');
+  Map<String, dynamic> getCategory(String categoryName) {
     print(categoryName);
     for (int i = 0; i < categories.length; i++) {
-      print(categories[i]['value']);
       if (categories[i]['value'] == categoryName)
-        return i;
+        return categories[i];
     }
-    return -1;
+    return categories[0]; // for lack of a better idea.
   }
 
   int get length {

@@ -80,7 +80,10 @@ class _TaskListViewState extends State<TaskListView> {
     // determine desired sort method here, then build list according to desires
 
     // sort alphabetical.
-    uTasks.sort((a, b) => a.name.compareTo(b.name));
+    uTasks.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+    // sort categorical
+    // uTasks.sort((a, b) => a.category.toLowerCase().compareTo(b.category.toLowerCase()));
 
     for (Task task in uTasks) {
       taskList.add(buildTaskCard(task));
@@ -89,23 +92,16 @@ class _TaskListViewState extends State<TaskListView> {
     return ListView(children: taskList);
   }
 
-  int toggler = 0;
-  final List<Color> clrs = [Colors.blue, Colors.white];
+
   Widget buildTaskCard(Task task) {
-    toggler = 1 - toggler;
     return Container(
-      decoration: taskDecoration(clrs[toggler]),
+      decoration: BoxDecoration(
+          color: this.widget.user.tasks.getCategory(task.category)['color']),
       child: Card(
         child: Column(
           children: taskContents(task),
         ),
       ),
-    );
-  }
-
-  BoxDecoration taskDecoration(Color color) {
-    return BoxDecoration(
-      color: clrs[toggler],
     );
   }
 
@@ -121,7 +117,7 @@ class _TaskListViewState extends State<TaskListView> {
             Navigator.pushNamed(context, 'timer', arguments: this.widget.user);
           }),
       trailing: FlatButton(
-          onPressed: () {editTask(task);}, child: Text('Update'), color: Colors.blue),
+          onPressed: () {editTask(task);}, child: Text('Update'), color: this.widget.user.tasks.getCategory(task.category)['color']),
       title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Text(task.name,
             style: const TextStyle(
