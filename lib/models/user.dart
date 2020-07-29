@@ -51,16 +51,26 @@ Future<void> query() async {
     // update in firebase
     UserUpdateInfo updateInfo = UserUpdateInfo();
     updateInfo.displayName = newName;
-    firebaseUser.updateProfile(updateInfo);
-    username = newName;
-    // update in firestore
-    dbUpdate("username", newName);
+    firebaseUser.updateProfile(updateInfo).then((_) {
+      // update object and db on success
+      username = newName;
+      dbUpdate("username", newName);
+    // error catcher
+    }).catchError((err) {
+      print(err);
+    });
   }
 
   void changeEmail(String newEmail) {
-    firebaseUser.updateEmail(newEmail);
-    email = newEmail;
-    dbUpdate("email", newEmail);
+    // update in firebase
+    firebaseUser.updateEmail(newEmail).then((_) {
+      // update object and db on success
+      email = newEmail;
+      dbUpdate("email", newEmail);
+    // error catcher
+    }).catchError((err) {
+      print(err);
+    });
   }
 
   void dbUpdate(String field, String fieldValue) async {
