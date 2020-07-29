@@ -62,7 +62,7 @@ class _LogInState extends State<LogIn> {
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           dynamic result = await _auth.signIn(_email, _password);
-                          if (result.uid == null) {
+                          if (result == null) {
                             setState(() => _error = "Invalid credentials");
                           }
                         }
