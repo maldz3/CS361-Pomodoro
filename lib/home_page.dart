@@ -60,7 +60,11 @@ class _TaskListViewState extends State<TaskListView> {
           if (snapshot.hasData) {
             print('done getting data');
             return snapshot.data;
-          } else {
+          }
+          else if (snapshot.connectionState == ConnectionState.done) {
+            return ListView(children: [Center(child: Text("Please add a task."))],);
+          }
+          else {
             return Center(child:CircularProgressIndicator());
           }
         }
