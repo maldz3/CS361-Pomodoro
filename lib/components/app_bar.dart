@@ -3,6 +3,7 @@ import 'package:pomodoro/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pomodoro/models/user.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -21,6 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () async {
                 await _auth.signOut();
                 Navigator.popUntil(context, ModalRoute.withName('/'));
+                Phoenix.rebirth(context);
               })
         ]);
   }
