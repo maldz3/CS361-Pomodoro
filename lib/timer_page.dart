@@ -5,7 +5,6 @@ import 'package:pomodoro/components/build_drawer.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
-import 'package:pomodoro/tasks_add_page.dart';
 
 class TimerPage extends StatefulWidget {
   User user;
@@ -45,90 +44,86 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         drawer: BuildDrawer(user),
         body: Padding(
             padding: EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text('${task.name}'),
-                    /*FlatButton(
-                        onPressed: () {},
-                        color: Colors.blue,
-                        child: Text("Skip to next"))*/
-                  ],
-                ),
-                Expanded(
-                    child: Align(
-                        alignment: FractionalOffset.center,
-                        child: AspectRatio(
-                            aspectRatio: 1.0,
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned.fill(
-                                    child: AnimatedBuilder(
-                                        animation: controller,
-                                        builder: (BuildContext context,
-                                            Widget child) {
-                                          return CustomPaint(
-                                              painter: TimerPainter(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text('${task.name}', style: TextStyle(fontSize: 60)),
+                  Column(children: <Widget>[
+                    Expanded(
+                        child: Align(
+                            alignment: FractionalOffset.center,
+                            child: AspectRatio(
+                                aspectRatio: 1.0,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Positioned.fill(
+                                        child: AnimatedBuilder(
                                             animation: controller,
-                                            backgroundColor: Colors.blue,
-                                            color: Colors.yellowAccent,
-                                          ));
-                                        })),
-                                Align(
-                                  alignment: FractionalOffset.center,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text('Time Remaining',
-                                          style: TextStyle(fontSize: 18)),
-                                      AnimatedBuilder(
-                                          animation: controller,
-                                          builder: (BuildContext context,
-                                              Widget child) {
-                                            return Text(timerString,
-                                                style:
-                                                    TextStyle(fontSize: 100));
-                                          })
-                                    ],
-                                  ),
-                                )
-                              ],
-                            )))),
-                Container(
-                    margin: EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        FloatingActionButton(
-                          child: AnimatedBuilder(
-                              animation: controller,
-                              builder: (BuildContext context, Widget child) {
-                                return new Row(children: [
-                                  Icon(Icons.play_arrow),
-                                  Text('/'),
-                                  Icon(Icons.pause)
-                                ]);
-                              }),
-                          onPressed: () {
-                            if (controller.isAnimating) {
-                              controller.stop();
-                            } else {
-                              controller.reverse(
-                                  from: controller.value == 0.0
-                                      ? 1.0
-                                      : controller.value);
-                            }
-                          },
-                        )
-                      ],
-                    ))
-              ],
-            )));
+                                            builder: (BuildContext context,
+                                                Widget child) {
+                                              return CustomPaint(
+                                                  painter: TimerPainter(
+                                                animation: controller,
+                                                backgroundColor: Colors.blue,
+                                                color: Colors.yellowAccent,
+                                              ));
+                                            })),
+                                    Align(
+                                      alignment: FractionalOffset.center,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text('Time Remaining',
+                                              style: TextStyle(fontSize: 18)),
+                                          AnimatedBuilder(
+                                              animation: controller,
+                                              builder: (BuildContext context,
+                                                  Widget child) {
+                                                return Text(timerString,
+                                                    style: TextStyle(
+                                                        fontSize: 100));
+                                              })
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )))),
+                    Container(
+                        margin: EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            FloatingActionButton(
+                              child: AnimatedBuilder(
+                                  animation: controller,
+                                  builder:
+                                      (BuildContext context, Widget child) {
+                                    return new Row(children: [
+                                      Icon(Icons.play_arrow),
+                                      Text('/'),
+                                      Icon(Icons.pause)
+                                    ]);
+                                  }),
+                              onPressed: () {
+                                if (controller.isAnimating) {
+                                  controller.stop();
+                                } else {
+                                  controller.reverse(
+                                      from: controller.value == 0.0
+                                          ? 1.0
+                                          : controller.value);
+                                }
+                              },
+                            )
+                          ],
+                        ))
+                  ]),
+                  SizedBox(width: 20),
+                  Text('Placeholder'),
+                ])));
   }
 }
 
