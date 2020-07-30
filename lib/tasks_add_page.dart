@@ -220,8 +220,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                                           category: taskInfo.category);
 
                                       await user.tasks.add(newTask);
-                                      Navigator.of(context)
-                                          .popAndPushNamed('/');
+                                      Navigator.of(context).pop();
                                     }
                                   },
                                   child: Text('SaveEntry'))
