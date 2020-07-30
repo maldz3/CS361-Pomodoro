@@ -53,10 +53,19 @@ class TaskListView extends StatefulWidget {
 }
 
 class _TaskListViewState extends State<TaskListView> {
+  Future<ListView> taskList;
+  
+  @override
+  void initState() {
+    super.initState();
+
+    taskList = theTaskList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<ListView>(
-        future: theTaskList(),
+        future: taskList,
         builder: (context, AsyncSnapshot<ListView> snapshot) {
           if (snapshot.hasData) {
             print('done getting data');
