@@ -199,7 +199,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                                 goalTime: taskInfo.goalTime,
                                 category: taskInfo.category);
 
-                            user.tasks.add(newTask);
+                            await user.tasks.add(newTask);
                             Navigator.of(context).pop();
                           }
                         },
