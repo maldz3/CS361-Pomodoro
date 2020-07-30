@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 class Tasks {
   DocumentReference _document;
   var uuid = Uuid();
-  final List<Task> _innerList = List<Task>();
+  List<Task> _innerList = List<Task>();
 
   final categories = [
     {'id': 'School', 'value': 'School', 'color': Colors.black12},
@@ -50,8 +50,7 @@ class Tasks {
   }
 
   Future<List<Task>> retrieve() async {
-    // dump existing tasks
-    _innerList.clear();
+    final newList = List<Task>();
 
     // get new tasks (wasteful, but ok for this app in the sake of brevity)
     var result = await _document.get();
@@ -59,8 +58,9 @@ class Tasks {
     print(result.data['tasks'].toString());
     result.data['tasks'].forEach((key, value) {
     log('adding task now with key: ' + key);
-    _innerList.add(Task.fromJson(key, value));
+    newList.add(Task.fromJson(key, value));
     });
+    _innerList = newList;
     return _innerList;
   }
 }
