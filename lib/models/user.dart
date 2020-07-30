@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pomodoro/models/category.dart';
 import 'package:pomodoro/models/task.dart';
-import 'dart:developer'; // for debug printing with "log"
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
