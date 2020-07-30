@@ -4,6 +4,7 @@ import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
 import 'package:pomodoro/tasks_add_page.dart';
+import 'package:pomodoro/timer_page.dart';
 
 // Logged in page
 
@@ -38,7 +39,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void addTask(User user) async {
-    await Navigator.pushNamed(context, 'addTask', arguments: TaskAddPageArgs(user));
+    await Navigator.pushNamed(context, 'addTask',
+        arguments: TaskAddPageArgs(user));
     setState(() => {});
   }
 }
@@ -54,7 +56,7 @@ class TaskListView extends StatefulWidget {
 
 class _TaskListViewState extends State<TaskListView> {
   Future<ListView> taskList;
-  
+
   @override
   void initState() {
     super.initState();
@@ -70,15 +72,14 @@ class _TaskListViewState extends State<TaskListView> {
           if (snapshot.hasData) {
             print('done getting data');
             return snapshot.data;
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            return ListView(
+              children: [Center(child: Text("Please add a task."))],
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
           }
-          else if (snapshot.connectionState == ConnectionState.done) {
-            return ListView(children: [Center(child: Text("Please add a task."))],);
-          }
-          else {
-            return Center(child:CircularProgressIndicator());
-          }
-        }
-    );
+        });
   }
 
   Future<ListView> theTaskList() async {
@@ -101,7 +102,6 @@ class _TaskListViewState extends State<TaskListView> {
     return ListView(children: taskList);
   }
 
-
   Widget buildTaskCard(Task task) {
     return Container(
       decoration: BoxDecoration(
@@ -123,10 +123,16 @@ class _TaskListViewState extends State<TaskListView> {
           child: Icon(Icons.play_arrow),
           color: Colors.green,
           onPressed: () {
-            Navigator.pushNamed(context, 'timer', arguments: this.widget.user);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    TimerPage(user: this.widget.user, task: task)));
           }),
       trailing: FlatButton(
-          onPressed: () {editTask(task);}, child: Text('Update'), color: this.widget.user.tasks.getCategory(task.category)['color']),
+          onPressed: () {
+            editTask(task);
+          },
+          child: Text('Update'),
+          color: this.widget.user.tasks.getCategory(task.category)['color']),
       title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Text(task.name,
             style: const TextStyle(
@@ -160,7 +166,8 @@ class _TaskListViewState extends State<TaskListView> {
   }
 
   void editTask(Task task) async {
-    await Navigator.pushNamed(context, 'addTask', arguments: TaskAddPageArgs(this.widget.user, task: task));
+    await Navigator.pushNamed(context, 'addTask',
+        arguments: TaskAddPageArgs(this.widget.user, task: task));
     setState(() => {});
   }
 }
