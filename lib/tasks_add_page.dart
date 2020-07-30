@@ -24,20 +24,41 @@ class TasksAddPage extends StatefulWidget {
 
 class _TasksAddPageState extends State<TasksAddPage> {
   final formKey = GlobalKey<FormState>();
+  String title = 'Edit a Task';
   TaskDTO taskInfo = TaskDTO();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // couldn't do the taskinfo setting here because not
+    // allowed to do the ModalRoute.of here for fuck sake.
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    TaskAddPageArgs args = ModalRoute.of(context).settings.arguments;
+    Task taskToEdit = args.task;
+
+    if (taskToEdit != null) {
+      title = 'Edit Task';
+      taskInfo.category = taskToEdit.category;
+      taskInfo.id = taskToEdit.id;
+      taskInfo.goalTime = taskToEdit.goalTime;
+      taskInfo.durationBreak = taskToEdit.durationBreak;
+      taskInfo.durationWork = taskToEdit.durationWork;
+      taskInfo.description = taskToEdit.description;
+      taskInfo.name = taskToEdit.name;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     TaskAddPageArgs args = ModalRoute.of(context).settings.arguments;
     User user = args.user;
-    Task taskToEdit = args.task;
 
-    String title = 'Add a Task';
-    if (taskToEdit != null) {
-      title = 'Edit Task';
-      taskInfo.category = taskToEdit.category;
-      taskInfo.id = taskToEdit.id;
-    }
     return Scaffold(
       appBar: CustomAppBar(title, user),
       body: Padding(
@@ -51,7 +72,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextFormField(
-                    initialValue: (taskToEdit == null)? null : taskToEdit.name,
+                    initialValue: taskInfo.name,
                     autofocus: true,
                     decoration: InputDecoration(
                         labelText: 'Task Name',
@@ -69,7 +90,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   ),
                   SizedBox(height: 8),    
                   TextFormField(
-                      initialValue: (taskToEdit == null)? null : taskToEdit.description,
+                      initialValue: taskInfo.description,
                     autofocus: true,
                     decoration: InputDecoration(
                       labelText: 'Description',
@@ -87,7 +108,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   ),
                   SizedBox(height: 8),
                   TextFormField(
-                      initialValue: (taskToEdit == null)? null : taskToEdit.durationWork.toString(),
+                      initialValue: (taskInfo.durationWork == null)? null : taskInfo.durationWork.toString(),
                     autofocus: true,
                     inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly
@@ -109,7 +130,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   ),
                   SizedBox(height: 8),
                   TextFormField(
-                      initialValue: (taskToEdit == null)? null : taskToEdit.durationBreak.toString(),
+                      initialValue: (taskInfo.durationBreak == null)? null : taskInfo.durationBreak.toString(),
                     autofocus: true,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly
@@ -130,7 +151,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                   ),
                   SizedBox(height: 8),
                   TextFormField(
-                      initialValue: (taskToEdit == null)? null : taskToEdit.goalTime.toString(),
+                      initialValue: (taskInfo.goalTime == null)? null : taskInfo.goalTime.toString(),
                     autofocus: true,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly
