@@ -3,6 +3,7 @@ import 'package:pomodoro/components/build_drawer.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
 import 'package:pomodoro/models/task.dart';
+import 'package:pomodoro/tasks_add_page.dart';
 
 // Logged in page
 
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
       appBar: CustomAppBar("${user.username}'s Task List", user),
       drawer: BuildDrawer(user),
       body: Container(
-        child: theTaskList(context),
+        child: TaskListView(user),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -37,43 +38,70 @@ class _HomePageState extends State<HomePage> {
   }
 
   void addTask(User user) async {
-    await Navigator.pushNamed(context, 'addTask', arguments: user);
+    await Navigator.pushNamed(context, 'addTask', arguments: TaskAddPageArgs(user));
     setState(() => {});
   }
+}
 
-  ListView theTaskList(BuildContext context) {
-    final User user = this.widget.user;
+class TaskListView extends StatefulWidget {
+  final User user;
+
+  TaskListView(this.user);
+
+  @override
+  _TaskListViewState createState() => _TaskListViewState();
+}
+
+class _TaskListViewState extends State<TaskListView> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<ListView>(
+        future: theTaskList(),
+        builder: (context, AsyncSnapshot<ListView> snapshot) {
+          if (snapshot.hasData) {
+            print('done getting data');
+            return snapshot.data;
+          }
+          else if (snapshot.connectionState == ConnectionState.done) {
+            return ListView(children: [Center(child: Text("Please add a task."))],);
+          }
+          else {
+            return Center(child:CircularProgressIndicator());
+          }
+        }
+    );
+  }
+
+  Future<ListView> theTaskList() async {
     final taskList = List<Widget>();
+    final User user = this.widget.user;
+    List<Task> uTasks = await user.tasks.retrieve();
 
     // determine desired sort method here, then build list according to desires
 
-    // destructive sort alphabetical.
-    user.tasks.list.sort((a, b) => a.name.compareTo(b.name));
+    // sort alphabetical.
+    uTasks.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
-    for (Task task in user.tasks.list) {
-      taskList.add(buildTaskCard(context, task));
+    // sort categorical
+    // uTasks.sort((a, b) => a.category.toLowerCase().compareTo(b.category.toLowerCase()));
+
+    for (Task task in uTasks) {
+      taskList.add(buildTaskCard(task));
     }
 
     return ListView(children: taskList);
   }
 
-  int toggler = 0;
-  final List<Color> clrs = [Colors.blue, Colors.white];
-  Widget buildTaskCard(BuildContext context, Task task) {
-    toggler = 1 - toggler;
+
+  Widget buildTaskCard(Task task) {
     return Container(
-      decoration: taskDecoration(clrs[toggler]),
+      decoration: BoxDecoration(
+          color: this.widget.user.tasks.getCategory(task.category)['color']),
       child: Card(
         child: Column(
           children: taskContents(task),
         ),
       ),
-    );
-  }
-
-  BoxDecoration taskDecoration(Color color) {
-    return BoxDecoration(
-      color: clrs[toggler],
     );
   }
 
@@ -89,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.pushNamed(context, 'timer', arguments: this.widget.user);
           }),
       trailing: FlatButton(
-          onPressed: () {}, child: Text('Update'), color: Colors.blue),
+          onPressed: () {editTask(task);}, child: Text('Update'), color: this.widget.user.tasks.getCategory(task.category)['color']),
       title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Text(task.name,
             style: const TextStyle(
@@ -107,9 +135,9 @@ class _HomePageState extends State<HomePage> {
     String hours = (task.totalTime ~/ 60).toString();
     String minutes = (task.totalTime % 60).toString();
     contents.add(Row(children: [
-      Text('Set Work Time: ${task.durationWork}'),
+      Text('Work Time: ${task.durationWork}'),
       SizedBox(width: 15),
-      Text('Set Break Time: ${task.durationBreak}')
+      Text('Break Time: ${task.durationBreak}')
     ]));
     contents.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Text('Goal: ${task.goalTime}'),
@@ -120,5 +148,10 @@ class _HomePageState extends State<HomePage> {
     ]));
 
     return contents;
+  }
+
+  void editTask(Task task) async {
+    await Navigator.pushNamed(context, 'addTask', arguments: TaskAddPageArgs(this.widget.user, task: task));
+    setState(() => {});
   }
 }

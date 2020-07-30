@@ -1,8 +1,32 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'dart:developer'; // for debug printing with "log"
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class Tasks {
+  DocumentReference _document;
+  var uuid = Uuid();
   final List<Task> _innerList = List<Task>();
+
+  final categories = [
+    {'id': 'School', 'value': 'School', 'color': Colors.black12},
+    {'id': 'Work', 'value': 'Work', 'color': Colors.deepOrangeAccent},
+    {'id': 'Exercise', 'value': 'Exercise', 'color': Colors.blueAccent},
+    {'id': 'Home', 'value': 'Home', 'color': Colors.yellowAccent},
+    {'id': 'Family', 'value': 'Family', 'color': Colors.deepPurple},
+    {'id': 'Other', 'value': 'Other', 'color': Colors.green},
+  ];
+
+  Tasks(DocumentReference document): _document = document;
+
+  Map<String, dynamic> getCategory(String categoryName) {
+    print(categoryName);
+    for (int i = 0; i < categories.length; i++) {
+      if (categories[i]['value'] == categoryName)
+        return categories[i];
+    }
+    return categories[0]; // for lack of a better idea.
+  }
 
   int get length {
     return _innerList.length;
@@ -10,59 +34,60 @@ class Tasks {
 
   List<Task> get list => _innerList;
 
-  add(Task taskToCopy) {
+  Future<void> add(Task taskToCopy) {
     Task task = Task.fromTask(taskToCopy);
-    /*
-    // add task to database
-    DatabaseReference insertionRef = tasksRef.push();
-    insertionRef.set(task.toJson());
-    task.key = insertionRef.key;
-    */
+    if (task.id == 'null' || task.id == '' || task.id == null) {
+      String uniqueID = uuid.v1();
+      print('generated unique id: ' + uniqueID);
+      task.id = uniqueID; // apply a unique time based id to the task.
+  }
+
     // add task to inner list
     _innerList.add(task);
+
+    // add task to database
+    return _document.setData({'tasks': task.toJson()}, merge: true);
   }
 
-  /*
-  retrieve() {
-    log('retrieving tasks...');
-    
-    tasksRef.once().then((DataSnapshot snapshot) {
-       Map<dynamic,dynamic> map = snapshot.value;
-       log('existing user tasks: ' + map.toString());
-       map.forEach((key, value) {
-         log('adding task now with name: ' + value['name']);
-         _innerList.add(Task.fromJson(key, value));
-         });
+  Future<List<Task>> retrieve() async {
+    // dump existing tasks
+    _innerList.clear();
+
+    // get new tasks (wasteful, but ok for this app in the sake of brevity)
+    var result = await _document.get();
+    print(result.documentID);
+    print(result.data['tasks'].toString());
+    result.data['tasks'].forEach((key, value) {
+    log('adding task now with key: ' + key);
+    _innerList.add(Task.fromJson(key, value));
     });
-  }
-  */
-
-  void fromSnapshot(DataSnapshot snapshot) {
-    // for every task in snapshot, create task and add to list
+    return _innerList;
   }
 }
 
 class Task {
+  String id;
   bool selected = false;
-  String key = 'unset_task_key';
   String name = 'task name';
   String description;
   int durationWork = 20;
   int durationBreak = 10;
   int totalTime = 0;
   int goalTime = 60;
-  String categoryKey = 'unset_task_category_key';
   String category = 'category';
 
   Task(
-      {String name,
-      String description,
-      int durationWork,
-      int durationBreak,
-      int totalTime = 0,
-      int goalTime,
-      String category}) {
+      {
+        String id,
+        String name,
+        String description,
+        int durationWork,
+        int durationBreak,
+        int totalTime = 0,
+        int goalTime,
+        String category}) {
     //
+    this.id = id;
     this.name = name.toString();
     this.description = description.toString();
     this.durationWork = durationWork;
@@ -73,14 +98,13 @@ class Task {
   }
 
   Task.fromTask(Task t) {
-    key = t.key.toString();
+    id = t.id.toString();
     name = t.name.toString();
     description = t.description.toString();
     durationWork = t.durationWork;
     durationBreak = t.durationBreak;
     totalTime = t.totalTime;
     goalTime = t.goalTime;
-    categoryKey = t.categoryKey.toString();
     category = t.category.toString(); //
   }
 
@@ -96,26 +120,16 @@ class Task {
     durationBreak = newTime;
   }
 
-  Task.fromSnapshot(DataSnapshot snapshot)
-      : key = snapshot.key,
-        name = snapshot.value["name"],
-        description = snapshot.value["description"],
-        durationWork = snapshot.value["durationWork"],
-        durationBreak = snapshot.value["durationBreak"],
-        totalTime = snapshot.value["totalTime"],
-        goalTime = snapshot.value["goalTime"],
-        categoryKey = snapshot.value["categoryKey"];
-
   Task.fromJson(String key, Map<dynamic, dynamic> json) {
     log('creating task with json: ' + json.toString());
-    key = key;
+    id = key;
     name = json['name'];
     description = json['description'];
     durationWork = json['durationWork'];
     durationBreak = json['durationBreak'];
     totalTime = json['totalTime'];
     goalTime = json['goalTime'];
-    categoryKey = json['categoryKey'];
+    category = json['category'];
   }
 
   Map<String, dynamic> toJson() {
@@ -126,7 +140,11 @@ class Task {
     data['durationBreak'] = this.durationBreak;
     data['totalTime'] = this.totalTime;
     data['goalTime'] = this.goalTime;
-    data['categoryKey'] = this.categoryKey;
-    return data;
+    data['category'] = this.category;
+
+    final Map<String, dynamic> theTask = new Map<String, dynamic>();
+    theTask[this.id] = data;
+
+    return theTask;
   }
 }
