@@ -14,11 +14,6 @@ class BuildDrawer extends StatelessWidget {
           text: 'Task List',
           onTap: () => Navigator.popAndPushNamed(context, '/')),
       createDrawerItem(
-          icon: Icons.timer,
-          text: 'Timer',
-          onTap: () =>
-              Navigator.popAndPushNamed(context, 'timer', arguments: user)),
-      createDrawerItem(
           icon: Icons.settings,
           text: 'Settings',
           onTap: () =>

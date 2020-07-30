@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 Widget smallHeader(BuildContext context, String text) {
@@ -21,6 +19,4 @@ Widget sortaBigText(BuildContext context, String text) {
     text,
     style: Theme.of(context).textTheme.headline4
   );
-
-
 }
