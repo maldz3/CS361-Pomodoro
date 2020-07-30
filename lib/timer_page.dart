@@ -4,9 +4,14 @@ import 'dart:math' as math;
 import 'package:pomodoro/components/build_drawer.dart';
 import 'package:pomodoro/components/app_bar.dart';
 import 'package:pomodoro/models/user.dart';
+import 'package:pomodoro/models/task.dart';
+import 'package:pomodoro/tasks_add_page.dart';
 
 class TimerPage extends StatefulWidget {
   User user;
+  Task task;
+
+  TimerPage({this.user, this.task});
 
   @override
   _TimerPageState createState() => _TimerPageState();
@@ -24,13 +29,15 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: Duration(minutes: 20));
+
+    controller = AnimationController(
+        vsync: this,
+        duration: Duration(minutes: this.widget.task.durationWork));
   }
 
   @override
   Widget build(BuildContext context) {
-    this.widget.user = ModalRoute.of(context).settings.arguments;
+    Task task = this.widget.task;
     User user = this.widget.user;
 
     return Scaffold(
@@ -43,11 +50,11 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text('Task Name'),
-                    FlatButton(
+                    Text('${task.name}'),
+                    /*FlatButton(
                         onPressed: () {},
                         color: Colors.blue,
-                        child: Text("Skip to next"))
+                        child: Text("Skip to next"))*/
                   ],
                 ),
                 Expanded(
