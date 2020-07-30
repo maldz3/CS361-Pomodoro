@@ -17,28 +17,33 @@ class _AccountPageState extends State<AccountPage> {
 
   final userKey = GlobalKey<FormState>();
   final emailKey = GlobalKey<FormState>();
+  final passwordKey = GlobalKey<FormState>();
 
   var userAutoValidate = false;
   var emailAutoValidate = false;
+  var passwordAutoValidate = false;
 
   @override
   Widget build(BuildContext context) {
     this.widget.user = ModalRoute.of(context).settings.arguments;
     var username = this.widget.user.username;
     var email = this.widget.user.email;
-
     return Scaffold(
         appBar: CustomAppBar('Account Settings', widget.user),
         drawer: BuildDrawer(widget.user),
-        body: Container(
-          child: Column(
-            children: [
-              accountInfoHeader(username, email),
-              usernameUpdateRow(username),
-              emailUpdateRow(email),
-            ]
-        ),
-      ),
+        body: Builder(
+          builder: (context) {
+            return Container(
+              child: Column(
+                children: [
+                  accountInfoHeader(username, email),
+                  usernameUpdateRow(context, username),
+                  emailUpdateRow(context, email),
+                  passwordUpdateRow(context)
+                ]
+            ),
+          );
+        })
     );
   }
 
@@ -64,7 +69,7 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Widget usernameUpdateRow(String username) {
+  Widget usernameUpdateRow(BuildContext context, String username) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: FractionallySizedBox(
@@ -83,18 +88,23 @@ class _AccountPageState extends State<AccountPage> {
                     border: OutlineInputBorder(),
                     counterText: ""
                   ),
-                  onSaved: (value) {
-                    setState(() {
-                      username = value;
-                    });
-                    this.widget.user.changeName(value);
+                  onSaved: (value) async {
+                    bool result = await this.widget.user.changeName(value);
+                    if (result == true){
+                      setState(() {
+                        username = value;
+                      });
+                      _showSnackbar(context, 'Username Updated');
+                    } else {
+                      _showSnackbar(context, 'Username Update Failed');
+                    }
                     //store it
                   },
                   validator: (value) => value.isEmpty ? "Enter a new username" : null
                 ),
               ),
               SizedBox(width: 20),
-              updateButton(userKey, 'user')
+              updateButton(userKey, 'username')
             ],
           ),
         ),
@@ -102,7 +112,7 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Widget emailUpdateRow(String email) {
+  Widget emailUpdateRow(BuildContext context, String email) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: FractionallySizedBox(
@@ -121,18 +131,64 @@ class _AccountPageState extends State<AccountPage> {
                       border: OutlineInputBorder(),
                       counterText: ""
                     ),
-                    onSaved: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                      this.widget.user.changeEmail(value);
-                      //store it
+                    onSaved: (value) async {
+                      bool result = await this.widget.user.changeEmail(value);
+                      if (result == true) {
+                        setState(() {
+                          email = value;
+                        });
+                        _showSnackbar(context, 'Email Updated');
+                      } else {
+                        _showSnackbar(context, 'Email Update Failed');
+                      } 
                     },
-                    validator: (value) => !EmailValidator.validate(value) ? "Enter a valid email" : null
+                    validator: (value) => 
+                      !EmailValidator.validate(value) ? "Enter a valid email" : null
                   ),
                 ),
                 SizedBox(width: 20),
                 updateButton(emailKey, 'email')
+            ],
+          )
+        ),
+      ),
+    );
+  }
+
+  Widget passwordUpdateRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: FractionallySizedBox(
+        widthFactor: .6,
+        child: Form(
+          key: passwordKey,
+          autovalidate: passwordAutoValidate,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: TextFormField(
+                  maxLength: 30,
+                  obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: "New Password", 
+                      border: OutlineInputBorder(),
+                      counterText: ""
+                    ),
+                    onSaved: (value) async {
+                      bool result = await this.widget.user.changePassword(value);
+                      if (result == true) {
+                        _showSnackbar(context, 'Password Updated');
+                      } else {
+                        _showSnackbar(context, 'Password Update Failed');
+                      } 
+                    },
+                    validator: (value) => 
+                      value.length < 6 ? "Enter a valid password" : null
+                  ),
+                ),
+                SizedBox(width: 20),
+                updateButton(passwordKey, 'password')
             ],
           )
         ),
@@ -146,16 +202,24 @@ class _AccountPageState extends State<AccountPage> {
         if (key.currentState.validate()) {
           key.currentState.save();
           key.currentState.reset();
-        if (type == 'email') emailAutoValidate = false;
-        else userAutoValidate = false;
+          if (type == 'email') emailAutoValidate = false;
+          else if (type == 'username') userAutoValidate = false;
+          else passwordAutoValidate = false;
         } else {
           setState(() {
             if (type == 'email') emailAutoValidate = true;
-            else userAutoValidate = true;
+            else if (type == 'username') userAutoValidate = true;
+            else passwordAutoValidate = true;
           }); 
         }
       },
       child: Text('Update')
     );
+  }
+
+  void _showSnackbar(BuildContext context, String text) {
+    final snackbar = SnackBar(content: Text(text));
+    Scaffold.of(context).showSnackBar(snackbar);
+
   }
 }

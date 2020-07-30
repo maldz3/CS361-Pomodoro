@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:pomodoro/models/category.dart';
 import 'package:pomodoro/models/task.dart';
 import 'dart:developer'; // for debug printing with "log"
@@ -48,42 +49,65 @@ class User {
     tasks.add(job);
   }
 
-  void changeName(String newName) {
+  Future<bool> changeName(String newName) async {
+
+    //store original value in case of error
+    String currentUsername = firebaseUser.displayName;
+
     // update in firebase
     UserUpdateInfo updateInfo = UserUpdateInfo();
     updateInfo.displayName = newName;
-    firebaseUser.updateProfile(updateInfo).then((_) {
-      // update object and db on success
+    try {
+      await dbUpdate("username", newName);
+      await firebaseUser.updateProfile(updateInfo);
       username = newName;
-      dbUpdate("username", newName);
+      return true;
     // error catcher
-    }).catchError((err) {
+    } catch (err) {
+      dbUpdate("username", currentUsername);
       print(err);
-    });
+      return false;
+    }
   }
 
-  void changeEmail(String newEmail) {
-    // update in firebase
-    firebaseUser.updateEmail(newEmail).then((_) {
-      // update object and db on success
+  Future<bool> changeEmail(String newEmail) async {
+
+    //store current value in case of failure
+    String currentEmail = firebaseUser.email;
+
+    try {
+      // update in firebase
+      await dbUpdate("email", newEmail);
+      await firebaseUser.updateEmail(newEmail);
       email = newEmail;
-      dbUpdate("email", newEmail);
+      return true;
     // error catcher
-    }).catchError((err) {
+    } catch (err) {
+      await dbUpdate("email", currentEmail);
       print(err);
-    });
+      return false;
+    }
   }
 
-  void dbUpdate(String field, String fieldValue) async {
+  Future dbUpdate(String field, String fieldValue) async {
+    try {
     // Update passed in field in database
-    Firestore db = Firestore.instance;
-    await db.collection("users").document(this.uid).updateData({field: fieldValue})
-    .then((_) {
-      print("update success");
-    });
+      Firestore db = Firestore.instance;
+      await db.collection("users").document(this.uid).updateData({field: fieldValue});
+      print("db update success");
+    } catch (err) {
+      print(err);
+      throw err;
+    }
   }
 
-  void changePassword(String newPassword) {
-    firebaseUser.updatePassword(newPassword);
+  Future<bool> changePassword(String newPassword) async {
+    try {
+      await firebaseUser.updatePassword(newPassword);
+      return true;
+    } catch (err) {
+      print(err);
+      return false;
+    }
   }
 }
