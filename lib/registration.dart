@@ -77,6 +77,7 @@ class _RegisterState extends State<Register> {
                             "uid": result.uid,
                             "username": _username,
                             "email": _email
+
                           });
 
                           // Error catch
@@ -112,7 +113,7 @@ class _RegisterState extends State<Register> {
   }
 
   void snackBar(BuildContext context) {
-    final snackBar = SnackBar(
+    final snackBar = SnackBar
         content: Text(
             "Registration complete! Please log in to access your account."));
 
