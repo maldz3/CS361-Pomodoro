@@ -73,7 +73,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                       children: [
                         TextFormField(
                             initialValue: taskInfo.name,
-                            autofocus: true,
+                            autofocus: false,
                             decoration: InputDecoration(
                                 labelText: 'Task Name',
                                 border: OutlineInputBorder()),
@@ -90,7 +90,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         SizedBox(height: 8),
                         TextFormField(
                             initialValue: taskInfo.description,
-                            autofocus: true,
+                            autofocus: false,
                             decoration: InputDecoration(
                                 labelText: 'Description',
                                 border: OutlineInputBorder()),
@@ -109,10 +109,11 @@ class _TasksAddPageState extends State<TasksAddPage> {
                             initialValue: (taskInfo.durationWork == null)
                                 ? null
                                 : taskInfo.durationWork.toString(),
-                            autofocus: true,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
+                            keyboardType: TextInputType.number,
+                            autofocus: false,
+                            inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                ],
                             decoration: InputDecoration(
                                 labelText: 'Task Duration (Minutes)',
                                 border: OutlineInputBorder()),
@@ -131,10 +132,11 @@ class _TasksAddPageState extends State<TasksAddPage> {
                             initialValue: (taskInfo.durationBreak == null)
                                 ? null
                                 : taskInfo.durationBreak.toString(),
-                            autofocus: true,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
+                            keyboardType: TextInputType.number,
+                            autofocus: false,
+                            inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                ],
                             decoration: InputDecoration(
                                 labelText: 'Break Duration (Minutes)',
                                 border: OutlineInputBorder()),
@@ -153,10 +155,11 @@ class _TasksAddPageState extends State<TasksAddPage> {
                             initialValue: (taskInfo.goalTime == null)
                                 ? null
                                 : taskInfo.goalTime.toString(),
-                            autofocus: true,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
+                            keyboardType: TextInputType.number,
+                            autofocus: false,
+                            inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                ],
                             decoration: InputDecoration(
                                 labelText: 'Goal Time (Minutes)',
                                 border: OutlineInputBorder()),
