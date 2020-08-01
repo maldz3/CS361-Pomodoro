@@ -74,6 +74,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         TextFormField(
                             initialValue: taskInfo.name,
                             autofocus: false,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                             decoration: InputDecoration(
                                 labelText: 'Task Name',
                                 border: OutlineInputBorder()),
@@ -91,6 +93,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
                         TextFormField(
                             initialValue: taskInfo.description,
                             autofocus: false,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                             decoration: InputDecoration(
                                 labelText: 'Description',
                                 border: OutlineInputBorder()),
@@ -111,6 +115,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
                                 : taskInfo.durationWork.toString(),
                             keyboardType: TextInputType.number,
                             autofocus: false,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                             inputFormatters: <TextInputFormatter>[
                                     WhitelistingTextInputFormatter.digitsOnly
                                 ],
@@ -134,6 +140,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
                                 : taskInfo.durationBreak.toString(),
                             keyboardType: TextInputType.number,
                             autofocus: false,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                             inputFormatters: <TextInputFormatter>[
                                     WhitelistingTextInputFormatter.digitsOnly
                                 ],
@@ -157,6 +165,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
                                 : taskInfo.goalTime.toString(),
                             keyboardType: TextInputType.number,
                             autofocus: false,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                             inputFormatters: <TextInputFormatter>[
                                     WhitelistingTextInputFormatter.digitsOnly
                                 ],
