@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pomodoro/models/user.dart';
+import '../our_models.dart';
 
 class BuildDrawer extends StatelessWidget {
   final User user;

@@ -2,7 +2,7 @@ import 'home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'login_page.dart';
-import 'models/user.dart';
+import 'our_models.dart';
 
 class RootPage extends StatelessWidget {
   @override

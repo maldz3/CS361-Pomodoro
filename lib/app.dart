@@ -5,7 +5,7 @@ import 'package:pomodoro/timer_page.dart';
 import 'root_page.dart';
 import 'package:provider/provider.dart';
 import 'services/auth.dart';
-import 'models/user.dart';
+import 'package:pomodoro/our_models.dart';
 import 'registration.dart';
 
 class App extends StatelessWidget {

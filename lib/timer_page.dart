@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
-import 'package:pomodoro/components/build_drawer.dart';
-import 'package:pomodoro/components/app_bar.dart';
-import 'package:pomodoro/models/user.dart';
-import 'package:pomodoro/models/task.dart';
+import 'package:pomodoro/our_components.dart';
+import 'package:pomodoro/our_models.dart';
 
 class TimerPage extends StatefulWidget {
   User user;

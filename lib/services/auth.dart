@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pomodoro/models/user.dart';
+import 'package:pomodoro/our_models.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
