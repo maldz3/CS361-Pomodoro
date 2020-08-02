@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:pomodoro/models/category.dart';
-import 'package:pomodoro/models/task.dart';
+import 'package:pomodoro/our_models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
@@ -12,7 +10,6 @@ class User {
   String email;
   int level;
   Tasks tasks;
-  Categories categories;
 
   User.fromFirebaseUser(FirebaseUser user) {
     firebaseUser = user;

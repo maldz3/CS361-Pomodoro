@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pomodoro/components/build_drawer.dart';
-import 'package:pomodoro/components/app_bar.dart';
-import 'package:pomodoro/models/user.dart';
-import 'package:pomodoro/models/task.dart';
+import 'package:pomodoro/our_components.dart';
+import 'package:pomodoro/our_models.dart';
 import 'package:pomodoro/tasks_add_page.dart';
 import 'package:pomodoro/timer_page.dart';
 

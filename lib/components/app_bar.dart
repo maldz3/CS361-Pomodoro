@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:pomodoro/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pomodoro/models/user.dart';
+import '../our_models.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
