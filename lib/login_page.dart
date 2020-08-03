@@ -139,12 +139,12 @@ class _LogInState extends State<LogIn> {
       actions: [
         RaisedButton(
           child: Text("Send"),
-            onPressed: () {
-              if (_passwordKey.currentState.validate()) {
-                _auth.resetPassword(_passResetEmail);
-                Navigator.pop(context);
-              }
+          onPressed: () {
+            if (_passwordKey.currentState.validate()) {
+              _auth.resetPassword(_passResetEmail);
+              Navigator.pop(context);
             }
+          }
         ),
       ],
     );
