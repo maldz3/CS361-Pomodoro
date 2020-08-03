@@ -37,7 +37,8 @@ class _AccountPageState extends State<AccountPage> {
                   accountInfoHeader(username, email),
                   usernameUpdateRow(context, username),
                   emailUpdateRow(context, email),
-                  passwordUpdateRow(context)
+                  passwordUpdateRow(context),
+                  accountResetRow(context)
                 ]
             ),
           );
@@ -212,6 +213,17 @@ class _AccountPageState extends State<AccountPage> {
         }
       },
       child: Text('Update')
+    );
+  }
+
+  Widget accountResetRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: RaisedButton(
+        color: Colors.red,
+        onPressed: () {print("Button Pressed");},
+        child: Text('Reset Account'),
+      )
     );
   }
 
