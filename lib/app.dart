@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pomodoro/account_page.dart';
-import 'package:pomodoro/tasks_add_page.dart';
-import 'package:pomodoro/timer_page.dart';
-import 'root_page.dart';
 import 'package:provider/provider.dart';
 import 'services/auth.dart';
+import 'package:pomodoro/account_page.dart';
 import 'package:pomodoro/our_models.dart';
-import 'registration.dart';
+import 'package:pomodoro/registration.dart';
+import 'package:pomodoro/root_page.dart';
+import 'package:pomodoro/tasks_add_page.dart';
+import 'package:pomodoro/timer_page.dart';
+
+
 
 class App extends StatelessWidget {
   final String title;

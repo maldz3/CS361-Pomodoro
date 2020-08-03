@@ -9,10 +9,10 @@ class Tasks {
   List<Task> _innerList = List<Task>();
 
   final categories = [
-    {'id': 'School', 'value': 'School', 'color': Colors.black12},
+    {'id': 'School', 'value': 'School', 'color': Colors.tealAccent},
     {'id': 'Work', 'value': 'Work', 'color': Colors.deepOrangeAccent},
     {'id': 'Exercise', 'value': 'Exercise', 'color': Colors.blueAccent},
-    {'id': 'Home', 'value': 'Home', 'color': Colors.yellowAccent},
+    {'id': 'Home', 'value': 'Home', 'color': Colors.purpleAccent},
     {'id': 'Family', 'value': 'Family', 'color': Colors.deepPurple},
     {'id': 'Other', 'value': 'Other', 'color': Colors.green},
   ];
