@@ -218,12 +218,25 @@ class _AccountPageState extends State<AccountPage> {
 
   Widget accountResetRow(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: RaisedButton(
-        color: Colors.red,
-        onPressed: () {print("Button Pressed");},
-        child: Text('Reset Account'),
-      )
+      padding: const EdgeInsets.only(top: 60.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(        
+            height: 40,
+            width: 100,
+            child: RaisedButton(
+              color: Colors.red[400],
+              hoverColor: Colors.red[700],
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+              onPressed: () {print("Button Pressed");},
+              onLongPress: () {print("Long Pressed");},
+              child: Text('Reset Account', textAlign: TextAlign.center,),
+            ),
+          ),
+          SizedBox(width: 15),
+          Text("Warning, this will delete all your timer data!"),
+      ])
     );
   }
 
