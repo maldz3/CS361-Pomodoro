@@ -5,8 +5,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:pomodoro/styles.dart';
 
 class AccountPage extends StatefulWidget {
-  User user;
-
   @override
   _AccountPageState createState() => _AccountPageState();
 }
@@ -16,19 +14,25 @@ class _AccountPageState extends State<AccountPage> {
   final userKey = GlobalKey<FormState>();
   final emailKey = GlobalKey<FormState>();
   final passwordKey = GlobalKey<FormState>();
+  User user;
 
   var userAutoValidate = false;
   var emailAutoValidate = false;
   var passwordAutoValidate = false;
 
   @override
+  void initState() {
+    super.initState();
+    user = User.getInstance();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    this.widget.user = ModalRoute.of(context).settings.arguments;
-    var username = this.widget.user.username;
-    var email = this.widget.user.email;
+    var username = user.username;
+    var email = user.email;
     return Scaffold(
-        appBar: CustomAppBar('Account Settings', widget.user),
-        drawer: BuildDrawer(widget.user),
+        appBar: CustomAppBar('Account Settings'),
+        drawer: BuildDrawer(),
         body: Builder(
           builder: (context) {
             return Container(
@@ -88,7 +92,7 @@ class _AccountPageState extends State<AccountPage> {
                     counterText: ""
                   ),
                   onSaved: (value) async {
-                    bool result = await this.widget.user.changeName(value);
+                    bool result = await user.changeName(value);
                     if (result == true){
                       setState(() {
                         username = value;
@@ -131,7 +135,7 @@ class _AccountPageState extends State<AccountPage> {
                       counterText: ""
                     ),
                     onSaved: (value) async {
-                      bool result = await this.widget.user.changeEmail(value);
+                      bool result = await user.changeEmail(value);
                       if (result == true) {
                         setState(() {
                           email = value;
@@ -175,7 +179,7 @@ class _AccountPageState extends State<AccountPage> {
                       counterText: ""
                     ),
                     onSaved: (value) async {
-                      bool result = await this.widget.user.changePassword(value);
+                      bool result = await user.changePassword(value);
                       if (result == true) {
                         _showSnackbar(context, 'Password Updated');
                       } else {
