@@ -6,26 +6,29 @@ class AuthService {
 
   // Instantiate our custom user object from Firebase User
   User _firebaseUserToUser(FirebaseUser fbUser) {
-    
     if (fbUser != null) {
       print("user instantiation attempted from _firebaseUserToUser\n");
-      return User.fromFirebaseUser(fbUser);
+      User.initialize(fbUser);
+      return User.getInstance();
     }
-    else
+    else {
+      print('auth.dart:_firebaseUserToUser => fbUser was null, user cannot be created');
       return null;
+    }
   }
 
   // Auth stream
-  Stream<User> get userAuth {
-    return _auth.onAuthStateChanged.map(_firebaseUserToUser);
-  }
+  // Stream<User> get userAuth {
+  //   return _auth.onAuthStateChanged.map(_firebaseUserToUser);
+  // }
 
   //signin with email and password
-  Future signIn(String email, String password) async {
+  Future<FirebaseUser> signIn(String email, String password) async {
     try {
       AuthResult authResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = authResult.user;
+      User.initialize(user);
       return user;
     } catch (error) {
       print(error.toString());
@@ -34,7 +37,7 @@ class AuthService {
   }
 
   //register user
-  Future register(String username, String email, String password) async {
+  Future<FirebaseUser> register(String username, String email, String password) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -50,13 +53,13 @@ class AuthService {
   }
 
   //signout
-  Future signOut() async {
+  Future<void> signOut() async {
     try {
       await _auth.signOut();      
     } catch (error) {
       print(error.toString());
-      return null;
     }
+    User.dispose();
   }
 
   Future<void> resetPassword(String email) async {

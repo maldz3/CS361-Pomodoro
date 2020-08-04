@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../our_models.dart';
 
 class BuildDrawer extends StatelessWidget {
-  final User user;
-  BuildDrawer(this.user);
+  BuildDrawer();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class BuildDrawer extends StatelessWidget {
           icon: Icons.settings,
           text: 'Settings',
           onTap: () =>
-              Navigator.popAndPushNamed(context, 'account', arguments: user)),
+              Navigator.popAndPushNamed(context, 'account')),
     ]));
   }
 

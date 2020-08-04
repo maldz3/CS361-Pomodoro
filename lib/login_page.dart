@@ -4,7 +4,9 @@ import 'services/auth.dart';
 // Sign in page
 
 class LogIn extends StatefulWidget {
- 
+  final Function refreshHomePage;
+
+  LogIn(this.refreshHomePage);
 
   @override
   _LogInState createState() => _LogInState();
@@ -61,11 +63,16 @@ class _LogInState extends State<LogIn> {
                       child: Text("Log in"),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
+                          print('Attempting to log in');
                           dynamic result = await _auth.signIn(_email, _password);
                           if (result == null) {
                             setState(() => _error = "Invalid credentials");
                           }
+                          else
+                            this.widget.refreshHomePage();
                         }
+                        else
+                          print('login form validation failed');
                       }),
                   // Register account link
                   SizedBox(height: 20.0),

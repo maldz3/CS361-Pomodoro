@@ -5,22 +5,17 @@ import 'package:pomodoro/our_models.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 
 class TaskAddPageArgs {
-  User user;
   Task task;
-  TaskAddPageArgs(this.user, {Task task}) : task = task;
+  TaskAddPageArgs({Task task}) : task = task;
 }
 
 //New Task Entry form
 class TasksAddPage extends StatefulWidget {
-//  User user;
-//  Task taskToEdit;
-//
-//  TasksAddPage(TaskAddPageArgs args): user = args.user, taskToEdit = args.task;
-
   _TasksAddPageState createState() => _TasksAddPageState();
 }
 
 class _TasksAddPageState extends State<TasksAddPage> {
+  User user;
   final formKey = GlobalKey<FormState>();
   String title = 'Edit a Task';
   TaskDTO taskInfo = TaskDTO();
@@ -29,6 +24,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
   void initState() {
     super.initState();
 
+    user = User.getInstance();
     // couldn't do the taskinfo setting here because not
     // allowed to do the ModalRoute.of here for fuck sake.
   }
@@ -54,11 +50,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
 
   @override
   Widget build(BuildContext context) {
-    TaskAddPageArgs args = ModalRoute.of(context).settings.arguments;
-    User user = args.user;
-
     return Scaffold(
-        appBar: CustomAppBar(title, user),
+        appBar: CustomAppBar(title),
         body: Padding(
             padding: const EdgeInsets.all(20),
             child: Form(

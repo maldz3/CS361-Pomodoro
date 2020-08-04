@@ -5,10 +5,9 @@ import 'package:pomodoro/our_components.dart';
 import 'package:pomodoro/our_models.dart';
 
 class TimerPage extends StatefulWidget {
-  User user;
   Task task;
 
-  TimerPage({this.user, this.task});
+  TimerPage({this.task});
 
   @override
   _TimerPageState createState() => _TimerPageState();
@@ -16,6 +15,7 @@ class TimerPage extends StatefulWidget {
 
 //Code based on: https://www.youtube.com/watch?v=tRe8teyf9Nk&feature=youtu.be
 class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
+  User user;
   AnimationController controller;
 
   String get timerString {
@@ -26,7 +26,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    user = User.getInstance();
     controller = AnimationController(
         vsync: this,
         duration: Duration(minutes: this.widget.task.durationWork));
@@ -35,11 +35,10 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Task task = this.widget.task;
-    User user = this.widget.user;
 
     return Scaffold(
-      appBar: CustomAppBar('Timer', user),
-      drawer: BuildDrawer(user),
+      appBar: CustomAppBar('Timer'),
+      drawer: BuildDrawer(),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Row(
