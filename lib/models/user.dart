@@ -11,7 +11,28 @@ class User {
   int level;
   Tasks tasks;
 
-  User.fromFirebaseUser(FirebaseUser user) {
+  static User _instance;
+
+  User._();
+
+  factory User.getInstance() {
+    //assert(_instance != null); // allow null return so that we can check if initialized.
+    return _instance;
+  }
+
+  static void initialize(FirebaseUser user) {
+    String action = _instance == null ? "initialized" : "re-initialized";
+    print('User has been ' + action);
+    _instance = User._();
+    _instance.firebaseUser = user;
+    _instance.uid = user.uid;
+    _instance.username = user.displayName;
+    _instance.email = user.email;
+    _instance.level = 1;
+    _instance.tasks = Tasks(Firestore.instance.collection("users").document(_instance.uid));
+  }
+
+  void assignFromFirebaseUser(FirebaseUser user) {
     firebaseUser = user;
     uid = user.uid;
     username = user.displayName;
@@ -20,18 +41,21 @@ class User {
     tasks = Tasks(Firestore.instance.collection("users").document(this.uid));
   }
 
-// Query db
-  Future<void> query() async {
-  await Firestore.instance.collection("users").document(uid).get().then((result){
-      print(result.data);
-      uid = result.data["uid"];
-      username = result.data["username"];
-      email = result.data["email"];
-      level = result.data["level"];
-      tasks = Tasks(Firestore.instance.collection("users").document(this.uid));
-      print("user stuff is set");
-    });
-}
+  static dispose() {
+    _instance = null;
+  }
+
+  static void initDBEntry(String uid, String username, String email) async {
+    Firestore db = Firestore.instance;
+      await db
+          .collection("users")
+          .document(uid)
+          .setData({
+      "uid": uid,
+      "username": username,
+      "email": email
+      });
+  }
 
   String getName() {
     return firebaseUser.displayName;

@@ -7,24 +7,27 @@ import 'package:pomodoro/timer_page.dart';
 // Logged in page
 
 class HomePage extends StatefulWidget {
-  final User user;
-
-  HomePage(this.user);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  User user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = User.getInstance();
+  }
+
   @override
   Widget build(BuildContext context) {
-    User user = this.widget.user;
-
     return Scaffold(
-      appBar: CustomAppBar("${user.username}'s Task List", user),
-      drawer: BuildDrawer(user),
+      appBar: CustomAppBar("${user.username}'s Task List"),
+      drawer: BuildDrawer(),
       body: Container(
-        child: TaskListView(user),
+        child: TaskListView(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -38,29 +41,26 @@ class _HomePageState extends State<HomePage> {
 
   void addTask(User user) async {
     await Navigator.pushNamed(context, 'addTask',
-        arguments: TaskAddPageArgs(user));
+        arguments: TaskAddPageArgs());
     setState(() => {});
   }
 }
 
 class TaskListView extends StatefulWidget {
-  final User user;
-
-  TaskListView(this.user);
+  TaskListView();
 
   @override
   _TaskListViewState createState() => _TaskListViewState();
 }
 
 class _TaskListViewState extends State<TaskListView> {
-  Future<ListView> taskList;
+  User user;
 
-//  @override
-//  void initState() {
-//    super.initState();
-//
-//    taskList = theTaskList();
-//  }
+  @override
+  void initState() {
+    super.initState();
+    user = User.getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,6 @@ class _TaskListViewState extends State<TaskListView> {
 
   Future<ListView> theTaskList() async {
     final taskList = List<Widget>();
-    final User user = this.widget.user;
     List<Task> uTasks = await user.tasks.retrieve();
 
     // determine desired sort method here, then build list according to desires
@@ -103,7 +102,7 @@ class _TaskListViewState extends State<TaskListView> {
   Widget buildTaskCard(Task task) {
     return Container(
       decoration: BoxDecoration(
-          color: this.widget.user.tasks.getCategory(task.category)['color']),
+          color: user.tasks.getCategory(task.category)['color']),
       child: Card(
         child: Column(
           children: taskContents(task),
@@ -123,14 +122,14 @@ class _TaskListViewState extends State<TaskListView> {
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
-                    TimerPage(user: this.widget.user, task: task)));
+                    TimerPage(task: task)));
           }),
       trailing: FlatButton(
           onPressed: () {
             editTask(task);
           },
           child: Text('Update'),
-          color: this.widget.user.tasks.getCategory(task.category)['color']),
+          color: user.tasks.getCategory(task.category)['color']),
       title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Text(task.name,
             style: const TextStyle(
@@ -165,7 +164,7 @@ class _TaskListViewState extends State<TaskListView> {
 
   void editTask(Task task) async {
     await Navigator.pushNamed(context, 'addTask',
-        arguments: TaskAddPageArgs(this.widget.user, task: task));
+        arguments: TaskAddPageArgs(task: task));
     setState(() => {});
   }
 }
