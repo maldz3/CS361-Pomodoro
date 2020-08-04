@@ -41,6 +41,10 @@ class User {
     tasks = Tasks(Firestore.instance.collection("users").document(this.uid));
   }
 
+  static dispose() {
+    _instance = null;
+  }
+
   static void initDBEntry(String uid, String username, String email) async {
     Firestore db = Firestore.instance;
       await db

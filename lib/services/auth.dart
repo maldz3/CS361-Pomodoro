@@ -59,6 +59,7 @@ class AuthService {
     } catch (error) {
       print(error.toString());
     }
+    User.dispose();
   }
 
   Future<void> resetPassword(String email) async {
