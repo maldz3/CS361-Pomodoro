@@ -4,24 +4,6 @@ import 'package:pomodoro/our_models.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Instantiate our custom user object from Firebase User
-  User _firebaseUserToUser(FirebaseUser fbUser) {
-    if (fbUser != null) {
-      print("user instantiation attempted from _firebaseUserToUser\n");
-      User.initialize(fbUser);
-      return User.getInstance();
-    }
-    else {
-      print('auth.dart:_firebaseUserToUser => fbUser was null, user cannot be created');
-      return null;
-    }
-  }
-
-  // Auth stream
-  // Stream<User> get userAuth {
-  //   return _auth.onAuthStateChanged.map(_firebaseUserToUser);
-  // }
-
   //signin with email and password
   Future<FirebaseUser> signIn(String email, String password) async {
     try {
