@@ -57,14 +57,6 @@ class User {
       });
   }
 
-  String getName() {
-    return firebaseUser.displayName;
-  }
-
-  String getEmail() {
-    return firebaseUser.email;
-  }
-
   void addTask(Task job) {
     tasks.add(job);
   }
