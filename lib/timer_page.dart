@@ -48,8 +48,16 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     Task task = this.widget.task;
 
     return Scaffold(
-      appBar:
-          AppBar(centerTitle: true, title: Text('${task.name} - $taskType')),
+      appBar: AppBar(
+          leading: GestureDetector(
+              child: Icon(Icons.home),
+              onTap: () {
+                updateTotalTime();
+                Navigator.of(context).pop();
+              }),
+          centerTitle: true,
+          title: Text(
+              '${task.name} - $taskType    Current total completed: ${task.totalTime}')),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(children: <Widget>[
@@ -121,14 +129,15 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                     child: Icon(Icons.stop),
                     color: Colors.red,
                     onPressed: () {
+                      updateTotalTime();
                       Navigator.of(context).pop();
-                      //Navigator.popUntil(context, ModalRoute.withName('/'));
                     })
               ]),
           SizedBox(height: 10),
           RaisedButton(
               child: Text('Skip to next'),
               onPressed: () {
+                updateTotalTime();
                 this.widget.breakTime = !this.widget.breakTime;
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
@@ -139,6 +148,16 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         ]),
       ),
     );
+  }
+
+  void updateTotalTime() {
+    if (this.widget.breakTime == true) {
+      return;
+    } else {
+      Duration _duration = controller.duration * controller.value;
+      int _completed = this.widget.task.durationWork - _duration.inMinutes;
+      this.widget.task.addTime(_completed);
+    }
   }
 }
 
