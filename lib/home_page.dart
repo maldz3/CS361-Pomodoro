@@ -7,7 +7,6 @@ import 'package:pomodoro/timer_page.dart';
 // Logged in page
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -40,8 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void addTask(User user) async {
-    await Navigator.pushNamed(context, 'addTask',
-        arguments: TaskAddPageArgs());
+    await Navigator.pushNamed(context, 'addTask', arguments: TaskAddPageArgs());
     setState(() => {});
   }
 }
@@ -101,8 +99,8 @@ class _TaskListViewState extends State<TaskListView> {
 
   Widget buildTaskCard(Task task) {
     return Container(
-      decoration: BoxDecoration(
-          color: user.tasks.getCategory(task.category)['color']),
+      decoration:
+          BoxDecoration(color: user.tasks.getCategory(task.category)['color']),
       child: Card(
         child: Column(
           children: taskContents(task),
@@ -121,8 +119,7 @@ class _TaskListViewState extends State<TaskListView> {
           color: Colors.green,
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    TimerPage(task: task)));
+                builder: (context) => TimerPage(task: task, breakTime: false)));
           }),
       trailing: FlatButton(
           onPressed: () {
