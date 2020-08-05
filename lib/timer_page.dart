@@ -126,12 +126,25 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                                           : controller.value);
                                 }
                               },
-                            )
+                            ),
+                            RaisedButton(
+                                child: Icon(Icons.stop),
+                                color: Colors.red,
+                                onPressed: () {}),
                           ],
                         ))
                   ]),
                   SizedBox(width: 20),
-                  Text(taskType),
+                  Column(children: <Widget>[
+                    Text(taskType),
+                    RaisedButton(
+                        child: Text('Skip to next'),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  TimerPage(task: task, breakTime: true)));
+                        }),
+                  ])
                 ])));
   }
 }
