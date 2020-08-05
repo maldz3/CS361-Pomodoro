@@ -30,3 +30,14 @@ flutter:
 
   assets:
       - assets/images/
+
+
+fonts: 
+- family: Rubik
+  fonts:
+    - asset: assets/fonts/Rubik-Regular.ttf
+    - asset: assets/fonts/Rubik-Italic.ttf
+      style: italic
+    - asset: assets.fonts/Rubik-Bold.ttf
+      style: bold
+
