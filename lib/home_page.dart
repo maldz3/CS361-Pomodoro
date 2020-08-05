@@ -53,11 +53,13 @@ class TaskListView extends StatefulWidget {
 
 class _TaskListViewState extends State<TaskListView> {
   User user;
+  List<Task> uTasks;
 
   @override
   void initState() {
     super.initState();
     user = User.getInstance();
+    uTasks = new List<Task>(); // to be retrieved later.
   }
 
   @override
@@ -65,7 +67,7 @@ class _TaskListViewState extends State<TaskListView> {
     return FutureBuilder<ListView>(
         future: theTaskList(),
         builder: (context, AsyncSnapshot<ListView> snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && uTasks.length != 0) {
             print('done getting data');
             return snapshot.data;
           } else if (snapshot.connectionState == ConnectionState.done) {
@@ -80,18 +82,20 @@ class _TaskListViewState extends State<TaskListView> {
 
   Future<ListView> theTaskList() async {
     final taskList = List<Widget>();
-    List<Task> uTasks = await user.tasks.retrieve();
+    uTasks = await user.tasks.retrieve();
 
-    // determine desired sort method here, then build list according to desires
+    if (uTasks.length != 0) {
+      // determine desired sort method here, then build list according to desires
 
-    // sort alphabetical.
-    uTasks.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+      // sort alphabetical.
+      uTasks.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
-    // sort categorical
-    // uTasks.sort((a, b) => a.category.toLowerCase().compareTo(b.category.toLowerCase()));
+      // sort categorical
+      // uTasks.sort((a, b) => a.category.toLowerCase().compareTo(b.category.toLowerCase()));
 
-    for (Task task in uTasks) {
-      taskList.add(buildTaskCard(task));
+      for (Task task in uTasks) {
+        taskList.add(buildTaskCard(task));
+      }
     }
 
     return ListView(children: taskList);

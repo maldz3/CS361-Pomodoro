@@ -76,7 +76,8 @@ class Tasks {
     var result = await _document.get();
     print(result.documentID);
     print(result.data['tasks'].toString());
-    result.data['tasks'].forEach((key, value) {
+    if (result.data['tasks'] != null)
+      result.data['tasks'].forEach((key, value) {
     log('adding task now with key: ' + key);
     newList.add(Task.fromJson(key, value));
     });
