@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
-import 'package:pomodoro/our_components.dart';
 import 'package:pomodoro/our_models.dart';
 
 class TimerPage extends StatefulWidget {
@@ -49,101 +48,97 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     Task task = this.widget.task;
 
     return Scaffold(
-        appBar: AppBar(
-        centerTitle: true,
-        title: Text('${task.name} - $taskType')),
-        body: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(children: <Widget>[
-                    Expanded(
-                        child: Align(
-                            alignment: FractionalOffset.center,
-                            child: AspectRatio(
-                                aspectRatio: 1.0,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Positioned.fill(
-                                        child: AnimatedBuilder(
-                                            animation: controller,
-                                            builder: (BuildContext context,
-                                                Widget child) {
-                                              return CustomPaint(
-                                                  painter: TimerPainter(
-                                                animation: controller,
-                                                backgroundColor: Colors.blue,
-                                                color: Colors.yellowAccent,
-                                              ));
-                                            })),
-                                    Align(
-                                      alignment: FractionalOffset.center,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text('Time Remaining',
-                                              style: TextStyle(fontSize: 18)),
-                                          AnimatedBuilder(
-                                              animation: controller,
-                                              builder: (BuildContext context,
-                                                  Widget child) {
-                                                return Text(timerString,
-                                                    style: TextStyle(
-                                                        fontSize: 100));
-                                              })
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                )))),
-                    Container(
-                        margin: EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            FloatingActionButton(
+      appBar:
+          AppBar(centerTitle: true, title: Text('${task.name} - $taskType')),
+      body: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(children: <Widget>[
+          Expanded(
+              child: Align(
+                  alignment: FractionalOffset.center,
+                  child: AspectRatio(
+                      aspectRatio: 1.0,
+                      child: Stack(
+                        children: <Widget>[
+                          Positioned.fill(
                               child: AnimatedBuilder(
                                   animation: controller,
                                   builder:
                                       (BuildContext context, Widget child) {
-                                    return new Row(children: [
-                                      Icon(Icons.play_arrow),
-                                      Text('/'),
-                                      Icon(Icons.pause)
-                                    ]);
-                                  }),
-                              onPressed: () {
-                                if (controller.isAnimating) {
-                                  controller.stop();
-                                } else {
-                                  controller.reverse(
-                                      from: controller.value == 0.0
-                                          ? 1.0
-                                          : controller.value);
-                                }
-                              },
-                            )])),
-                            SizedBox(height: 10),
-                            Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget> [
-                            RaisedButton(
-                                child: Icon(Icons.stop),
-                                color: Colors.red,
-                                onPressed: () {}),
-                            SizedBox(width: 20),
-                            RaisedButton(
-                        child: Text('Skip to next'),
-                        onPressed: () {
-                          this.widget.breakTime = !this.widget.breakTime;
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => TimerPage(
-                                  task: task, breakTime: this.widget.breakTime)));
-                        }),    
-                          ]),
-                  ]),
-                ));
+                                    return CustomPaint(
+                                        painter: TimerPainter(
+                                      animation: controller,
+                                      backgroundColor: Colors.blue,
+                                      color: Colors.yellowAccent,
+                                    ));
+                                  })),
+                          Align(
+                            alignment: FractionalOffset.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text('Time Remaining',
+                                    style: TextStyle(fontSize: 18)),
+                                AnimatedBuilder(
+                                    animation: controller,
+                                    builder:
+                                        (BuildContext context, Widget child) {
+                                      return Text(timerString,
+                                          style: TextStyle(fontSize: 100));
+                                    })
+                              ],
+                            ),
+                          )
+                        ],
+                      )))),
+          SizedBox(height: 10),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FloatingActionButton(
+                  backgroundColor: Colors.green,
+                  child: AnimatedBuilder(
+                      animation: controller,
+                      builder: (BuildContext context, Widget child) {
+                        return new Row(children: [
+                          Icon(Icons.play_arrow),
+                          Text('/'),
+                          Icon(Icons.pause)
+                        ]);
+                      }),
+                  onPressed: () {
+                    if (controller.isAnimating) {
+                      controller.stop();
+                    } else {
+                      controller.reverse(
+                          from:
+                              controller.value == 0.0 ? 1.0 : controller.value);
+                    }
+                  },
+                ),
+                RaisedButton(
+                    child: Icon(Icons.stop),
+                    color: Colors.red,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      //Navigator.popUntil(context, ModalRoute.withName('/'));
+                    })
+              ]),
+          SizedBox(height: 10),
+          RaisedButton(
+              child: Text('Skip to next'),
+              onPressed: () {
+                this.widget.breakTime = !this.widget.breakTime;
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) => TimerPage(
+                            task: task, breakTime: this.widget.breakTime)),
+                    ModalRoute.withName('/'));
+              }),
+        ]),
+      ),
+    );
   }
 }
 
