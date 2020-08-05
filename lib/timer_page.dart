@@ -156,6 +156,9 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     } else {
       Duration _duration = controller.duration * controller.value;
       int _completed = this.widget.task.durationWork - _duration.inMinutes;
+      if (_duration.inSeconds % 60 > 30) {
+        _completed -= 1;
+      }
       this.widget.task.addTime(_completed);
     }
   }
