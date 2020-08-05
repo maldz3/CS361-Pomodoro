@@ -140,9 +140,10 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                     RaisedButton(
                         child: Text('Skip to next'),
                         onPressed: () {
+                          this.widget.breakTime = !this.widget.breakTime;
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  TimerPage(task: task, breakTime: true)));
+                              builder: (context) => TimerPage(
+                                  task: task, breakTime: this.widget.breakTime)));
                         }),
                   ])
                 ])));
