@@ -49,15 +49,12 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     Task task = this.widget.task;
 
     return Scaffold(
-        appBar: CustomAppBar('Timer'),
-        drawer: BuildDrawer(),
+        appBar: AppBar(
+        centerTitle: true,
+        title: Text('${task.name} - $taskType')),
         body: Padding(
             padding: EdgeInsets.all(8.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text('${task.name}', style: TextStyle(fontSize: 60)),
-                  Column(children: <Widget>[
+            child: Column(children: <Widget>[
                     Expanded(
                         child: Align(
                             alignment: FractionalOffset.center,
@@ -126,27 +123,27 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                                           : controller.value);
                                 }
                               },
-                            ),
+                            )])),
+                            SizedBox(height: 10),
+                            Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget> [
                             RaisedButton(
                                 child: Icon(Icons.stop),
                                 color: Colors.red,
                                 onPressed: () {}),
-                          ],
-                        ))
-                  ]),
-                  SizedBox(width: 20),
-                  Column(children: <Widget>[
-                    Text(taskType),
-                    RaisedButton(
+                            SizedBox(width: 20),
+                            RaisedButton(
                         child: Text('Skip to next'),
                         onPressed: () {
                           this.widget.breakTime = !this.widget.breakTime;
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => TimerPage(
                                   task: task, breakTime: this.widget.breakTime)));
-                        }),
-                  ])
-                ])));
+                        }),    
+                          ]),
+                  ]),
+                ));
   }
 }
 
