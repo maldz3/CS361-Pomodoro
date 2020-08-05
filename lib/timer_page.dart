@@ -51,58 +51,13 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: GestureDetector(
-              child: Icon(Icons.home),
-              onTap: () {
-                updateTotalTime();
-                Navigator.of(context).pop();
-              }),
           centerTitle: true,
           title: Text(
               '${task.name} - $taskType    Current total completed: ${task.totalTime}')),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(children: <Widget>[
-          //timer(context),
-          Expanded(
-              child: Align(
-                  alignment: FractionalOffset.center,
-                  child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: Stack(
-                        children: <Widget>[
-                          Positioned.fill(
-                              child: AnimatedBuilder(
-                                  animation: controller,
-                                  builder:
-                                      (BuildContext context, Widget child) {
-                                    return CustomPaint(
-                                        painter: TimerPainter(
-                                      animation: controller,
-                                      backgroundColor: Colors.blue,
-                                      color: Colors.yellowAccent,
-                                    ));
-                                  })),
-                          Align(
-                            alignment: FractionalOffset.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text('Time Remaining',
-                                    style: TextStyle(fontSize: 18)),
-                                AnimatedBuilder(
-                                    animation: controller,
-                                    builder:
-                                        (BuildContext context, Widget child) {
-                                      return Text(timerString,
-                                          style: TextStyle(fontSize: 100));
-                                    })
-                              ],
-                            ),
-                          )
-                        ],
-                      )))),
+          timer(context),
           SizedBox(height: 10),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
