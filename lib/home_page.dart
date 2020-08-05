@@ -119,7 +119,7 @@ class _TaskListViewState extends State<TaskListView> {
           color: Colors.green,
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TimerPage(task: task, breakTime: false)));
+                builder: (context) => TimerPage(task: task)));
           }),
       trailing: FlatButton(
           onPressed: () {

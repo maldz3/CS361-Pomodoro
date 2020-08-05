@@ -34,18 +34,38 @@ class Tasks {
 
   List<Task> get list => _innerList;
 
+  Future<void> update(Task task) {
+    assert(task != null && task.id != null);
+    add(task);
+  }
+
   Future<void> add(Task taskToCopy) {
     Task task = Task.fromTask(taskToCopy);
+
+    // if task does not have an ID, it's new so stamp with ID and add to internal list
     if (task.id == 'null' || task.id == '' || task.id == null) {
       String uniqueID = uuid.v1();
       print('generated unique id: ' + uniqueID);
       task.id = uniqueID; // apply a unique time based id to the task.
-  }
 
-    // add task to inner list
-    _innerList.add(task);
+      // add task to inner list
+      _innerList.add(task);
+    }
+    else { // task has an ID, so it should match one already, add if not
+      bool foundMatch = false;
+      for(Task t in _innerList) {
+        if (t.id == task.id) {
+          foundMatch = true;
+          break;
+        }
+      }
+      if (!foundMatch) {
+        // add task to inner list
+        _innerList.add(task);
+      }
+    }
 
-    // add task to database
+    // add task to database; will update if task with key exists.
     return _document.setData({'tasks': task.toJson()}, merge: true);
   }
 
