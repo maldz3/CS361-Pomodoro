@@ -102,12 +102,4 @@ class _RegisterState extends State<Register> {
                   )
                 ]))));
   }
-
-  /*void snackBar(BuildContext context) {
-    final snackBar = SnackBar(
-        content: Text(
-            "Registration complete! Please log in to access your account."));
-
-    Scaffold.of(context).showSnackBar(snackBar);
-  }*/
 }
