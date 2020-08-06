@@ -57,10 +57,6 @@ class User {
       });
   }
 
-  void addTask(Task job) {
-    tasks.add(job);
-  }
-
   Future<bool> changeName(String newName) async {
 
     //store original value in case of error
