@@ -108,13 +108,14 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
   Widget timer(BuildContext context) {
 
-    double modifier = accumulatedSeconds / segmentTime;
-    ColorFilter scaleColor = ColorFilter.matrix(<double>[
-    modifier, 0, 0, 0, 0,
-    1-modifier, 1, modifier/2.0 - .5, modifier/2.0 - .5, 0,
-    0, 0, 1, 0, 0,
-    0, 0, 0, 1, 0,
-    ]);
+    // !! only compatible with mobile; ripening tomato animation
+    // double modifier = accumulatedSeconds / segmentTime;
+    // ColorFilter scaleColor = ColorFilter.matrix(<double>[
+    // modifier, 0, 0, 0, 0,
+    // 1-modifier, 1, modifier/2.0 - .5, modifier/2.0 - .5, 0,
+    // 0, 0, 1, 0, 0,
+    // 0, 0, 0, 1, 0,
+    // ]);
 
     return Expanded(
               child: Align(
@@ -123,10 +124,14 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                       aspectRatio: 1.0,
                       child: Stack(
                         children: <Widget>[
-                          ColorFiltered(
-                            colorFilter: scaleColor, //ColorFilter.mode(Colors.green, BlendMode.hue),
-                              child: Image.asset('assets/images/tomato2_small.png'),
-                          ),
+                          
+                          // !! only compatible with mobile; ripening tomato animation
+                          // ColorFiltered(
+                          //   colorFilter: scaleColor, //ColorFilter.mode(Colors.green, BlendMode.hue),
+                          //     child: Image.asset('assets/images/tomato2_small.png'),
+                          // ),
+
+                          Image.asset('assets/images/tomato2.png'),
 
                           Align(
                             alignment: FractionalOffset.center,
