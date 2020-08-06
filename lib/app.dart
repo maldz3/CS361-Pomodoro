@@ -18,8 +18,11 @@ class App extends StatelessWidget {
             title: title,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primarySwatch: Colors.blueGrey,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
+              primarySwatch: Colors.blue,
+              scaffoldBackgroundColor: Colors.black,
+              brightness: Brightness.dark,
+              accentColor: Colors.cyan,
+              fontFamily: 'Rubix',
             ),
             initialRoute: '/',
             routes: {

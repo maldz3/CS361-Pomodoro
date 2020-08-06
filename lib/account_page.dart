@@ -35,17 +35,24 @@ class _AccountPageState extends State<AccountPage> {
         drawer: BuildDrawer(),
         body: Builder(
           builder: (context) {
-            return Container(
-              child: Column(
-                children: [
-                  accountInfoHeader(username, email),
-                  usernameUpdateRow(context, username),
-                  emailUpdateRow(context, email),
-                  passwordUpdateRow(context),
-                  accountResetRow(context)
-                ]
-            ),
-          );
+            return SingleChildScrollView(
+              child: Container(
+                alignment: Alignment.center,
+                child: FractionallySizedBox(
+                  widthFactor: .8,
+                  child: Column(
+                    children: [
+                      accountInfoHeader(username, email),
+                      Divider(color: Colors.grey),
+                      usernameUpdateRow(context, username),
+                      emailUpdateRow(context, email),
+                      passwordUpdateRow(context),
+                      accountResetRow(context)
+                    ]
+              ),
+                ),
+          ),
+            );
         })
     );
   }
@@ -53,7 +60,6 @@ class _AccountPageState extends State<AccountPage> {
   Widget accountInfoHeader(String username, String email) {
     return Container(
       padding: const EdgeInsets.all(12),
-      color: Colors.blueGrey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -66,8 +72,8 @@ class _AccountPageState extends State<AccountPage> {
   Widget headerColumn(String heading, String value) {
     return Column(
       children: [
-        smallHeader(context, heading),
-        sortaBigText(context, value)
+        Text(heading, style: Styles.textDefault),
+        Text(value, style: Styles.headerLarge)
       ]
     );
   }
