@@ -68,14 +68,13 @@ class _RegisterState extends State<Register> {
                           dynamic result = await _auth.register(
                               _username, _email, _password);
 
-                          // Create new storage area for user in database
-                          User.initDBEntry(result.uid, _username, _email);
-
                           // Error catch
-                          if (result.uid == null) {
+                          if (result == null || result.uid == null) {
                             setState(() => _error = "Registration error!");
                           } else {
                             //show registered dialogue
+                            // Create new storage area for user in database
+                            User.initDBEntry(result.uid, _username, _email);
 
                             showDialog(
                                 context: context,
