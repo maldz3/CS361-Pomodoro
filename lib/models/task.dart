@@ -1,4 +1,3 @@
-import 'dart:developer'; // for debug printing with "log"
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -20,7 +19,6 @@ class Tasks {
   Tasks(DocumentReference document): _document = document;
 
   Map<String, dynamic> getCategory(String categoryName) {
-    print(categoryName);
     for (int i = 0; i < categories.length; i++) {
       if (categories[i]['value'] == categoryName)
         return categories[i];
@@ -74,12 +72,9 @@ class Tasks {
 
     // get new tasks (wasteful, but ok for this app in the sake of brevity)
     var result = await _document.get();
-    print(result.documentID);
-    print(result.data['tasks'].toString());
     if (result.data['tasks'] != null)
       result.data['tasks'].forEach((key, value) {
-    log('adding task now with key: ' + key);
-    newList.add(Task.fromJson(key, value));
+        newList.add(Task.fromJson(key, value));
     });
     _innerList = newList;
     return _innerList;
@@ -142,7 +137,7 @@ class Task {
   }
 
   Task.fromJson(String key, Map<dynamic, dynamic> json) {
-    log('creating task with json: ' + json.toString());
+    //print('creating task with json: ' + json.toString());
     id = key;
     name = json['name'];
     description = json['description'];

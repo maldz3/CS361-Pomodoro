@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pomodoro/our_models.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final FirebaseAuth auth = FirebaseAuth.instance;
 
   //signin with email and password
-  Future<FirebaseUser> signIn(String email, String password) async {
+  static Future<FirebaseUser> signIn(String email, String password) async {
     try {
-      AuthResult authResult = await _auth.signInWithEmailAndPassword(
+      AuthResult authResult = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = authResult.user;
       User.initialize(user);
@@ -19,9 +19,9 @@ class AuthService {
   }
 
   //register user
-  Future<FirebaseUser> register(String username, String email, String password) async {
+  static Future<FirebaseUser> register(String username, String email, String password) async {
     try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(
+      AuthResult result = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
       UserUpdateInfo updateInfo = UserUpdateInfo();
@@ -35,18 +35,16 @@ class AuthService {
   }
 
   //signout
-  Future<void> signOut() async {
+  static Future<void> signOut() async {
     try {
-      await _auth.signOut();      
+      await auth.signOut();      
     } catch (error) {
       print(error.toString());
     }
     User.dispose();
   }
 
-  Future<void> resetPassword(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
+  static Future<void> resetPassword(String email) async {
+    await auth.sendPasswordResetEmail(email: email);
   }
-
-  FirebaseAuth get getAuth => _auth;
 }

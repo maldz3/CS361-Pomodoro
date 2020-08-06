@@ -8,7 +8,6 @@ import '../styles.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final AuthService _auth = AuthService();
 
   CustomAppBar(this.title);
 
@@ -20,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               icon: Icon(Icons.person),
               label: Text("logout"),
               onPressed: () async {
-                await _auth.signOut();
+                await AuthService.signOut();
                 Navigator.popUntil(context, ModalRoute.withName('/'));
                 Phoenix.rebirth(context);
               })

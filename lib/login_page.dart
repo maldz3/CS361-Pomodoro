@@ -20,13 +20,11 @@ class _LogInState extends State<LogIn> {
   String _error = "";
   String _passResetEmail = "";
 
-  AuthService _auth;
   final _formKey = GlobalKey<FormState>();
   final _passwordKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    _auth = AuthService();
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -87,7 +85,7 @@ class _LogInState extends State<LogIn> {
             child: Text("Log in", style: Styles.smallBold),
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                dynamic result = await _auth.signIn(_email, _password);
+                dynamic result = await AuthService.signIn(_email, _password);
                 if (result == null) setState(() => _error = "Invalid credentials");
                 else this.widget.refreshHomePage(); 
               }
@@ -143,7 +141,7 @@ class _LogInState extends State<LogIn> {
           child: Text("Send"),
           onPressed: () {
             if (_passwordKey.currentState.validate()) {
-              _auth.resetPassword(_passResetEmail);
+              AuthService.resetPassword(_passResetEmail);
               Navigator.pop(context);
             }
           }

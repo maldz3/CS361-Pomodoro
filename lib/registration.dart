@@ -15,7 +15,6 @@ class _RegisterState extends State<Register> {
   String _username = "";
   String _error = "";
 
-  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -65,7 +64,7 @@ class _RegisterState extends State<Register> {
                       onPressed: () async {
                         // Check validation
                         if (_formKey.currentState.validate()) {
-                          dynamic result = await _auth.register(
+                          dynamic result = await AuthService.register(
                               _username, _email, _password);
 
                           // Error catch
@@ -89,7 +88,7 @@ class _RegisterState extends State<Register> {
                                         'Registered! Please log in to access your account.'),
                                   );
                                 });
-                            await _auth.signOut();
+                            await AuthService.signOut();
                           }
                         }
                       }),
