@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:math' as math;
 import 'dart:async';
 import 'package:pomodoro/our_models.dart';
 import 'package:pomodoro/widgets/auto_size_text.dart';
@@ -238,7 +237,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     if (breakTime == true) {
       return;
     } else {
-      task.addTime(accumulatedSeconds);
+      task.addTime((accumulatedSeconds / 60.0).round());
       user.tasks.update(task); // assuming task retains key, this will update the task with the new total.
     }
   }

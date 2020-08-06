@@ -13,7 +13,7 @@ class RootPage extends StatefulWidget {
 
 class RootPageState extends State<RootPage> {
   User user;
-  bool desireDebug = true;
+  bool desireDebug = false;
   Future<FirebaseUser> futureFBUserInit;
 
   @override
@@ -23,7 +23,7 @@ class RootPageState extends State<RootPage> {
     user = User.getInstance();
 
     if (desireDebug)
-      futureFBUserInit = AuthService.signIn("s@m.com", "password");
+      futureFBUserInit = AuthService.signIn("s@m.com", "password"); // put your info here to get to your account
   }
 
   void resetState() {
