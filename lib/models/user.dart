@@ -53,7 +53,8 @@ class User {
           .setData({
       "uid": uid,
       "username": username,
-      "email": email
+      "email": email,
+      "level": 1
       });
   }
 
@@ -101,7 +102,11 @@ class User {
     try {
     // Update passed in field in database
       Firestore db = Firestore.instance;
-      await db.collection("users").document(this.uid).updateData({field: fieldValue});
+      await db.collection("users")
+      .document(this.uid)
+      .updateData({
+        field: fieldValue
+      });
       print("db update success");
     } catch (err) {
       print(err);
@@ -121,7 +126,15 @@ class User {
 
   Future<bool> resetAccount() async {
     try {
-      await dbUpdate("tasks", null);
+      // await dbUpdate("tasks", null);
+      Firestore db = Firestore.instance;
+      await db
+      .collection("users")
+      .document(this.uid)
+      .updateData({
+        "tasks": null,
+        "level": 1
+      });
       return true;
     } catch (err) {
       print(err);
