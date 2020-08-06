@@ -107,6 +107,15 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   }
 
   Widget timer(BuildContext context) {
+
+    double modifier = accumulatedSeconds / segmentTime;
+    ColorFilter scaleColor = ColorFilter.matrix(<double>[
+    modifier, 0, 0, 0, 0,
+    1-modifier, 1, modifier/2.0 - .5, modifier/2.0 - .5, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 0, 1, 0,
+    ]);
+
     return Expanded(
               child: Align(
                   alignment: FractionalOffset.center,
@@ -114,10 +123,10 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                       aspectRatio: 1.0,
                       child: Stack(
                         children: <Widget>[
-                          // ColorFiltered(
-                          //   colorFilter: ColorFilter.mode(Colors.green, BlendMode.modulate),
-                          //     child: Image.asset('assets/images/tomato2'),
-                          // ),
+                          ColorFiltered(
+                            colorFilter: scaleColor, //ColorFilter.mode(Colors.green, BlendMode.hue),
+                              child: Image.asset('assets/images/tomato2_small.png'),
+                          ),
 
                           Align(
                             alignment: FractionalOffset.center,
@@ -127,12 +136,12 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                               children: <Widget>[
                                 AutoSizeText(
                                   'Time Remaining',
-                                  style: TextStyle(fontSize: 36),
+                                  style: TextStyle(fontSize: 36, color: Colors.white),
                                   maxLines: 1,
                                 ),
                                 AutoSizeText(
                                         timerString,
-                                        style: TextStyle(fontSize: 100),
+                                        style: TextStyle(fontSize: 100, color: Colors.white),
                                         maxLines: 1,
                                       ),
                               ],
