@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pomodoro/our_models.dart';
+import 'package:pomodoro/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
@@ -30,6 +31,16 @@ class User {
     _instance.email = user.email;
     _instance.level = 1;
     _instance.tasks = Tasks(Firestore.instance.collection("users").document(_instance.uid));
+  }
+
+  static Future<void> initializeDebugUser(String email, String password) async {
+    print('Requested debug user initialization.');
+    if (_instance != null) {
+      print("user initialization skipped, already initted.");
+      return;
+    }
+    else
+      await AuthService.signIn(email, password);
   }
 
   void assignFromFirebaseUser(FirebaseUser user) {

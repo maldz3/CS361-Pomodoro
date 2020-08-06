@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
+import 'dart:async';
 import 'package:pomodoro/our_models.dart';
+import 'package:pomodoro/widgets/auto_size_text.dart';
 
 class TimerPage extends StatefulWidget {
   final Task task;
@@ -17,34 +19,66 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   User user;
   Task task;
   bool breakTime;
-  AnimationController controller;
   String taskType;
 
-  String get timerString {
-    Duration duration = controller.duration * controller.value;
-    return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
-  }
-
-  int pickWorkorBreak() {
-    if (breakTime == false) {
-      taskType = 'Work';
-      return task.durationWork;
-    } else {
-      taskType = 'Break';
-      return task.durationBreak;
-    }
-  }
+  int accumulatedSeconds;
+  Timer _everySecondTimer;
+  int segmentTime;
 
   @override
   void initState() {
     super.initState();
+
     user = User.getInstance();
     task = this.widget.task;
-    breakTime = false;
 
-    int _time = pickWorkorBreak();
-    controller =
-        AnimationController(vsync: this, duration: Duration(minutes: _time));
+    breakTime = true; // transition will toggle, so this will start with work.
+    transition();
+  }
+
+  @override
+  void dispose() {
+    _everySecondTimer.cancel();
+    super.dispose();
+  }
+
+  String get timerString {
+    int delta = segmentTime - accumulatedSeconds;
+    String minutes = (delta ~/ 60).toString();
+    String seconds = (delta % 60).toString();
+    if (seconds.length == 1)
+      seconds = '0' + seconds;
+    return minutes + ":" + seconds;
+  }
+
+  void start() {
+    _everySecondTimer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+      setState(() {
+        accumulatedSeconds++;
+        int delta = segmentTime - accumulatedSeconds;
+        if (delta <= 0) {
+          transition();
+        }
+      });
+    });
+  }
+
+  void pause() {
+    _everySecondTimer.cancel();
+  }
+
+  void transition() {
+    breakTime = !breakTime;
+
+    if (breakTime == false) {
+      taskType = 'Work';
+      segmentTime = task.durationWork * 60;
+    } else {
+      taskType = 'Break';
+      segmentTime = task.durationBreak * 60;
+    }
+
+    accumulatedSeconds = 0;
   }
 
   @override
@@ -80,33 +114,27 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                       aspectRatio: 1.0,
                       child: Stack(
                         children: <Widget>[
-                          Positioned.fill(
-                              child: AnimatedBuilder(
-                                  animation: controller,
-                                  builder:
-                                      (BuildContext context, Widget child) {
-                                    return CustomPaint(
-                                        painter: TimerPainter(
-                                      animation: controller,
-                                      backgroundColor: Colors.blue,
-                                      color: Colors.yellowAccent,
-                                    ));
-                                  })),
+                          // ColorFiltered(
+                          //   colorFilter: ColorFilter.mode(Colors.green, BlendMode.modulate),
+                          //     child: Image.asset('assets/images/tomato2'),
+                          // ),
+
                           Align(
                             alignment: FractionalOffset.center,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text('Time Remaining',
-                                    style: TextStyle(fontSize: 18)),
-                                AnimatedBuilder(
-                                    animation: controller,
-                                    builder:
-                                        (BuildContext context, Widget child) {
-                                      return Text(timerString,
-                                          style: TextStyle(fontSize: 100));
-                                    })
+                                AutoSizeText(
+                                  'Time Remaining',
+                                  style: TextStyle(fontSize: 36),
+                                  maxLines: 1,
+                                ),
+                                AutoSizeText(
+                                        timerString,
+                                        style: TextStyle(fontSize: 100),
+                                        maxLines: 1,
+                                      ),
                               ],
                             ),
                           )
@@ -117,22 +145,16 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   Widget playPauseButton(BuildContext context) {
     return FloatingActionButton(
                   backgroundColor: Colors.green,
-                  child: AnimatedBuilder(
-                      animation: controller,
-                      builder: (BuildContext context, Widget child) {
-                        return new Row(children: [
+                  child: Row(children: [
                           Icon(Icons.play_arrow),
                           Text('/'),
                           Icon(Icons.pause)
-                        ]);
-                      }),
+                        ]),
                   onPressed: () {
-                    if (controller.isAnimating) {
-                      controller.stop();
+                    if (_everySecondTimer != null && _everySecondTimer.isActive) {
+                      pause();
                     } else {
-                      controller.reverse(
-                          from:
-                              controller.value == 0.0 ? 1.0 : controller.value);
+                      start();
                     }
                   },
                 );
@@ -144,6 +166,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                     color: Colors.red,
                     onPressed: () {
                       updateTotalTime();
+                      _everySecondTimer.cancel();
                       Navigator.of(context).pop();
                     });
   }
@@ -154,7 +177,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
               onPressed: () {
                 setState(() {
                   updateTotalTime();
-                  breakTime = !breakTime;
+                  transition();
                 });
               });
   }
@@ -163,49 +186,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     if (breakTime == true) {
       return;
     } else {
-      Duration _duration = controller.duration * controller.value;
-      int _completed = task.durationWork - _duration.inMinutes;
-      if (_duration.inSeconds % 60 > 30) {
-        _completed -= 1;
-      }
-      task.addTime(_completed);
+      task.addTime(accumulatedSeconds);
       user.tasks.update(task); // assuming task retains key, this will update the task with the new total.
     }
-  }
-}
-
-//Code based on: https://www.youtube.com/watch?v=tRe8teyf9Nk&feature=youtu.be
-class TimerPainter extends CustomPainter {
-  TimerPainter({this.animation, this.backgroundColor, this.color})
-      : super(repaint: animation);
-  final Animation<double> animation;
-  final Color backgroundColor, color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = backgroundColor
-      ..strokeWidth = 5.0
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-
-    canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
-    paint.color = color;
-    double progress = (1.0 - animation.value) * 2 * math.pi;
-    var param1 = Offset.zero & size;
-    var param2 = math.pi * 1.5;
-    var param3 = -progress;
-    print(param1);
-    print(param2);
-    print(param3);
-    print(paint);
-    canvas.drawArc(param1, param2, param3, false, paint);
-  }
-
-  @override
-  bool shouldRepaint(TimerPainter old) {
-    return animation.value != old.animation.value ||
-        color != old.color ||
-        backgroundColor != old.backgroundColor;
   }
 }

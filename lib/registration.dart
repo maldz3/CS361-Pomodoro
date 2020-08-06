@@ -15,7 +15,6 @@ class _RegisterState extends State<Register> {
   String _username = "";
   String _error = "";
 
-  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -65,17 +64,16 @@ class _RegisterState extends State<Register> {
                       onPressed: () async {
                         // Check validation
                         if (_formKey.currentState.validate()) {
-                          dynamic result = await _auth.register(
+                          dynamic result = await AuthService.register(
                               _username, _email, _password);
 
-                          // Create new storage area for user in database
-                          User.initDBEntry(result.uid, _username, _email);
-
                           // Error catch
-                          if (result.uid == null) {
+                          if (result == null || result.uid == null) {
                             setState(() => _error = "Registration error!");
                           } else {
                             //show registered dialogue
+                            // Create new storage area for user in database
+                            User.initDBEntry(result.uid, _username, _email);
 
                             showDialog(
                                 context: context,
@@ -90,7 +88,7 @@ class _RegisterState extends State<Register> {
                                         'Registered! Please log in to access your account.'),
                                   );
                                 });
-                            await _auth.signOut();
+                            await AuthService.signOut();
                           }
                         }
                       }),
