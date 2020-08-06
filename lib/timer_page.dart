@@ -46,8 +46,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     int delta = segmentTime - accumulatedSeconds;
     String minutes = (delta ~/ 60).toString();
     String seconds = (delta % 60).toString();
-    if (seconds.length == 1)
-      seconds = '0' + seconds;
+    if (seconds.length == 1) seconds = '0' + seconds;
     return minutes + ":" + seconds;
   }
 
@@ -85,13 +84,13 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      leading: GestureDetector(
-      onTap: () {
-        updateTotalTime();
-        _everySecondTimer.cancel();
-        Navigator.of(context).pop();
-      },
-      child: Icon(Icons.arrow_back)),
+          leading: GestureDetector(
+              onTap: () {
+                updateTotalTime();
+                _everySecondTimer.cancel();
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back)),
           centerTitle: true,
           title: Text(
               '${task.name} - $taskType    Current total completed: ${task.totalTime}')),
@@ -114,7 +113,6 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   }
 
   Widget timer(BuildContext context) {
-
     // don't delete this code!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // !! only compatible with mobile; ripening tomato animation
     // double modifier = accumulatedSeconds / segmentTime;
@@ -174,63 +172,64 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
               maxLines: 1,
             ),
             AutoSizeText(
-                    timerString,
-                    style: TextStyle(fontSize: 100, color: Colors.white),
-                    maxLines: 1,
-                  ),
+              timerString,
+              style:
+                  TextStyle(fontSize: 100, color: Colors.white),
+              maxLines: 1,
+            ),
           ],
         ),
       )
     );
 
     return Expanded(
-              child: Align(
-                  alignment: FractionalOffset.center,
-                  child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: Stack(
-                        children: timerChildren,
-                      ))));
+      child: Align(
+          alignment: FractionalOffset.center,
+          child: AspectRatio(
+              aspectRatio: 1.0,
+              child: Stack(
+                children: timerChildren,
+                ),
+              ),
+            ),
+          );
   }
 
   Widget playPauseButton(BuildContext context) {
     return FloatingActionButton(
-                  backgroundColor: Colors.green,
-                  child: Row(children: [
-                          Icon(Icons.play_arrow),
-                          Text('/'),
-                          Icon(Icons.pause)
-                        ]),
-                  onPressed: () {
-                    if (_everySecondTimer != null && _everySecondTimer.isActive) {
-                      pause();
-                    } else {
-                      start();
-                    }
-                  },
-                );
+      backgroundColor: Colors.green,
+      child:
+          Row(children: [Icon(Icons.play_arrow), Text('/'), Icon(Icons.pause)]),
+      onPressed: () {
+        if (_everySecondTimer != null && _everySecondTimer.isActive) {
+          pause();
+        } else {
+          start();
+        }
+      },
+    );
   }
 
   Widget stopButton(BuildContext context) {
     return RaisedButton(
-                    child: Icon(Icons.stop),
-                    color: Colors.red,
-                    onPressed: () {
-                      updateTotalTime();
-                      _everySecondTimer.cancel();
-                      Navigator.of(context).pop();
-                    });
+        child: Icon(Icons.stop),
+        color: Colors.red,
+        onPressed: () {
+          updateTotalTime();
+          _everySecondTimer.cancel();
+          Navigator.of(context).pop();
+        });
   }
 
   Widget skipButton(BuildContext context) {
     return RaisedButton(
-              child: Text('Skip to next'),
-              onPressed: () {
-                setState(() {
-                  updateTotalTime();
-                  transition();
-                });
-              });
+        child: Text('Skip to next'),
+        onPressed: () {
+          setState(() {
+            updateTotalTime();
+            transition();
+          });
+        });
   }
 
   void updateTotalTime() {
