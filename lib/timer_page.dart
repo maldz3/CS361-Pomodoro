@@ -86,6 +86,13 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+      leading: GestureDetector(
+      onTap: () {
+        updateTotalTime();
+        _everySecondTimer.cancel();
+        Navigator.of(context).pop();
+      },
+      child: Icon(Icons.arrow_back)),
           centerTitle: true,
           title: Text(
               '${task.name} - $taskType    Current total completed: ${task.totalTime}')),

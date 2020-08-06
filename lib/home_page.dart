@@ -156,11 +156,11 @@ class _TaskListViewState extends State<TaskListView> {
       Text('Break Time: ${task.durationBreak}')
     ]));
     contents.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text('Goal: ${task.goalTime}'),
+      Text('Goal: ${task.goalTime} minutes'),
       SizedBox(
         width: 20,
       ),
-      Text("Dedicated: " + hours + " hours, " + minutes + " minutes.")
+      Text("Completed: ${task.totalTime} minutes.")
     ]));
 
     return contents;
