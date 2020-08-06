@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro/styles.dart';
 import 'services/auth.dart';
 
 // Sign in page
@@ -83,7 +84,7 @@ class _LogInState extends State<LogIn> {
           // Login button
           SizedBox(height: 20.0),
           RaisedButton(
-            child: Text("Log in"),
+            child: Text("Log in", style: Styles.smallBold),
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 dynamic result = await _auth.signIn(_email, _password);
@@ -99,7 +100,7 @@ class _LogInState extends State<LogIn> {
 
   Widget createAccountButton() {
     return InkWell(
-      child: Text("Create Account"),
+      child: Text("Create Account", style: Styles.smallBold),
       onTap: () {
         Navigator.pushNamed(context, 'register');
     });
@@ -107,7 +108,7 @@ class _LogInState extends State<LogIn> {
 
   Widget forgotPasswordButton() {
     return InkWell(
-      child: Text("Forgot your password?  Click here."),
+      child: Text("Forgot your password?  Click here.", style: Styles.smallBold),
       onTap: () async {
         return showDialog<void>(
           context: context,
