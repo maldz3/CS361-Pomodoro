@@ -67,8 +67,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   }
 
   void transition() {
+    updateTotalTime();
     breakTime = !breakTime;
-
     if (breakTime == false) {
       taskType = 'Work';
       segmentTime = task.durationWork * 60;
@@ -140,7 +140,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     );
 
     // add caterpillars
-    int numCaterpillars = (24.0 * ((segmentTime - accumulatedSeconds)/segmentTime)).round(); // every 15 degrees
+    int numCaterpillars = (24.0 * ((segmentTime - accumulatedSeconds)/segmentTime)).round() + 1; // every 15 degrees
     double pi = 3.1415;
     double startAngle = pi/2;
     if (segmentTime > 60)
@@ -226,7 +226,6 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         child: Text('Skip to next'),
         onPressed: () {
           setState(() {
-            updateTotalTime();
             transition();
           });
         });
@@ -236,8 +235,12 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     if (breakTime == true) {
       return;
     } else {
-      task.addTime((accumulatedSeconds / 60.0).round());
-      user.tasks.update(task); // assuming task retains key, this will update the task with the new total.
+      int accomplished = (accumulatedSeconds / 60.0).round();
+      if (accomplished > 0) {
+        print('adding this many minutes to task time accomplished: ' + accomplished.toString());
+        task.addTime(accomplished);
+        user.tasks.update(task); // assuming task retains key, this will update the task with the new total.
+      }
     }
   }
 }

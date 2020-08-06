@@ -137,7 +137,7 @@ class Task {
   }
 
   Task.fromJson(String key, Map<dynamic, dynamic> json) {
-    print('creating task with json: ' + json.toString());
+    //print('creating task with json: ' + json.toString());
     id = key;
     name = json['name'];
     description = json['description'];
