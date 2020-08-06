@@ -233,8 +233,18 @@ class _AccountPageState extends State<AccountPage> {
               color: Colors.red[400],
               hoverColor: Colors.red[700],
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
-              onPressed: () {print("Button Pressed");},
-              onLongPress: () {print("Long Pressed");},
+              onPressed: () async {
+                bool result = await user.resetAccount();
+                if (result == true) {
+                  _showSnackbar(context, 'Account task data has been reset');
+                  print("account reset");
+                } else {
+                  _showSnackbar(context, 'Failed to reset task data');
+                  print("failed to reset");
+                }
+                // print("Button Pressed");
+                },
+              // onLongPress: () {print("Long Pressed");},
               child: Text('Reset Account', textAlign: TextAlign.center,),
             ),
           ),

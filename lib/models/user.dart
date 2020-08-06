@@ -122,4 +122,14 @@ class User {
       return false;
     }
   }
+
+  Future<bool> resetAccount() async {
+    try {
+      await dbUpdate("tasks", null);
+      return true;
+    } catch (err) {
+      print(err);
+      return false;
+    }
+  }
 }
