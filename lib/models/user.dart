@@ -57,10 +57,6 @@ class User {
       });
   }
 
-  void addTask(Task job) {
-    tasks.add(job);
-  }
-
   Future<bool> changeName(String newName) async {
 
     //store original value in case of error
@@ -116,6 +112,16 @@ class User {
   Future<bool> changePassword(String newPassword) async {
     try {
       await firebaseUser.updatePassword(newPassword);
+      return true;
+    } catch (err) {
+      print(err);
+      return false;
+    }
+  }
+
+  Future<bool> resetAccount() async {
+    try {
+      await dbUpdate("tasks", null);
       return true;
     } catch (err) {
       print(err);
