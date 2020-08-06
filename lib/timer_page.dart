@@ -46,8 +46,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     int delta = segmentTime - accumulatedSeconds;
     String minutes = (delta ~/ 60).toString();
     String seconds = (delta % 60).toString();
-    if (seconds.length == 1)
-      seconds = '0' + seconds;
+    if (seconds.length == 1) seconds = '0' + seconds;
     return minutes + ":" + seconds;
   }
 
@@ -85,13 +84,13 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      leading: GestureDetector(
-      onTap: () {
-        updateTotalTime();
-        _everySecondTimer.cancel();
-        Navigator.of(context).pop();
-      },
-      child: Icon(Icons.arrow_back)),
+          leading: GestureDetector(
+              onTap: () {
+                updateTotalTime();
+                _everySecondTimer.cancel();
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back)),
           centerTitle: true,
           title: Text(
               '${task.name} - $taskType    Current total completed: ${task.totalTime}')),
@@ -114,7 +113,6 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   }
 
   Widget timer(BuildContext context) {
-
     // !! only compatible with mobile; ripening tomato animation
     // double modifier = accumulatedSeconds / segmentTime;
     // ColorFilter scaleColor = ColorFilter.matrix(<double>[
@@ -125,90 +123,89 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     // ]);
 
     return Expanded(
-              child: Align(
-                  alignment: FractionalOffset.center,
-                  child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: Stack(
+        child: Align(
+            alignment: FractionalOffset.center,
+            child: AspectRatio(
+                aspectRatio: 1.0,
+                child: Stack(
+                  children: <Widget>[
+                    // !! only compatible with mobile; ripening tomato animation
+                    // ColorFiltered(
+                    //   colorFilter: scaleColor, //ColorFilter.mode(Colors.green, BlendMode.hue),
+                    //     child: Image.asset('assets/images/tomato2_small.png'),
+                    // ),
+
+                    Image.asset('assets/images/tomato2.png'),
+
+                    Align(
+                      alignment: FractionalOffset.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          
-                          // !! only compatible with mobile; ripening tomato animation
-                          // ColorFiltered(
-                          //   colorFilter: scaleColor, //ColorFilter.mode(Colors.green, BlendMode.hue),
-                          //     child: Image.asset('assets/images/tomato2_small.png'),
-                          // ),
-
-                          Image.asset('assets/images/tomato2.png'),
-
-                          Align(
-                            alignment: FractionalOffset.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                AutoSizeText(
-                                  'Time Remaining',
-                                  style: TextStyle(fontSize: 36, color: Colors.white),
-                                  maxLines: 1,
-                                ),
-                                AutoSizeText(
-                                        timerString,
-                                        style: TextStyle(fontSize: 100, color: Colors.white),
-                                        maxLines: 1,
-                                      ),
-                              ],
-                            ),
-                          )
+                          AutoSizeText(
+                            'Time Remaining',
+                            style: TextStyle(fontSize: 36, color: Colors.white),
+                            maxLines: 1,
+                          ),
+                          AutoSizeText(
+                            timerString,
+                            style:
+                                TextStyle(fontSize: 100, color: Colors.white),
+                            maxLines: 1,
+                          ),
                         ],
-                      ))));
+                      ),
+                    )
+                  ],
+                ))));
   }
 
   Widget playPauseButton(BuildContext context) {
     return FloatingActionButton(
-                  backgroundColor: Colors.green,
-                  child: Row(children: [
-                          Icon(Icons.play_arrow),
-                          Text('/'),
-                          Icon(Icons.pause)
-                        ]),
-                  onPressed: () {
-                    if (_everySecondTimer != null && _everySecondTimer.isActive) {
-                      pause();
-                    } else {
-                      start();
-                    }
-                  },
-                );
+      backgroundColor: Colors.green,
+      child:
+          Row(children: [Icon(Icons.play_arrow), Text('/'), Icon(Icons.pause)]),
+      onPressed: () {
+        if (_everySecondTimer != null && _everySecondTimer.isActive) {
+          pause();
+        } else {
+          start();
+        }
+      },
+    );
   }
 
   Widget stopButton(BuildContext context) {
     return RaisedButton(
-                    child: Icon(Icons.stop),
-                    color: Colors.red,
-                    onPressed: () {
-                      updateTotalTime();
-                      _everySecondTimer.cancel();
-                      Navigator.of(context).pop();
-                    });
+        child: Icon(Icons.stop),
+        color: Colors.red,
+        onPressed: () {
+          updateTotalTime();
+          _everySecondTimer.cancel();
+          Navigator.of(context).pop();
+        });
   }
 
   Widget skipButton(BuildContext context) {
     return RaisedButton(
-              child: Text('Skip to next'),
-              onPressed: () {
-                setState(() {
-                  updateTotalTime();
-                  transition();
-                });
-              });
+        child: Text('Skip to next'),
+        onPressed: () {
+          setState(() {
+            updateTotalTime();
+            transition();
+          });
+        });
   }
 
   void updateTotalTime() {
     if (breakTime == true) {
       return;
     } else {
-      task.addTime(accumulatedSeconds);
-      user.tasks.update(task); // assuming task retains key, this will update the task with the new total.
+      int minComplete = (accumulatedSeconds / 60).round();
+      task.addTime(minComplete);
+      user.tasks.update(
+          task); // assuming task retains key, this will update the task with the new total.
     }
   }
 }
