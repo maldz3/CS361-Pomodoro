@@ -22,7 +22,7 @@ class App extends StatelessWidget {
               scaffoldBackgroundColor: Colors.black,
               brightness: Brightness.dark,
               accentColor: Colors.cyan,
-              fontFamily: 'Rubix',
+              fontFamily: 'Rubik',
             ),
             initialRoute: '/',
             routes: {

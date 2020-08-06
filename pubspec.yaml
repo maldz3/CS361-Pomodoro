@@ -38,6 +38,6 @@ fonts:
     - asset: assets/fonts/Rubik-Regular.ttf
     - asset: assets/fonts/Rubik-Italic.ttf
       style: italic
-    - asset: assets.fonts/Rubik-Bold.ttf
+    - asset: assets/fonts/Rubik-Bold.ttf
       style: bold
 

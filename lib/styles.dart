@@ -6,7 +6,7 @@ class Styles {
 
   static const _textSizeLarge = 25.0;
   static const _textSizeDefault = 16.0;
-  static const _textSizeSmall = 12.0;
+  static const _textSizeSmall = 14.0;
   static final Color _textColorStrong = _hexToColor('000000');
   static final Color _textColorDefault = _hexToColor('666666');
   static final Color _textColorFaint = _hexToColor('FFFFFF');
@@ -32,6 +32,13 @@ class Styles {
   static final textDefault = TextStyle(
     fontFamily: _fontNameDefault,
     fontSize: _textSizeDefault,
+    color: _textColorFaint
+  );
+
+  static final smallBold = TextStyle(
+    fontFamily: _fontNameDefault,
+    fontSize: _textSizeSmall,
+    fontWeight: FontWeight.w700,
     color: _textColorFaint
   );
 

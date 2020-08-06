@@ -43,7 +43,6 @@ class _AccountPageState extends State<AccountPage> {
                   child: Column(
                     children: [
                       accountInfoHeader(username, email),
-                      Divider(color: Colors.grey),
                       usernameUpdateRow(context, username),
                       emailUpdateRow(context, email),
                       passwordUpdateRow(context),
@@ -229,7 +228,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget accountResetRow(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 60.0),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(        
@@ -253,7 +252,10 @@ class _AccountPageState extends State<AccountPage> {
             ),
           ),
           SizedBox(width: 15),
-          Text("Warning, this will delete all your timer data!"),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text("Warning, this will delete all your timer data!"),
+          ),
       ])
     );
   }
