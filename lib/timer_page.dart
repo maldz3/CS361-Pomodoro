@@ -24,6 +24,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   int accumulatedSeconds;
   Timer _everySecondTimer;
   int segmentTime;
+  bool blinker = true;
 
   @override
   void initState() {
@@ -108,6 +109,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
   Widget timer(BuildContext context) {
 
+    // don't delete this code!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // !! only compatible with mobile; ripening tomato animation
     // double modifier = accumulatedSeconds / segmentTime;
     // ColorFilter scaleColor = ColorFilter.matrix(<double>[
@@ -117,42 +119,71 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     // 0, 0, 0, 1, 0,
     // ]);
 
+    final timerChildren = List<Widget>();
+    
+    // don't delete this code!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // !! only compatible with mobile; ripening tomato animation
+    // timerChildren.add(
+    //   ColorFiltered(
+    //     colorFilter: scaleColor, //ColorFilter.mode(Colors.green, BlendMode.hue),
+    //       child: Image.asset('assets/images/tomato2_small.png'),
+    //   )
+    // );
+
+    // add tomato
+    timerChildren.add(
+      Image.asset('assets/images/tomato2.png'), // plain asset must use large tomato to fill entire space.
+    );
+
+    // add caterpillars
+    int numCaterpillars = (24.0 * ((segmentTime - accumulatedSeconds)/segmentTime)).round(); // every 15 degrees
+    double pi = 3.1415;
+    double startAngle = pi/2;
+    if (segmentTime > 60)
+      blinker = !blinker;
+    for (int i = 0; i < numCaterpillars; i++) {
+      if (!((i == numCaterpillars - 1) && blinker)) {
+        timerChildren.add(
+          Transform.rotate(angle: startAngle - pi/12.0*i,
+          child: Image.asset('assets/images/caterpillar_field.png')),
+        );
+      }
+    }
+
+    timerChildren.add(
+      Transform.rotate(angle: pi/2,
+      child: Image.asset('assets/images/caterpillar_field.png')),
+    );
+
+    timerChildren.add(
+      Align(
+        alignment: FractionalOffset.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            AutoSizeText(
+              'Time Remaining',
+              style: TextStyle(fontSize: 36, color: Colors.white),
+              maxLines: 1,
+            ),
+            AutoSizeText(
+                    timerString,
+                    style: TextStyle(fontSize: 100, color: Colors.white),
+                    maxLines: 1,
+                  ),
+          ],
+        ),
+      )
+    );
+
     return Expanded(
               child: Align(
                   alignment: FractionalOffset.center,
                   child: AspectRatio(
                       aspectRatio: 1.0,
                       child: Stack(
-                        children: <Widget>[
-                          
-                          // !! only compatible with mobile; ripening tomato animation
-                          // ColorFiltered(
-                          //   colorFilter: scaleColor, //ColorFilter.mode(Colors.green, BlendMode.hue),
-                          //     child: Image.asset('assets/images/tomato2_small.png'),
-                          // ),
-
-                          Image.asset('assets/images/tomato2.png'),
-
-                          Align(
-                            alignment: FractionalOffset.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                AutoSizeText(
-                                  'Time Remaining',
-                                  style: TextStyle(fontSize: 36, color: Colors.white),
-                                  maxLines: 1,
-                                ),
-                                AutoSizeText(
-                                        timerString,
-                                        style: TextStyle(fontSize: 100, color: Colors.white),
-                                        maxLines: 1,
-                                      ),
-                              ],
-                            ),
-                          )
-                        ],
+                        children: timerChildren,
                       ))));
   }
 
