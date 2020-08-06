@@ -35,17 +35,23 @@ class _AccountPageState extends State<AccountPage> {
         drawer: BuildDrawer(),
         body: Builder(
           builder: (context) {
-            return Container(
-              child: Column(
-                children: [
-                  accountInfoHeader(username, email),
-                  usernameUpdateRow(context, username),
-                  emailUpdateRow(context, email),
-                  passwordUpdateRow(context),
-                  accountResetRow(context)
-                ]
-            ),
-          );
+            return SingleChildScrollView(
+              child: Container(
+                alignment: Alignment.center,
+                child: FractionallySizedBox(
+                  widthFactor: .8,
+                  child: Column(
+                    children: [
+                      accountInfoHeader(username, email),
+                      usernameUpdateRow(context, username),
+                      emailUpdateRow(context, email),
+                      passwordUpdateRow(context),
+                      accountResetRow(context)
+                    ]
+              ),
+                ),
+          ),
+            );
         })
     );
   }
@@ -53,7 +59,6 @@ class _AccountPageState extends State<AccountPage> {
   Widget accountInfoHeader(String username, String email) {
     return Container(
       padding: const EdgeInsets.all(12),
-      color: Colors.blueGrey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -66,8 +71,8 @@ class _AccountPageState extends State<AccountPage> {
   Widget headerColumn(String heading, String value) {
     return Column(
       children: [
-        smallHeader(context, heading),
-        sortaBigText(context, value)
+        Text(heading, style: Styles.textDefault),
+        Text(value, style: Styles.headerLarge)
       ]
     );
   }
@@ -223,7 +228,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget accountResetRow(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 60.0),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(        
@@ -247,7 +252,10 @@ class _AccountPageState extends State<AccountPage> {
             ),
           ),
           SizedBox(width: 15),
-          Text("Warning, this will delete all your timer data!"),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text("Warning, this will delete all your timer data!"),
+          ),
       ])
     );
   }
