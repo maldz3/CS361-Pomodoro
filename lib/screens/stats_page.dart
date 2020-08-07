@@ -9,8 +9,9 @@ class StatsPage extends StatefulWidget {
 }
 
 class _StatsPageState extends State<StatsPage> {
-  List<String> userLevels = ['', 'Beginner', 'Task Master', 'Pomo Beast'];
+  List<String> userLevels = ['', 'Beginner', 'Task Rabbit', 'Task Master', 'Pomo Beast'];
   User user;
+  int totalTime;
 
   @override
   void initState() {
@@ -20,18 +21,30 @@ class _StatsPageState extends State<StatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    int workTime, schoolTime, exerciseTime;
+    int workTime, schoolTime, exerciseTime, homeTime, familyTime, otherTime;
 
-    for (Task t in user.tasks.list) {}
+    Map<String, int> catTimes = { 'Home': 0, 'Work': 0, 'Exercise': 0, 'Family': 0, 'Other': 0 };
+
+    if(user != null && user.tasks.list != null) {
+      for (Task t in user.tasks.list) {
+        String category = t.category.toString();
+        if (t.totalTime > 0) {
+          catTimes[category] += t.totalTime;
+        }
+      }
+    }
 
     return Scaffold(
         appBar: CustomAppBar('Stats'),
         drawer: BuildDrawer(),
         body: Builder(builder: (context) {
           return Column(children: <Widget>[
-            Center(
+            Padding(
+              padding: EdgeInsets.all(15),
+              child: Center(
                 child: Text('Current Level: ${userLevels[user.level]}',
-                    style: Styles.headerLarge)),
+                  style: Styles.headerLarge)),
+            ),
           ]);
         }));
   }
