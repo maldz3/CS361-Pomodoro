@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../our_models.dart';
+
 
 class BuildDrawer extends StatelessWidget {
   BuildDrawer();
@@ -12,6 +12,10 @@ class BuildDrawer extends StatelessWidget {
           icon: Icons.home,
           text: 'Task List',
           onTap: () => Navigator.popAndPushNamed(context, '/')),
+      createDrawerItem(
+          icon: Icons.assessment,
+          text: 'Stats',
+          onTap: () => Navigator.popAndPushNamed(context, 'stats')),
       createDrawerItem(
           icon: Icons.settings,
           text: 'Settings',

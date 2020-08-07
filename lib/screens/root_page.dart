@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'home_page.dart';
 import 'package:flutter/material.dart';
-import 'login_page.dart';
-import 'our_models.dart';
 import 'package:pomodoro/services/auth.dart';
+import 'package:pomodoro/our_models.dart';
+import 'package:pomodoro/our_screens.dart';
+
 
 class RootPage extends StatefulWidget {
   @override

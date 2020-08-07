@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'services/auth.dart';
+import 'package:pomodoro/services/auth.dart';
 import 'package:pomodoro/our_models.dart';
 
 // Registration page

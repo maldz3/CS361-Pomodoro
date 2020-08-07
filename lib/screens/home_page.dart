@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/our_components.dart';
 import 'package:pomodoro/our_models.dart';
-import 'package:pomodoro/tasks_add_page.dart';
-import 'package:pomodoro/timer_page.dart';
+import 'package:pomodoro/our_screens.dart';
 
 // Logged in page
 

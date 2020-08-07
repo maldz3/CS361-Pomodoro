@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:async';
 import 'package:pomodoro/our_models.dart';
 import 'package:pomodoro/widgets/auto_size_text.dart';
 
