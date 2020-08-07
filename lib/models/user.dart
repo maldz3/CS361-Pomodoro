@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pomodoro/our_models.dart';
-import 'package:pomodoro/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pomodoro/services/auth.dart';
+import 'package:pomodoro/our_models.dart';
 
 
 class User {

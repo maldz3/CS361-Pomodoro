@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/styles.dart';
-import 'services/auth.dart';
+import 'package:pomodoro/services/auth.dart';
 
 // Sign in page
 

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pomodoro/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:pomodoro/services/auth.dart';
 
 import '../styles.dart';
 

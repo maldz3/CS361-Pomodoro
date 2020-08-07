@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:pomodoro/our_models.dart';
 import 'package:pomodoro/our_components.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:pomodoro/styles.dart';
 
 class AccountPage extends StatefulWidget {
