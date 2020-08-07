@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pomodoro/our_components.dart';
 import 'package:pomodoro/our_models.dart';
 import 'package:pomodoro/our_screens.dart';
@@ -114,12 +117,13 @@ class _TaskListViewState extends State<TaskListView> {
 
   List<Widget> taskContents(Task task) {
     final contents = List<Widget>();
+    final categoryColor = user.tasks.getCategory(task.category)['color'];
 
     contents.add(ListTile(
       // title
       leading: FlatButton(
-          child: Icon(Icons.play_arrow),
-          color: Colors.green,
+          child: Icon(Icons.play_arrow, color: Colors.black,),
+          color: Color(0xFF00C853),
           onPressed: () async {
             await Navigator.push(
               context,
@@ -132,31 +136,62 @@ class _TaskListViewState extends State<TaskListView> {
             editTask(task);
           },
           child: Text('Update'),
-          color: user.tasks.getCategory(task.category)['color']),
+          color: Colors.black26
+          ),
       title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Text("[" + task.category + "]",
+        style: TextStyle(
+                fontSize: 12.0,
+                ),
+        ),
+        SizedBox(width: 8,),
         Text(task.name,
             style: TextStyle(
-                fontSize: 18.0, color: user.tasks.getCategory(task.category)['color'])),
-        Container(width: 100),
-        Text('Category: ${task.category}',
-            style: const TextStyle(fontSize: 14.0, color: Colors.black)),
+                fontSize: 20.0,
+                ),
+              ),
       ]),
-      subtitle: new Text('Description: ${task.description}'),
+      subtitle: new Text(task.description),
     ));
 
     // total time dedicated
-    contents.add(Row(children: [
+    contents.add(Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
       Text('Work Time: ${task.durationWork}'),
       SizedBox(width: 15),
-      Text('Break Time: ${task.durationBreak}')
+      Text('Break Time: ${task.durationBreak}'),
+      SizedBox(width: 15,),
+      Text(' Goal: ${task.goalTime} minutes')
     ]));
-    contents.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text('Goal: ${task.goalTime} minutes'),
-      SizedBox(
-        width: 20,
-      ),
-      Text("Completed: ${task.totalTime} minutes")
-    ]));
+
+    contents.add(SizedBox(height:5));
+
+    double dFractionDone = min(task.totalTime.toDouble() / task.goalTime.toDouble(), 1.0);
+    String sPercentDone = (dFractionDone * 100.0).toStringAsFixed(2);
+    print(dFractionDone);
+    print(sPercentDone);
+
+    contents.add(
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+      LinearPercentIndicator(
+                width: MediaQuery.of(context).size.width* 3/4,
+                animation: true,
+                lineHeight: 20.0,
+                animationDuration: 2000,
+                percent: dFractionDone,
+                center: Text(sPercentDone + "% (" + task.totalTime.toString() + " minutes)" + " Towards Goal"),
+                linearStrokeCap: LinearStrokeCap.roundAll,
+                backgroundColor: Colors.black54,
+                progressColor: categoryColor,
+              )
+      ]
+      ,)
+    );
+
+    contents.add(SizedBox(height:5));
 
     return contents;
   }
