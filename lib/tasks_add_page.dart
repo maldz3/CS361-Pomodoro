@@ -17,7 +17,7 @@ class TasksAddPage extends StatefulWidget {
 class _TasksAddPageState extends State<TasksAddPage> {
   User user;
   final formKey = GlobalKey<FormState>();
-  String title = 'Edit a Task';
+  String title = 'Enter Task Info';
   TaskDTO taskInfo = TaskDTO();
 
   @override
