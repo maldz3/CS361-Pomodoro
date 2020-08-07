@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'services/auth.dart';
 import 'package:pomodoro/account_page.dart';
-import 'package:pomodoro/our_models.dart';
 import 'package:pomodoro/registration.dart';
 import 'package:pomodoro/root_page.dart';
 import 'package:pomodoro/tasks_add_page.dart';

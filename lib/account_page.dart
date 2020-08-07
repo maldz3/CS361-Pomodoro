@@ -192,7 +192,7 @@ class _AccountPageState extends State<AccountPage> {
                       } 
                     },
                     validator: (value) => 
-                      value.length < 6 ? "Enter a valid password" : null
+                      value.length < 6 ? "Valid passwords have at least 6 characters" : null
                   ),
                 ),
                 SizedBox(width: 20),

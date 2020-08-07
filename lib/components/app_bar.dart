@@ -13,7 +13,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(title: Text(title),
+    return AppBar(centerTitle: true,
+        title: Text(title),
         actions: <Widget>[
           FlatButton.icon(
               icon: Icon(Icons.person),

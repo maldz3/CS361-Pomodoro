@@ -142,14 +142,10 @@ class _TaskListViewState extends State<TaskListView> {
         Text('Category: ${task.category}',
             style: const TextStyle(fontSize: 14.0, color: Colors.black)),
       ]),
-      // category
-      //subtitle: new Text("category"),//user.categories[task.categoryKey].name),
       subtitle: new Text('Description: ${task.description}'),
     ));
 
     // total time dedicated
-    String hours = (task.totalTime ~/ 60).toString();
-    String minutes = (task.totalTime % 60).toString();
     contents.add(Row(children: [
       Text('Work Time: ${task.durationWork}'),
       SizedBox(width: 15),
