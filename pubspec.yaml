@@ -19,6 +19,7 @@ dependencies:
   cloud_firestore: ^0.13.7
   uuid: ^2.2.0
   flutter_phoenix: ^0.1.0
+  percent_indicator: ^2.1.5
 
 dev_dependencies:
   flutter_test:
