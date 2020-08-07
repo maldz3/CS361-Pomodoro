@@ -11,7 +11,7 @@ class StatsPage extends StatefulWidget {
 class _StatsPageState extends State<StatsPage> {
   List<String> userLevels = ['', 'Beginner', 'Task Rabbit', 'Task Master', 'Pomo Beast'];
   User user;
-  int totalTime;
+  int total_time = 0;
 
   @override
   void initState() {
@@ -33,6 +33,9 @@ class _StatsPageState extends State<StatsPage> {
         }
       }
     }
+
+    catTimes.forEach((k,v) => total_time += v);
+    print(total_time);
 
     return Scaffold(
         appBar: CustomAppBar('Stats'),
