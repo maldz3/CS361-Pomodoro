@@ -10,7 +10,12 @@ class StatsPage extends StatefulWidget {
 }
 
 class _StatsPageState extends State<StatsPage> {
-  List<String> userLevels = ['Beginner', 'Task Rabbit', 'Task Master', 'Pomo Beast'];
+  List<String> userLevels = [
+    'Beginner',
+    'Task Rabbit',
+    'Task Master',
+    'Pomo Beast'
+  ];
   User user;
   int total_time = 0;
   String title;
@@ -23,12 +28,17 @@ class _StatsPageState extends State<StatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    int workTime, schoolTime, exerciseTime, homeTime, familyTime, otherTime;
-
-    Map<String, int> catTimes = { 'Home': 0, 'Work': 10, 'School': 10, 'Exercise': 5, 'Family': 2, 'Other': 1 };
+    Map<String, int> catTimes = {
+      'Home': 0,
+      'Work': 0,
+      'School': 0,
+      'Exercise': 0,
+      'Family': 0,
+      'Other': 0
+    };
 
     // iterates through list of user tasks and increments times based on category
-    if(user != null && user.tasks.list != null) {
+    if (user != null && user.tasks.list != null) {
       for (Task t in user.tasks.list) {
         String category = t.category.toString();
         if (t.totalTime > 0) {
@@ -38,103 +48,65 @@ class _StatsPageState extends State<StatsPage> {
     }
 
     // iterates through category map and gets total overall time
-    catTimes.forEach((k,v) => total_time += v);
-   
+    catTimes.forEach((k, v) => total_time += v);
+
     // uses total_time to determine user level/title
     int index = total_time ~/ 500;
-    if(index > userLevels.length) {
+    if (index > userLevels.length) {
       title = 'Pomo Beast';
     } else {
-      title = userLevels[index]; 
+      title = userLevels[index];
+    }
+
+    Widget graphBuilder(String cat, Color color) {
+      double percent = catTimes[cat] / total_time;
+      return CircularPercentIndicator(
+        radius: 150.0,
+        lineWidth: 5.0,
+        percent: percent,
+        center: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(cat),
+              Text('${catTimes[cat]} / $total_time')
+            ]),
+        progressColor: color,
+      );
     }
 
     return Scaffold(
-        appBar: CustomAppBar('Stats'),
-        drawer: BuildDrawer(),
-        body: Builder(builder: (context) {
-          return Padding(
+      appBar: CustomAppBar('Stats'),
+      drawer: BuildDrawer(),
+      body: Builder(builder: (context) {
+        return Padding(
             padding: EdgeInsets.all(15),
             child: Column(
-              //crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Center(
-                  child: Text('Current Level: $title',
-                    style: Styles.headerLarge)
-                ),
-                //catPercents(context, catTimes, total_time)])
-                SizedBox(height: 30,),
-                Column(
-                  //crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  Row(children: [  
-                    LinearPercentIndicator(
-                      width: 100.0,
-                      lineHeight: 8.0,
-                      percent: (catTimes['Home'] / 10),
-                      progressColor: Colors.red,
+                //crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                      child: Text('Current Level: $title',
+                          style: Styles.headerLarge)),
+                  //catPercents(context, catTimes, total_time)])
+                  SizedBox(height: 30),
+                  Container(
+                    padding: EdgeInsets.all(15.0),
+                    child: Wrap(
+                      spacing: 10.0,
+                      alignment: WrapAlignment.center,
+                      direction: Axis.horizontal,
+                      children: <Widget>[
+                        graphBuilder('Exercise', Colors.red),
+                        graphBuilder('Family', Colors.orange),
+                        graphBuilder('Home', Colors.yellow),
+                        graphBuilder('School', Colors.green),
+                        graphBuilder('Work', Colors.blue),
+                        graphBuilder('Other', Colors.purple),
+                      ],
                     ),
-                    Text('Home'),
-                  ])
-                ]),
-                Column(children: [
-                  Row(children: [
-                    LinearPercentIndicator(
-                      width: 100.0,
-                      lineHeight: 8.0,
-                      percent: (catTimes['Work'] / total_time),
-                      progressColor: Colors.blue,
-                    ),
-                    Text('Work'),
-                  ])
-                ]),
-                Column(children: [
-                  Row(children: [
-                    LinearPercentIndicator(
-                      width: 100.0,
-                      lineHeight: 8.0,
-                      percent: (catTimes['School'] / total_time),
-                      progressColor: Colors.yellow,
-                    ),
-                    Text('School'),
-                  ])
-                ]),
-                Column(children: [
-                  Row(children: [
-                    LinearPercentIndicator(
-                      width: 100.0,
-                      lineHeight: 8.0,
-                      percent: (catTimes['Exercise'] / total_time),
-                      progressColor: Colors.green,
-                    ),
-                    Text('Exercise'),
-                  ])
-                ]),
-                Column(children: [
-                  Row(children: [
-                    LinearPercentIndicator(
-                      width: 100.0,
-                      lineHeight: 8.0,
-                      percent: (catTimes['Family'] / total_time),
-                      progressColor: Colors.purple,
-                    ),
-                    Text('Family'),
-                  ])
-                ]),
-                Column(children: [
-                  Row(children: [
-                    LinearPercentIndicator(
-                      width: 100.0,
-                      lineHeight: 8.0,
-                      percent: (catTimes['Other'] / total_time),
-                      progressColor: Colors.orange,
-                    ),
-                    Text('Other'),
-                  ])
-                ]),
-              ]
-            ),
-          );
-        }));
+                  )
+                ]));
+      }),
+    );
   }
 }
 
