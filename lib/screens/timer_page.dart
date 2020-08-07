@@ -44,7 +44,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _everySecondTimer.cancel();
+    if (_everySecondTimer != null)
+      _everySecondTimer.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -70,7 +71,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   }
 
   void pause() {
-    _everySecondTimer.cancel();
+    if (_everySecondTimer != null)
+      _everySecondTimer.cancel();
   }
 
   void transition() {
@@ -94,7 +96,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           leading: GestureDetector(
               onTap: () {
                 updateTotalTime();
-                _everySecondTimer.cancel();
+                if (_everySecondTimer != null)
+                  _everySecondTimer.cancel();
                 Navigator.of(context).pop();
               },
               child: Icon(Icons.arrow_back)),
@@ -228,7 +231,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         color: Colors.red,
         onPressed: () {
           updateTotalTime();
-          _everySecondTimer.cancel();
+          if (_everySecondTimer != null)
+            _everySecondTimer.cancel();
           Navigator.of(context).pop();
         });
   }
