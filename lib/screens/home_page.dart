@@ -123,7 +123,7 @@ class _TaskListViewState extends State<TaskListView> {
       // title
       leading: FlatButton(
           child: Icon(Icons.play_arrow, color: Colors.black,),
-          color: Colors.green,
+          color: Color(0xFF00C853),
           onPressed: () async {
             await Navigator.push(
               context,
@@ -142,37 +142,17 @@ class _TaskListViewState extends State<TaskListView> {
         Text("[" + task.category + "]",
         style: TextStyle(
                 fontSize: 12.0,
-                //fontStyle: FontStyle.italic
-                //color: categoryColor
                 ),
         ),
         SizedBox(width: 8,),
         Text(task.name,
             style: TextStyle(
                 fontSize: 20.0,
-                //color: categoryColor
                 ),
               ),
       ]),
       subtitle: new Text(task.description),
     ));
-
-    /*
-    double percentDone = min(task.totalTime.toDouble() / task.goalTime.toDouble(), 100.0);
-    contents.add(
-      LinearPercentIndicator(
-                width: MediaQuery.of(context).size.width/2,
-                animation: true,
-                lineHeight: 20.0,
-                animationDuration: 2000,
-                percent: percentDone,
-                center: Text(percentDone.toString() + "%"),
-                linearStrokeCap: LinearStrokeCap.roundAll,
-                progressColor: Colors.lightBlueAccent,
-                trailing: new Text('Goal: ${task.goalTime} minutes'),
-              )
-    );
-    */
 
     // total time dedicated
     contents.add(Row(
@@ -184,13 +164,6 @@ class _TaskListViewState extends State<TaskListView> {
       SizedBox(width: 15,),
       Text(' Goal: ${task.goalTime} minutes')
     ]));
-    // contents.add(Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-    //   Text('Goal: ${task.goalTime} minutes'),
-    //   SizedBox(
-    //     width: 20,
-    //   ),
-    //   Text("Completed: ${task.totalTime} minutes")
-    // ]));
 
     contents.add(SizedBox(height:5));
 
@@ -210,7 +183,6 @@ class _TaskListViewState extends State<TaskListView> {
                 animationDuration: 2000,
                 percent: dFractionDone,
                 center: Text(sPercentDone + "% (" + task.totalTime.toString() + " minutes)" + " Towards Goal"),
-                //trailing: new Text(' Goal: ${task.goalTime} minutes'),
                 linearStrokeCap: LinearStrokeCap.roundAll,
                 backgroundColor: Colors.black54,
                 progressColor: categoryColor,
