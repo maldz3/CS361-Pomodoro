@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'app.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'app.dart';
 
 const String title = 'Pomodoro';
 void main() {

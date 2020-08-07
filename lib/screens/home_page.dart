@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/our_components.dart';
 import 'package:pomodoro/our_models.dart';
-import 'package:pomodoro/tasks_add_page.dart';
-import 'package:pomodoro/timer_page.dart';
+import 'package:pomodoro/our_screens.dart';
 
 // Logged in page
 
@@ -142,14 +141,10 @@ class _TaskListViewState extends State<TaskListView> {
         Text('Category: ${task.category}',
             style: const TextStyle(fontSize: 14.0, color: Colors.black)),
       ]),
-      // category
-      //subtitle: new Text("category"),//user.categories[task.categoryKey].name),
       subtitle: new Text('Description: ${task.description}'),
     ));
 
     // total time dedicated
-    String hours = (task.totalTime ~/ 60).toString();
-    String minutes = (task.totalTime % 60).toString();
     contents.add(Row(children: [
       Text('Work Time: ${task.durationWork}'),
       SizedBox(width: 15),
@@ -160,7 +155,7 @@ class _TaskListViewState extends State<TaskListView> {
       SizedBox(
         width: 20,
       ),
-      Text("Completed: ${task.totalTime} minutes.")
+      Text("Completed: ${task.totalTime} minutes")
     ]));
 
     return contents;
