@@ -4,6 +4,7 @@ class TaskDTO {
   String description;
   int durationWork;
   int durationBreak;
+  int totalTime;
   int goalTime;
   String category;
 }

@@ -23,6 +23,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
   @override
   void initState() {
     super.initState();
+    taskInfo.totalTime = 0;
 
     user = User.getInstance();
     // couldn't do the taskinfo setting here because not
@@ -41,6 +42,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
       taskInfo.category = taskToEdit.category;
       taskInfo.id = taskToEdit.id;
       taskInfo.goalTime = taskToEdit.goalTime;
+      taskInfo.totalTime = taskToEdit.totalTime;
       taskInfo.durationBreak = taskToEdit.durationBreak;
       taskInfo.durationWork = taskToEdit.durationWork;
       taskInfo.description = taskToEdit.description;
@@ -66,7 +68,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
                             initialValue: taskInfo.name,
                             autofocus: false,
                             textInputAction: TextInputAction.next,
-                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                            onFieldSubmitted: (_) =>
+                                FocusScope.of(context).nextFocus(),
                             decoration: InputDecoration(
                                 labelText: 'Task Name',
                                 border: OutlineInputBorder()),
@@ -85,7 +88,8 @@ class _TasksAddPageState extends State<TasksAddPage> {
                             initialValue: taskInfo.description,
                             autofocus: false,
                             textInputAction: TextInputAction.next,
-                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                            onFieldSubmitted: (_) =>
+                                FocusScope.of(context).nextFocus(),
                             decoration: InputDecoration(
                                 labelText: 'Description',
                                 border: OutlineInputBorder()),
@@ -107,10 +111,11 @@ class _TasksAddPageState extends State<TasksAddPage> {
                             keyboardType: TextInputType.number,
                             autofocus: false,
                             textInputAction: TextInputAction.next,
-                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                            onFieldSubmitted: (_) =>
+                                FocusScope.of(context).nextFocus(),
                             inputFormatters: <TextInputFormatter>[
-                                    WhitelistingTextInputFormatter.digitsOnly
-                                ],
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
                             decoration: InputDecoration(
                                 labelText: 'Task Duration (Minutes)',
                                 border: OutlineInputBorder()),
@@ -132,10 +137,11 @@ class _TasksAddPageState extends State<TasksAddPage> {
                             keyboardType: TextInputType.number,
                             autofocus: false,
                             textInputAction: TextInputAction.next,
-                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                            onFieldSubmitted: (_) =>
+                                FocusScope.of(context).nextFocus(),
                             inputFormatters: <TextInputFormatter>[
-                                    WhitelistingTextInputFormatter.digitsOnly
-                                ],
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
                             decoration: InputDecoration(
                                 labelText: 'Break Duration (Minutes)',
                                 border: OutlineInputBorder()),
@@ -157,10 +163,11 @@ class _TasksAddPageState extends State<TasksAddPage> {
                             keyboardType: TextInputType.number,
                             autofocus: false,
                             textInputAction: TextInputAction.next,
-                            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                            onFieldSubmitted: (_) =>
+                                FocusScope.of(context).nextFocus(),
                             inputFormatters: <TextInputFormatter>[
-                                    WhitelistingTextInputFormatter.digitsOnly
-                                ],
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
                             decoration: InputDecoration(
                                 labelText: 'Goal Time (Minutes)',
                                 border: OutlineInputBorder()),
@@ -220,6 +227,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                                           description: taskInfo.description,
                                           durationWork: taskInfo.durationWork,
                                           durationBreak: taskInfo.durationBreak,
+                                          totalTime: taskInfo.totalTime,
                                           goalTime: taskInfo.goalTime,
                                           category: taskInfo.category);
 

@@ -160,7 +160,7 @@ class _TaskListViewState extends State<TaskListView> {
       SizedBox(
         width: 20,
       ),
-      Text("Completed: ${task.totalTime} minutes.")
+      Text("Completed: ${task.totalTime} minutes")
     ]));
 
     return contents;

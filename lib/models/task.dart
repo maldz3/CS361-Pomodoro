@@ -99,7 +99,7 @@ class Task {
         String description,
         int durationWork,
         int durationBreak,
-        int totalTime = 0,
+        int totalTime,
         int goalTime,
         String category}) {
     //
