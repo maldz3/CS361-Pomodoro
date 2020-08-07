@@ -179,7 +179,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             AutoSizeText(
-              'Time Remaining',
+              breakTime? 'Break Time' : "Work!",
               style: TextStyle(fontSize: 36, color: Colors.white),
               maxLines: 1,
             ),
