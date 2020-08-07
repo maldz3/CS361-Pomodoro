@@ -24,6 +24,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   Timer _everySecondTimer;
   int segmentTime;
   bool blinker = true;
+  AnimationController _controller;
 
   @override
   void initState() {
@@ -34,11 +35,18 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
     breakTime = true; // transition will toggle, so this will start with work.
     transition();
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
   }
 
   @override
   void dispose() {
-    _everySecondTimer.cancel();
+    if (_everySecondTimer != null)
+      _everySecondTimer.cancel();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -63,7 +71,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   }
 
   void pause() {
-    _everySecondTimer.cancel();
+    if (_everySecondTimer != null)
+      _everySecondTimer.cancel();
   }
 
   void transition() {
@@ -87,7 +96,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           leading: GestureDetector(
               onTap: () {
                 updateTotalTime();
-                _everySecondTimer.cancel();
+                if (_everySecondTimer != null)
+                  _everySecondTimer.cancel();
                 Navigator.of(context).pop();
               },
               child: Icon(Icons.arrow_back)),
@@ -134,29 +144,34 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     //   )
     // );
 
+    // don't delete this code!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // add tomato
-    timerChildren.add(
-      Image.asset('assets/images/tomato2.png'), // plain asset must use large tomato to fill entire space.
+    // timerChildren.add(
+    //   Image.asset('assets/images/tomato2.png'), // plain asset must use large tomato to fill entire space.
+    // );
+    
+    //// add circular progress indicator
+    // this part addss color transition
+    Animation<Color> _colorAnimation = ColorTween(
+        begin: Colors.greenAccent,
+        end: Colors.lightBlueAccent,
+    ).animate(
+      _controller
     );
-
-    // add caterpillars
-    int numCaterpillars = (24.0 * ((segmentTime - accumulatedSeconds)/segmentTime)).round() + 1; // every 15 degrees
-    double pi = 3.1415;
-    double startAngle = pi/2;
-    if (segmentTime > 60)
-      blinker = !blinker;
-    for (int i = 0; i < numCaterpillars; i++) {
-      if (!((i == numCaterpillars - 1) && blinker)) {
-        timerChildren.add(
-          Transform.rotate(angle: startAngle - pi/12.0*i,
-          child: Image.asset('assets/images/caterpillar_field.png')),
-        );
-      }
-    }
-
+    // calculate current progress
+    double progress = (segmentTime - accumulatedSeconds).toDouble()/segmentTime.toDouble();
+    _controller.value = progress;
+    // add circle to children
     timerChildren.add(
-      Transform.rotate(angle: pi/2,
-      child: Image.asset('assets/images/caterpillar_field.png')),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [Expanded(child: 
+          CircularProgressIndicator(
+            valueColor: _colorAnimation,
+            value:progress,
+            strokeWidth: 10,
+          ),
+      )],)
     );
 
     timerChildren.add(
@@ -167,7 +182,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             AutoSizeText(
-              'Time Remaining',
+              breakTime? 'Break Time' : "Work!",
               style: TextStyle(fontSize: 36, color: Colors.white),
               maxLines: 1,
             ),
@@ -216,7 +231,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         color: Colors.red,
         onPressed: () {
           updateTotalTime();
-          _everySecondTimer.cancel();
+          if (_everySecondTimer != null)
+            _everySecondTimer.cancel();
           Navigator.of(context).pop();
         });
   }

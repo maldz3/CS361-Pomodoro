@@ -102,8 +102,8 @@ class _TaskListViewState extends State<TaskListView> {
 
   Widget buildTaskCard(Task task) {
     return Container(
-      decoration:
-          BoxDecoration(color: user.tasks.getCategory(task.category)['color']),
+      // decoration:
+      //     BoxDecoration(color: user.tasks.getCategory(task.category)['color']),
       child: Card(
         child: Column(
           children: taskContents(task),
@@ -135,8 +135,8 @@ class _TaskListViewState extends State<TaskListView> {
           color: user.tasks.getCategory(task.category)['color']),
       title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Text(task.name,
-            style: const TextStyle(
-                fontSize: 18.0, color: Colors.deepPurpleAccent)),
+            style: TextStyle(
+                fontSize: 18.0, color: user.tasks.getCategory(task.category)['color'])),
         Container(width: 100),
         Text('Category: ${task.category}',
             style: const TextStyle(fontSize: 14.0, color: Colors.black)),
