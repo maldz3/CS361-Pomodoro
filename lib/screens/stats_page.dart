@@ -9,9 +9,10 @@ class StatsPage extends StatefulWidget {
 }
 
 class _StatsPageState extends State<StatsPage> {
-  List<String> userLevels = ['', 'Beginner', 'Task Rabbit', 'Task Master', 'Pomo Beast'];
+  List<String> userLevels = ['Beginner', 'Task Rabbit', 'Task Master', 'Pomo Beast'];
   User user;
   int total_time = 0;
+  String title;
 
   @override
   void initState() {
@@ -25,6 +26,7 @@ class _StatsPageState extends State<StatsPage> {
 
     Map<String, int> catTimes = { 'Home': 0, 'Work': 0, 'Exercise': 0, 'Family': 0, 'Other': 0 };
 
+    // iterates through list of user tasks and increments times based on category
     if(user != null && user.tasks.list != null) {
       for (Task t in user.tasks.list) {
         String category = t.category.toString();
@@ -34,8 +36,16 @@ class _StatsPageState extends State<StatsPage> {
       }
     }
 
+    // iterates through category map and gets total overall time
     catTimes.forEach((k,v) => total_time += v);
-    print(total_time);
+   
+    // uses total_time to determine user level/title
+    int index = total_time ~/ 500;
+    if(index > userLevels.length) {
+      title = 'Pomo Beast';
+    } else {
+      title = userLevels[index]; 
+    }
 
     return Scaffold(
         appBar: CustomAppBar('Stats'),
@@ -45,7 +55,7 @@ class _StatsPageState extends State<StatsPage> {
             Padding(
               padding: EdgeInsets.all(15),
               child: Center(
-                child: Text('Current Level: ${userLevels[user.level]}',
+                child: Text('Current Level: $title',
                   style: Styles.headerLarge)),
             ),
           ]);
