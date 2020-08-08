@@ -44,8 +44,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    if (_everySecondTimer != null)
-      _everySecondTimer.cancel();
+    if (_everySecondTimer != null) _everySecondTimer.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -66,13 +65,15 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         if (delta <= 0) {
           transition();
         }
+        if (delta == 30) {
+          var alert = showAlert(context);
+        }
       });
     });
   }
 
   void pause() {
-    if (_everySecondTimer != null)
-      _everySecondTimer.cancel();
+    if (_everySecondTimer != null) _everySecondTimer.cancel();
   }
 
   void transition() {
@@ -89,6 +90,23 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     accumulatedSeconds = 0;
   }
 
+  Future<Widget> showAlert(BuildContext context) {
+    return showDialog(
+    barrierDismissible: false,
+    barrierColor: Colors.redAccent,
+      context: context,
+      builder: (context) {
+                        Future.delayed(Duration(seconds: 3), () {
+                          Navigator.of(context).pop();
+                        });
+                        return AlertDialog(
+                                    title: Text(
+                                        '30 seconds remaining'),
+                                  );
+                                });
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,14 +114,12 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           leading: GestureDetector(
               onTap: () {
                 updateTotalTime();
-                if (_everySecondTimer != null)
-                  _everySecondTimer.cancel();
+                if (_everySecondTimer != null) _everySecondTimer.cancel();
                 Navigator.of(context).pop();
               },
               child: Icon(Icons.arrow_back)),
           centerTitle: true,
-          title: Text(
-              '${task.name} - $taskType    Current total completed: ${task.totalTime}')),
+          title: Text(task.name)),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(children: <Widget>[
@@ -134,7 +150,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     // ]);
 
     final timerChildren = List<Widget>();
-    
+
     // don't delete this code!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // !! only compatible with mobile; ripening tomato animation
     // timerChildren.add(
@@ -149,65 +165,62 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     // timerChildren.add(
     //   Image.asset('assets/images/tomato2.png'), // plain asset must use large tomato to fill entire space.
     // );
-    
+
     //// add circular progress indicator
     // this part addss color transition
     Animation<Color> _colorAnimation = ColorTween(
-        begin: Colors.greenAccent,
-        end: Colors.lightBlueAccent,
-    ).animate(
-      _controller
-    );
+      begin: Colors.greenAccent,
+      end: Colors.lightBlueAccent,
+    ).animate(_controller);
     // calculate current progress
-    double progress = (segmentTime - accumulatedSeconds).toDouble()/segmentTime.toDouble();
+    double progress =
+        (segmentTime - accumulatedSeconds).toDouble() / segmentTime.toDouble();
     _controller.value = progress;
     // add circle to children
-    timerChildren.add(
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [Expanded(child: 
-          CircularProgressIndicator(
+    timerChildren.add(Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: CircularProgressIndicator(
             valueColor: _colorAnimation,
-            value:progress,
+            value: progress,
             strokeWidth: 10,
           ),
-      )],)
-    );
+        )
+      ],
+    ));
 
-    timerChildren.add(
-      Align(
-        alignment: FractionalOffset.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            AutoSizeText(
-              breakTime? 'Break Time' : "Work!",
-              style: TextStyle(fontSize: 36, color: Colors.white),
-              maxLines: 1,
-            ),
-            AutoSizeText(
-              timerString,
-              style:
-                  TextStyle(fontSize: 100, color: Colors.white),
-              maxLines: 1,
-            ),
-          ],
-        ),
-      )
-    );
+    timerChildren.add(Align(
+      alignment: FractionalOffset.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          AutoSizeText(
+            breakTime ? 'Break Time' : "Work!",
+            style: TextStyle(fontSize: 36, color: Colors.white),
+            maxLines: 1,
+          ),
+          AutoSizeText(
+            timerString,
+            style: TextStyle(fontSize: 100, color: Colors.white),
+            maxLines: 1,
+          ),
+        ],
+      ),
+    ));
 
     return Expanded(
       child: Align(
-          alignment: FractionalOffset.center,
-          child: AspectRatio(
-              aspectRatio: 1.0,
-              child: Stack(
-                children: timerChildren,
-                ),
-              ),
-            ),
-          );
+        alignment: FractionalOffset.center,
+        child: AspectRatio(
+          aspectRatio: 1.0,
+          child: Stack(
+            children: timerChildren,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget playPauseButton(BuildContext context) {
@@ -231,8 +244,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         color: Colors.red,
         onPressed: () {
           updateTotalTime();
-          if (_everySecondTimer != null)
-            _everySecondTimer.cancel();
+          if (_everySecondTimer != null) _everySecondTimer.cancel();
           Navigator.of(context).pop();
         });
   }
@@ -253,9 +265,11 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     } else {
       int accomplished = (accumulatedSeconds / 60.0).round();
       if (accomplished > 0) {
-        print('adding this many minutes to task time accomplished: ' + accomplished.toString());
+        print('adding this many minutes to task time accomplished: ' +
+            accomplished.toString());
         task.addTime(accomplished);
-        user.tasks.update(task); // assuming task retains key, this will update the task with the new total.
+        user.tasks.update(
+            task); // assuming task retains key, this will update the task with the new total.
       }
     }
   }
