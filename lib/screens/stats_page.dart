@@ -17,7 +17,7 @@ class _StatsPageState extends State<StatsPage> {
     'Pomo Beast'
   ];
   User user;
-  int total_time = 0;
+  int totalTime = 0;
   String title;
 
   @override
@@ -37,7 +37,9 @@ class _StatsPageState extends State<StatsPage> {
       'Other': 0
     };
     final categoryColors = Map();
-    user.tasks.categories.forEach((element) {categoryColors[element['id']]= element['color'];});
+    user.tasks.categories.forEach((element) {
+      categoryColors[element['id']] = element['color'];
+    });
 
     // iterates through list of user tasks and increments times based on category
     if (user != null && user.tasks.list != null) {
@@ -50,10 +52,10 @@ class _StatsPageState extends State<StatsPage> {
     }
 
     // iterates through category map and gets total overall time
-    catTimes.forEach((k, v) => total_time += v);
+    catTimes.forEach((k, v) => totalTime += v);
 
     // uses total_time to determine user level/title
-    int index = total_time ~/ 500;
+    int index = totalTime ~/ 500;
     if (index > userLevels.length) {
       title = 'Pomo Beast';
     } else {
@@ -61,7 +63,7 @@ class _StatsPageState extends State<StatsPage> {
     }
 
     Widget graphBuilder(String cat, Color color) {
-      double percent = catTimes[cat] / total_time;
+      double percent = catTimes[cat] / totalTime;
       return CircularPercentIndicator(
         radius: 150.0,
         lineWidth: 5.0,
@@ -70,7 +72,7 @@ class _StatsPageState extends State<StatsPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(cat),
-              Text('${catTimes[cat]} / $total_time')
+              Text('${catTimes[cat]} / $totalTime')
             ]),
         progressColor: color,
       );
@@ -111,19 +113,3 @@ class _StatsPageState extends State<StatsPage> {
     );
   }
 }
-
-// Widget catPercents(BuildContext context, Map<String, int> catTimes, int totalTime) {
-//   print(catTimes);
-//   catTimes.forEach((k,v){
-//     return //Row(children: [
-//       Text(k);
-//       // LinearPercentIndicator(
-//       //   width: 100.0,
-//       //   lineHeight: 8.0,
-//       //   percent: (v / totalTime),
-//       //   progressColor: Colors.red,
-//       // )
-//     //]
-//     //);
-//   });
-// }
