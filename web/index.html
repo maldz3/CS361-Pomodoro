@@ -52,6 +52,21 @@
     firebase.initializeApp(firebaseConfig);
   </script>
 
-    <script src="main.dart.js" type="application/javascript"></script>
+    <!--Howler audio player: Method from-->
+    <!--https://medium.com/flutter-community/flutter-web-audio-player-24bded45b928-->
+    <!--Sound from: http://soundbible.com/tags-gong.html-->
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.1.3/dist/howler.min.js"></script>
+    <script type="application/javascript">
+      var audio;
+      function playAlert(path) {
+        audio= new Howl({
+          src: [path]
+        });
+        audio.play();
+      }
+    </script>
+
+  <script src="main.dart.js" type="application/javascript"></script>
+
 </body>
 </html>
