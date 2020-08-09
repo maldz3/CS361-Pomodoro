@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:js' as js;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:pomodoro/our_models.dart';
 import 'package:pomodoro/widgets/auto_size_text.dart';
 
@@ -67,7 +68,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           transition();
         }
         if (delta == 30) {
-          playAlert('assets/sounds/chime.mp3');
+          playChime('../../assets/sounds/chime.mp3');
         }
       });
     });
@@ -89,6 +90,11 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     }
 
     accumulatedSeconds = 0;
+  }
+
+  void playChime(String path) async {
+    AudioPlayer audioPlayer = AudioPlayer();
+    int result = await audioPlayer.play(path, isLocal: true);
   }
 
   void playAlert(String path) {
