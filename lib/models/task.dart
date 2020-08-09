@@ -13,7 +13,7 @@ class Tasks {
     {'id': 'Exercise', 'value': 'Exercise', 'color': Colors.blueAccent},
     {'id': 'Home', 'value': 'Home', 'color': Colors.purpleAccent},
     {'id': 'Family', 'value': 'Family', 'color': Colors.deepPurple},
-    {'id': 'Other', 'value': 'Other', 'color': Colors.green},
+    {'id': 'Other', 'value': 'Other', 'color': Colors.yellow},
   ];
 
   Tasks(DocumentReference document): _document = document;
