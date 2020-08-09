@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:js' as js;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pomodoro/our_models.dart';
@@ -66,7 +67,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           transition();
         }
         if (delta == 30) {
-          var alert = showAlert(context);
+          playAlert('assets/sounds/chime.mp3');
         }
       });
     });
@@ -90,21 +91,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     accumulatedSeconds = 0;
   }
 
-  Future<Widget> showAlert(BuildContext context) {
-    return showDialog(
-    barrierDismissible: false,
-    barrierColor: Colors.redAccent,
-      context: context,
-      builder: (context) {
-                        Future.delayed(Duration(seconds: 3), () {
-                          Navigator.of(context).pop();
-                        });
-                        return AlertDialog(
-                                    title: Text(
-                                        '30 seconds remaining'),
-                                  );
-                                });
-    
+  void playAlert(String path) {
+    js.context.callMethod('playAlert', [path]);
   }
 
   @override
