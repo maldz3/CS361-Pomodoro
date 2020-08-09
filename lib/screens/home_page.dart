@@ -169,8 +169,6 @@ class _TaskListViewState extends State<TaskListView> {
 
     double dFractionDone = min(task.totalTime.toDouble() / task.goalTime.toDouble(), 1.0);
     String sPercentDone = (dFractionDone * 100.0).toStringAsFixed(2);
-    print(dFractionDone);
-    print(sPercentDone);
 
     contents.add(
       Row(

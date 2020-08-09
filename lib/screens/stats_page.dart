@@ -36,6 +36,8 @@ class _StatsPageState extends State<StatsPage> {
       'Family': 0,
       'Other': 0
     };
+    final categoryColors = Map();
+    user.tasks.categories.forEach((element) {categoryColors[element['id']]= element['color'];});
 
     // iterates through list of user tasks and increments times based on category
     if (user != null && user.tasks.list != null) {
@@ -95,12 +97,12 @@ class _StatsPageState extends State<StatsPage> {
                       alignment: WrapAlignment.center,
                       direction: Axis.horizontal,
                       children: <Widget>[
-                        graphBuilder('Exercise', Colors.red),
-                        graphBuilder('Family', Colors.orange),
-                        graphBuilder('Home', Colors.yellow),
-                        graphBuilder('School', Colors.green),
-                        graphBuilder('Work', Colors.blue),
-                        graphBuilder('Other', Colors.purple),
+                        graphBuilder('Exercise', categoryColors['Exercise']),
+                        graphBuilder('Family', categoryColors['Family']),
+                        graphBuilder('Home', categoryColors['Home']),
+                        graphBuilder('School', categoryColors['School']),
+                        graphBuilder('Work', categoryColors['Work']),
+                        graphBuilder('Other', categoryColors['Other']),
                       ],
                     ),
                   )
