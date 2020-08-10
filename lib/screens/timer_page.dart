@@ -27,6 +27,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   int segmentTime;
   bool blinker = true;
   AnimationController _controller;
+  Icon playPauseIcon =  Icon(Icons.play_arrow);
 
   @override
   void initState() {
@@ -62,6 +63,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   void start() {
     _everySecondTimer = Timer.periodic(Duration(seconds: 1), (Timer t) {
       setState(() {
+        playPauseIcon = Icon(Icons.pause);
         accumulatedSeconds++;
         int delta = segmentTime - accumulatedSeconds;
         if (delta <= 0) {
@@ -76,6 +78,9 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
   void pause() {
     if (_everySecondTimer != null) _everySecondTimer.cancel();
+    setState(() {
+      playPauseIcon = Icon(Icons.play_arrow);
+    });
   }
 
   void transition() {
@@ -220,8 +225,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   Widget playPauseButton(BuildContext context) {
     return FloatingActionButton(
       backgroundColor: Colors.green,
-      child:
-          Row(children: [Icon(Icons.play_arrow), Text('/'), Icon(Icons.pause)]),
+      child: playPauseIcon,
+          //Row(children: [Icon(Icons.play_arrow), Text('/'), Icon(Icons.pause)]),
       onPressed: () {
         if (_everySecondTimer != null && _everySecondTimer.isActive) {
           pause();
