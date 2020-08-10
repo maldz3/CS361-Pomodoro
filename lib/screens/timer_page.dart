@@ -61,18 +61,23 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   }
 
   void start() {
+    setState(() {
+      playPauseIcon = Icon(Icons.pause);
+    });
+    
     _everySecondTimer = Timer.periodic(Duration(seconds: 1), (Timer t) {
-      setState(() {
-        playPauseIcon = Icon(Icons.pause);
-        accumulatedSeconds++;
-        int delta = segmentTime - accumulatedSeconds;
-        if (delta <= 0) {
-          transition();
-        }
-        if (delta == 30) {
-          playChime('../../assets/sounds/chime.mp3');
-        }
-      });
+
+      accumulatedSeconds++;
+      
+      int delta = segmentTime - accumulatedSeconds;
+      if (delta <= 0) {
+        transition();
+      }
+      if (delta == 30) {
+        playChime('../../assets/sounds/chime.mp3');
+      }
+
+      setState(() {});
     });
   }
 
