@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:js' as js;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:pomodoro/our_models.dart';
 import 'package:pomodoro/widgets/auto_size_text.dart';
 
@@ -74,6 +73,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
       }
       if (delta == 30) {
         playAlert();
+        var alert = showAlert(context);
       }
 
       setState(() {});
@@ -103,6 +103,24 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
   void playAlert() {
     js.context.callMethod('playAudio');
+  }
+
+
+  Future<Widget> showAlert(BuildContext context) {
+    return showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) {
+            Future.delayed(Duration(seconds: 3), () {
+                          Navigator.of(context).pop();
+                        });
+                        return AlertDialog(
+                                    title: Center(child: Text(
+                                        '30 seconds remaining')),
+                                        content: Image.asset('assets/images/tomato.png', height: 200, width: 200),
+                                  );
+                                });
+
   }
 
   @override
