@@ -27,7 +27,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   int segmentTime;
   bool blinker = true;
   AnimationController _controller;
-  Icon playPauseIcon =  Icon(Icons.play_arrow);
+  Icon playPauseIcon = Icon(Icons.play_arrow);
 
   @override
   void initState() {
@@ -64,17 +64,17 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     setState(() {
       playPauseIcon = Icon(Icons.pause);
     });
-    
-    _everySecondTimer = Timer.periodic(Duration(seconds: 1), (Timer t) {
 
+    _everySecondTimer = Timer.periodic(Duration(seconds: 1), (Timer t) {
       accumulatedSeconds++;
-      
+
       int delta = segmentTime - accumulatedSeconds;
       if (delta <= 0) {
         transition();
       }
       if (delta == 30) {
         playChime('../../assets/sounds/chime.mp3');
+        playAlert();
       }
 
       setState(() {});
@@ -107,8 +107,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     int result = await audioPlayer.play(path, isLocal: true);
   }
 
-  void playAlert(String path) {
-    js.context.callMethod('playAlert', [path]);
+  void playAlert() {
+    js.context.callMethod('playAudio');
   }
 
   @override
@@ -231,7 +231,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     return FloatingActionButton(
       backgroundColor: Colors.green,
       child: playPauseIcon,
-          //Row(children: [Icon(Icons.play_arrow), Text('/'), Icon(Icons.pause)]),
+      //Row(children: [Icon(Icons.play_arrow), Text('/'), Icon(Icons.pause)]),
       onPressed: () {
         if (_everySecondTimer != null && _everySecondTimer.isActive) {
           pause();
