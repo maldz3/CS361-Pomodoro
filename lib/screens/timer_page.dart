@@ -73,7 +73,6 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         transition();
       }
       if (delta == 30) {
-        playChime('../../assets/sounds/chime.mp3');
         playAlert();
       }
 
@@ -100,11 +99,6 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     }
 
     accumulatedSeconds = 0;
-  }
-
-  void playChime(String path) async {
-    AudioPlayer audioPlayer = AudioPlayer();
-    int result = await audioPlayer.play(path, isLocal: true);
   }
 
   void playAlert() {
