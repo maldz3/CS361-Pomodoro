@@ -9,5 +9,5 @@ Hosting URL: [https://cs361-pomodoro.web.app](https://cs361-pomodoro.web.app)
 - [Jamie Mott](https://github.com/jamiemott)
 - [Maliha Syed](https://github.com/maldz3)
 - [Noah Johnston](https://github.com/NDJ-1701)
-- Leonard LoBiondo
+- [Leonard LoBiondo](https://github.com/Len-LoBo)
 - [Justin Lin](https://github.com/jlin88)
