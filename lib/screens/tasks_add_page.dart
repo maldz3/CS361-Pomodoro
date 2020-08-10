@@ -236,7 +236,7 @@ class _TasksAddPageState extends State<TasksAddPage> {
                                       Navigator.of(context).pop();
                                     }
                                   },
-                                  child: Text('SaveEntry'))
+                                  child: Text('Save Entry'))
                             ])
                       ]),
                 )))));

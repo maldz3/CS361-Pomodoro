@@ -18,7 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         actions: <Widget>[
           FlatButton.icon(
               icon: Icon(Icons.person),
-              label: Text("logout"),
+              label: Text("Logout"),
               onPressed: () async {
                 await AuthService.signOut();
                 Navigator.popUntil(context, ModalRoute.withName('/'));
