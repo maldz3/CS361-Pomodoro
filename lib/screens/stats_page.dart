@@ -96,10 +96,16 @@ class _StatsPageState extends State<StatsPage> {
         childos.add(
           Card(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Text(
-                  t.name,
+                ListTile(
+                  //leading: // leading widget here //,
+                  title: Text(
+                    t.name,
+                  ),
+                  subtitle: Text("Worked on this task for " +
+                      t.totalTime.toString() +
+                      " minutes."),
                 ),
               ],
             ),
@@ -157,8 +163,12 @@ class _StatsPageState extends State<StatsPage> {
         ),
       ),
       SizedBox(height: 30),
-      Center(child: Text('Time By Task', style: Styles.textDefault)),
-      SizedBox(height: 30),
+      Center(
+          child: Text(
+        '~ Time By Task ~',
+        style: Styles.headerLarge,
+      )),
+      SizedBox(height: 10),
       taskBuilder()
     ];
   }
