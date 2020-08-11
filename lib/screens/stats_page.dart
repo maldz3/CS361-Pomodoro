@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pomodoro/our_components.dart';
@@ -72,57 +73,6 @@ class _StatsPageState extends State<StatsPage> {
     );
   }
 
-  Widget graphBuilder(String cat, Color color) {
-    double percent = catTimes[cat] / totalTime;
-    return CircularPercentIndicator(
-      radius: 150.0,
-      lineWidth: 5.0,
-      percent: percent,
-      center: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text(cat), Text('${catTimes[cat]} / $totalTime')]),
-      progressColor: color,
-    );
-  }
-
-  Widget taskBuilder() {
-    if (user != null && user.tasks.list != null) {
-      List<Widget> childos = new List<Widget>();
-
-      // destructive sort, will affect list app wide
-      user.tasks.list.sort((b, a) => a.totalTime.compareTo(b.totalTime));
-
-      for (Task t in user.tasks.list) {
-        childos.add(
-          Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                ListTile(
-                  //leading: // leading widget here //,
-                  title: Text(
-                    t.name,
-                  ),
-                  subtitle: Text("Worked on this task for " +
-                      t.totalTime.toString() +
-                      " minutes."),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-
-      return Column(
-        children: childos,
-      );
-    } else {
-      return Container(
-        child: Text('You will need to add tasks before anything shows here!'),
-      );
-    }
-  }
-
   Widget body(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints viewportConstraints) {
@@ -152,24 +102,102 @@ class _StatsPageState extends State<StatsPage> {
           spacing: 10.0,
           alignment: WrapAlignment.center,
           direction: Axis.horizontal,
-          children: <Widget>[
-            graphBuilder('Exercise', categoryColors['Exercise']),
-            graphBuilder('Family', categoryColors['Family']),
-            graphBuilder('Home', categoryColors['Home']),
-            graphBuilder('School', categoryColors['School']),
-            graphBuilder('Work', categoryColors['Work']),
-            graphBuilder('Other', categoryColors['Other']),
-          ],
+          children: graphs(),
         ),
       ),
       SizedBox(height: 30),
-      Center(
-          child: Text(
-        '~ Time By Task ~',
-        style: Styles.headerLarge,
-      )),
-      SizedBox(height: 10),
-      taskBuilder()
+      taskColumn(),
     ];
+  }
+
+  Widget graph(String cat, Color color) {
+    double percent = catTimes[cat] / totalTime;
+    return CircularPercentIndicator(
+      radius: 150.0,
+      lineWidth: 5.0,
+      percent: percent,
+      center: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[Text(cat), Text('${catTimes[cat]} / $totalTime')]),
+      progressColor: color,
+    );
+  }
+
+  List<Widget> graphs() {
+    List<Widget> graphs = new List<Widget>();
+    user.tasks.categories.forEach((element) {
+      graphs.add(graph(element['id'], element['color']));
+    });
+    return graphs;
+  }
+
+  Widget progressIcon(Task t) {
+    double progress = t.totalTime / t.goalTime;
+    final double iconSize = 40.0;
+    if (progress >= 1.0)
+      return Icon(
+        Icons.star,
+        color: Colors.yellow,
+        size: iconSize,
+      );
+    else if (progress >= 0.5)
+      return Icon(
+        Icons.star_half,
+        color: Colors.yellow,
+        size: iconSize,
+      );
+    else
+      return Icon(
+        Icons.star_border,
+        size: iconSize,
+      );
+  }
+
+  Widget taskColumn() {
+    List<Widget> childos = new List<Widget>();
+
+    childos.addAll([
+      Center(
+        child: Text(
+          '~ Time By Task ~',
+          style: Styles.headerLarge,
+        ),
+      ),
+      SizedBox(height: 10),
+    ]);
+
+    if (user != null && user.tasks.list != null) {
+      // destructive sort, will affect list app wide
+      user.tasks.list.sort((b, a) => a.totalTime.compareTo(b.totalTime));
+
+      for (Task t in user.tasks.list) {
+        childos.add(
+          Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                ListTile(
+                  //leading: // leading widget here //,
+                  trailing: progressIcon(t),
+                  title: Text(
+                    t.name,
+                  ),
+                  subtitle:
+                      Text("Worked on this task for ${t.totalTime} minutes."),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    } else {
+      childos.add(Container(
+        child: Text('You will need to add tasks before anything shows here!'),
+      ));
+    }
+
+    return Column(
+      children: childos,
+    );
   }
 }
