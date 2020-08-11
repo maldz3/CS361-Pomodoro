@@ -78,37 +78,53 @@ class _StatsPageState extends State<StatsPage> {
       );
     }
 
+    Widget taskBuilder() {
+      if (user != null && user.tasks.list != null) {
+        user.tasks.list.sort((b, a) => a.totalTime.compareTo(b.totalTime));
+        return ListView.builder(
+          itemCount: user.tasks.list.length,
+          itemBuilder: (context, index) {
+            return ListTile(title: Text(user.tasks.list[index].name));
+          });
+      } else {
+        return Container(
+            child:
+                Text('You will need to add tasks before anything shows here!'));
+      }
+    }
+
     return Scaffold(
       appBar: CustomAppBar('Stats'),
       drawer: BuildDrawer(),
       body: Builder(builder: (context) {
         return Padding(
             padding: EdgeInsets.all(15),
-            child: Column(
-                //crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                      child: Text('Current Level: $title',
-                          style: Styles.headerLarge)),
-                  //catPercents(context, catTimes, total_time)])
-                  SizedBox(height: 30),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: Wrap(
-                      spacing: 10.0,
-                      alignment: WrapAlignment.center,
-                      direction: Axis.horizontal,
-                      children: <Widget>[
-                        graphBuilder('Exercise', categoryColors['Exercise']),
-                        graphBuilder('Family', categoryColors['Family']),
-                        graphBuilder('Home', categoryColors['Home']),
-                        graphBuilder('School', categoryColors['School']),
-                        graphBuilder('Work', categoryColors['Work']),
-                        graphBuilder('Other', categoryColors['Other']),
-                      ],
-                    ),
-                  )
-                ]));
+            child: Column(children: <Widget>[
+              Center(
+                  child:
+                      Text('Current Level: $title', style: Styles.headerLarge)),
+              SizedBox(height: 30),
+              Container(
+                padding: EdgeInsets.all(15.0),
+                child: Wrap(
+                  spacing: 10.0,
+                  alignment: WrapAlignment.center,
+                  direction: Axis.horizontal,
+                  children: <Widget>[
+                    graphBuilder('Exercise', categoryColors['Exercise']),
+                    graphBuilder('Family', categoryColors['Family']),
+                    graphBuilder('Home', categoryColors['Home']),
+                    graphBuilder('School', categoryColors['School']),
+                    graphBuilder('Work', categoryColors['Work']),
+                    graphBuilder('Other', categoryColors['Other']),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30),
+              Center(child: Text('Time By Task', style: Styles.textDefault)),
+              SizedBox(height: 30),
+              taskBuilder()
+            ]));
       }),
     );
   }
