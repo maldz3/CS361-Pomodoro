@@ -4,6 +4,14 @@ import 'package:pomodoro/our_models.dart';
 class AuthService {
   static final FirebaseAuth auth = FirebaseAuth.instance;
 
+  static Future<FirebaseUser> getFirebaseUser() async {
+    FirebaseUser firebaseUser = await auth.currentUser();
+    if (firebaseUser == null) {
+      firebaseUser = await FirebaseAuth.instance.onAuthStateChanged.first;
+    }
+    return firebaseUser;
+  }
+
   //signin with email and password
   static Future<FirebaseUser> signIn(String email, String password) async {
     try {
@@ -19,7 +27,8 @@ class AuthService {
   }
 
   //register user
-  static Future<FirebaseUser> register(String username, String email, String password) async {
+  static Future<FirebaseUser> register(
+      String username, String email, String password) async {
     try {
       AuthResult result = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -37,7 +46,7 @@ class AuthService {
   //signout
   static Future<void> signOut() async {
     try {
-      await auth.signOut();      
+      await auth.signOut();
     } catch (error) {
       print(error.toString());
     }
