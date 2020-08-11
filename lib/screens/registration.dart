@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/services/auth.dart';
 import 'package:pomodoro/our_models.dart';
 import 'package:pomodoro/styles.dart';
+import 'package:email_validator/email_validator.dart';
 
 // Registration page
 
@@ -47,7 +48,7 @@ class _RegisterState extends State<Register> {
                 SizedBox(height: 20.0),
                 TextFormField(
                   decoration: InputDecoration(hintText: "Email"),
-                  validator: (val) => val.isEmpty ? "Enter an email" : null,
+                  validator: (val) => EmailValidator.validate(val) == false ? "Enter a valid email" : null,
                   onChanged: (val) {
                     setState(() => _email = val);
                   }),
