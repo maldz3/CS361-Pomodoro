@@ -221,7 +221,7 @@ class _AccountPageState extends State<AccountPage> {
           }); 
         }
       },
-      child: Text('Update')
+      child: Text('Update', style: Styles.smallBold)
     );
   }
 
@@ -248,7 +248,10 @@ class _AccountPageState extends State<AccountPage> {
                     print("failed to reset");
                   }
                 },
-              child: Text('Reset Account', textAlign: TextAlign.center,),
+              child: Text(
+                'Reset Account', 
+                style: Styles.smallBold, 
+                textAlign: TextAlign.center,),
             ),
           ),
           SizedBox(width: 15),
