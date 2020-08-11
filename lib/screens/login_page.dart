@@ -45,8 +45,6 @@ class _LogInState extends State<LogIn> {
                 createAccountButton(),
                 SizedBox(height: 20.0),
                 forgotPasswordButton(),
-                SizedBox(height: 20.0),
-                errorText()
               ]
             ),
           )
@@ -156,12 +154,5 @@ class _LogInState extends State<LogIn> {
   void _displaySnackBar(BuildContext context, String text) {
     final snackbar = SnackBar(content: Text(text));
     _scaffoldKey.currentState.showSnackBar(snackbar);
-  }
-
-  Widget errorText() {
-    return Text(
-      _error,
-      style: TextStyle(color: Colors.red, fontSize: 20),
-    );
   }
 }
