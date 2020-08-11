@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class BuildDrawer extends StatelessWidget {
   BuildDrawer();
 
@@ -11,7 +10,7 @@ class BuildDrawer extends StatelessWidget {
       createDrawerItem(
           icon: Icons.home,
           text: 'Task List',
-          onTap: () => Navigator.popAndPushNamed(context, '/')),
+          onTap: () => Navigator.popAndPushNamed(context, 'tasks')),
       createDrawerItem(
           icon: Icons.assessment,
           text: 'Stats',
@@ -19,8 +18,7 @@ class BuildDrawer extends StatelessWidget {
       createDrawerItem(
           icon: Icons.settings,
           text: 'Settings',
-          onTap: () =>
-              Navigator.popAndPushNamed(context, 'account')),
+          onTap: () => Navigator.popAndPushNamed(context, 'account')),
     ]));
   }
 

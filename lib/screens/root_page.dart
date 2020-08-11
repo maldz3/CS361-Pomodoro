@@ -10,7 +10,6 @@ class RootPage extends StatefulWidget {
 }
 
 class RootPageState extends State<RootPage> {
-  User user;
   bool desireDebug = false;
   Future<FirebaseUser> futureFBUserInit;
 
@@ -18,7 +17,6 @@ class RootPageState extends State<RootPage> {
   void initState() {
     print('init state called on root page');
     super.initState();
-    user = User.getInstance();
 
     if (desireDebug)
       futureFBUserInit = AuthService.signIn(
@@ -33,7 +31,6 @@ class RootPageState extends State<RootPage> {
         builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
-            user = User.getInstance();
             return HomePage();
           } else if (snapshot.hasError) {
             children = <Widget>[
