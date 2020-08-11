@@ -10,7 +10,7 @@ class StatsPage extends StatefulWidget {
 }
 
 class _StatsPageState extends State<StatsPage> {
-  List<String> userLevels = [
+  final List<String> userLevels = [
     'Beginner',
     'Task Rabbit',
     'Task Master',
@@ -19,16 +19,15 @@ class _StatsPageState extends State<StatsPage> {
   User user;
   int totalTime = 0;
   String title;
+  Map<String, int> catTimes;
+  Map<dynamic, dynamic> categoryColors;
 
   @override
   void initState() {
     super.initState();
     user = User.getInstance();
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    Map<String, int> catTimes = {
+    catTimes = {
       'Home': 0,
       'Work': 0,
       'School': 0,
@@ -36,7 +35,8 @@ class _StatsPageState extends State<StatsPage> {
       'Family': 0,
       'Other': 0
     };
-    final categoryColors = Map();
+
+    categoryColors = Map();
     user.tasks.categories.forEach((element) {
       categoryColors[element['id']] = element['color'];
     });
@@ -61,71 +61,105 @@ class _StatsPageState extends State<StatsPage> {
     } else {
       title = userLevels[index];
     }
+  }
 
-    Widget graphBuilder(String cat, Color color) {
-      double percent = catTimes[cat] / totalTime;
-      return CircularPercentIndicator(
-        radius: 150.0,
-        lineWidth: 5.0,
-        percent: percent,
-        center: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(cat),
-              Text('${catTimes[cat]} / $totalTime')
-            ]),
-        progressColor: color,
-      );
-    }
-
-    Widget taskBuilder() {
-      if (user != null && user.tasks.list != null) {
-        user.tasks.list.sort((b, a) => a.totalTime.compareTo(b.totalTime));
-        return ListView.builder(
-          itemCount: user.tasks.list.length,
-          itemBuilder: (context, index) {
-            return ListTile(title: Text(user.tasks.list[index].name));
-          });
-      } else {
-        return Container(
-            child:
-                Text('You will need to add tasks before anything shows here!'));
-      }
-    }
-
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar('Stats'),
       drawer: BuildDrawer(),
-      body: Builder(builder: (context) {
-        return Padding(
-            padding: EdgeInsets.all(15),
-            child: Column(children: <Widget>[
-              Center(
-                  child:
-                      Text('Current Level: $title', style: Styles.headerLarge)),
-              SizedBox(height: 30),
-              Container(
-                padding: EdgeInsets.all(15.0),
-                child: Wrap(
-                  spacing: 10.0,
-                  alignment: WrapAlignment.center,
-                  direction: Axis.horizontal,
-                  children: <Widget>[
-                    graphBuilder('Exercise', categoryColors['Exercise']),
-                    graphBuilder('Family', categoryColors['Family']),
-                    graphBuilder('Home', categoryColors['Home']),
-                    graphBuilder('School', categoryColors['School']),
-                    graphBuilder('Work', categoryColors['Work']),
-                    graphBuilder('Other', categoryColors['Other']),
-                  ],
-                ),
-              ),
-              SizedBox(height: 30),
-              Center(child: Text('Time By Task', style: Styles.textDefault)),
-              SizedBox(height: 30),
-              taskBuilder()
-            ]));
-      }),
+      body: body(context),
     );
+  }
+
+  Widget graphBuilder(String cat, Color color) {
+    double percent = catTimes[cat] / totalTime;
+    return CircularPercentIndicator(
+      radius: 150.0,
+      lineWidth: 5.0,
+      percent: percent,
+      center: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[Text(cat), Text('${catTimes[cat]} / $totalTime')]),
+      progressColor: color,
+    );
+  }
+
+  Widget taskBuilder() {
+    if (user != null && user.tasks.list != null) {
+      List<Widget> childos = new List<Widget>();
+
+      // destructive sort, will affect list app wide
+      user.tasks.list.sort((b, a) => a.totalTime.compareTo(b.totalTime));
+
+      for (Task t in user.tasks.list) {
+        childos.add(
+          Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  t.name,
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
+      return Column(
+        children: childos,
+      );
+    } else {
+      return Container(
+        child: Text('You will need to add tasks before anything shows here!'),
+      );
+    }
+  }
+
+  Widget body(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: bodyChildren(context),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  List<Widget> bodyChildren(BuildContext context) {
+    return [
+      Center(child: Text('Current Level: $title', style: Styles.headerLarge)),
+      SizedBox(height: 30),
+      Container(
+        padding: EdgeInsets.all(15.0),
+        child: Wrap(
+          spacing: 10.0,
+          alignment: WrapAlignment.center,
+          direction: Axis.horizontal,
+          children: <Widget>[
+            graphBuilder('Exercise', categoryColors['Exercise']),
+            graphBuilder('Family', categoryColors['Family']),
+            graphBuilder('Home', categoryColors['Home']),
+            graphBuilder('School', categoryColors['School']),
+            graphBuilder('Work', categoryColors['Work']),
+            graphBuilder('Other', categoryColors['Other']),
+          ],
+        ),
+      ),
+      SizedBox(height: 30),
+      Center(child: Text('Time By Task', style: Styles.textDefault)),
+      SizedBox(height: 30),
+      taskBuilder()
+    ];
   }
 }
