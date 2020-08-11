@@ -105,22 +105,20 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     js.context.callMethod('playAudio');
   }
 
-
   Future<Widget> showAlert(BuildContext context) {
     return showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (context) {
-            Future.delayed(Duration(seconds: 3), () {
-                          Navigator.of(context).pop();
-                        });
-                        return AlertDialog(
-                                    title: Center(child: Text(
-                                        '30 seconds remaining')),
-                                        content: Image.asset('assets/images/tomato.png', height: 200, width: 200),
-                                  );
-                                });
-
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          Future.delayed(Duration(seconds: 3), () {
+            Navigator.of(context).pop();
+          });
+          return AlertDialog(
+            title: Center(child: Text('30 seconds remaining')),
+            content: Image.asset('assets/images/tomato.png',
+                height: 200, width: 200),
+          );
+        });
   }
 
   @override
