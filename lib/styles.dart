@@ -10,7 +10,7 @@ class Styles {
   static final Color _textColorStrong = _hexToColor('000000');
   static final Color _textColorDefault = _hexToColor('666666');
   static final Color _textColorFaint = _hexToColor('FFFFFF');
-  static final Color accentColor = _hexToColor('FF0000');
+  static final Color _accentColor = _hexToColor('FF0000');
   static final String _fontNameDefault = 'Rubik';
 
   static final navBarTitle = TextStyle(
@@ -40,6 +40,13 @@ class Styles {
     fontSize: _textSizeSmall,
     fontWeight: FontWeight.w700,
     color: _textColorFaint
+  );
+
+    static final errorBold = TextStyle(
+    fontFamily: _fontNameDefault,
+    fontSize: _textSizeSmall,
+    fontWeight: FontWeight.w700,
+    color: _accentColor
   );
 
   static final italicText = TextStyle(

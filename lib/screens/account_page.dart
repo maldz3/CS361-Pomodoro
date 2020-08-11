@@ -102,9 +102,9 @@ class _AccountPageState extends State<AccountPage> {
                       setState(() {
                         username = value;
                       });
-                      _showSnackbar(context, 'Username Updated');
+                      _showSnackbar(context, 'Username Updated', Styles.smallBold);
                     } else {
-                      _showSnackbar(context, 'Username Update Failed');
+                      _showSnackbar(context, 'Username Update Failed', Styles.errorBold);
                     }
                     //store it
                   },
@@ -145,9 +145,9 @@ class _AccountPageState extends State<AccountPage> {
                         setState(() {
                           email = value;
                         });
-                        _showSnackbar(context, 'Email Updated');
+                        _showSnackbar(context, 'Email Updated', Styles.smallBold);
                       } else {
-                        _showSnackbar(context, 'Email Update Failed');
+                        _showSnackbar(context, 'Email Update Failed', Styles.errorBold);
                       } 
                     },
                     validator: (value) => 
@@ -186,9 +186,9 @@ class _AccountPageState extends State<AccountPage> {
                     onSaved: (value) async {
                       bool result = await user.changePassword(value);
                       if (result == true) {
-                        _showSnackbar(context, 'Password Updated');
+                        _showSnackbar(context, 'Password Updated', Styles.smallBold);
                       } else {
-                        _showSnackbar(context, 'Password Update Failed');
+                        _showSnackbar(context, 'Password Update Failed', Styles.errorBold);
                       } 
                     },
                     validator: (value) => 
@@ -221,7 +221,7 @@ class _AccountPageState extends State<AccountPage> {
           }); 
         }
       },
-      child: Text('Update')
+      child: Text('Update', style: Styles.smallBold)
     );
   }
 
@@ -241,14 +241,17 @@ class _AccountPageState extends State<AccountPage> {
               onPressed: () async {
                   bool result = await user.resetAccount();
                   if (result == true) {
-                    _showSnackbar(context, 'Account task data has been reset');
+                    _showSnackbar(context, 'Account task data has been reset', Styles.smallBold);
                     print("account reset");
                   } else {
-                    _showSnackbar(context, 'Failed to reset task data');
+                    _showSnackbar(context, 'Failed to reset task data', Styles.errorBold);
                     print("failed to reset");
                   }
                 },
-              child: Text('Reset Account', textAlign: TextAlign.center,),
+              child: Text(
+                'Reset Account', 
+                style: Styles.smallBold, 
+                textAlign: TextAlign.center,),
             ),
           ),
           SizedBox(width: 15),
@@ -260,8 +263,10 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  void _showSnackbar(BuildContext context, String text) {
-    final snackbar = SnackBar(content: Text(text));
+  void _showSnackbar(BuildContext context, String text, TextStyle style) {
+    final snackbar = SnackBar(
+      content: Text(text, style: style),
+      backgroundColor: Colors.grey[900]);
     Scaffold.of(context).showSnackBar(snackbar);
 
   }

@@ -22,10 +22,12 @@ class _LogInState extends State<LogIn> {
 
   final _formKey = GlobalKey<FormState>();
   final _passwordKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text("ScrumBags Pomodoro"),
@@ -43,8 +45,6 @@ class _LogInState extends State<LogIn> {
                 createAccountButton(),
                 SizedBox(height: 20.0),
                 forgotPasswordButton(),
-                SizedBox(height: 20.0),
-                errorText()
               ]
             ),
           )
@@ -86,8 +86,9 @@ class _LogInState extends State<LogIn> {
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 dynamic result = await AuthService.signIn(_email, _password);
-                if (result == null) setState(() => _error = "Invalid credentials");
-                else this.widget.refreshHomePage(); 
+                if (result == null) {
+                  _displaySnackBar(context, 'Invalid Login Credentials', Styles.errorBold);
+                } else this.widget.refreshHomePage(); 
               }
             }
           )
@@ -127,7 +128,6 @@ class _LogInState extends State<LogIn> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-          SizedBox(height: 20.0),
           TextFormField(
           decoration: InputDecoration(hintText: "Email"),
           validator: (val) => val.isEmpty ? "Enter an email" : null,
@@ -138,11 +138,12 @@ class _LogInState extends State<LogIn> {
       ),
       actions: [
         RaisedButton(
-          child: Text("Send"),
+          child: Text("Send", style: Styles.smallBold),
           onPressed: () {
             if (_passwordKey.currentState.validate()) {
               AuthService.resetPassword(_passResetEmail);
               Navigator.pop(context);
+              _displaySnackBar(context, 'Password Reset E-mail Sent', Styles.smallBold);
             }
           }
         ),
@@ -150,10 +151,10 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  Widget errorText() {
-    return Text(
-      _error,
-      style: TextStyle(color: Colors.red, fontSize: 20),
-    );
+  void _displaySnackBar(BuildContext context, String text, TextStyle style) {
+    final snackbar = SnackBar(
+      content: Text(text, style: style),
+      backgroundColor: Colors.grey[900]);
+    _scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }
