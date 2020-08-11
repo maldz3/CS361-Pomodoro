@@ -87,7 +87,7 @@ class _LogInState extends State<LogIn> {
               if (_formKey.currentState.validate()) {
                 dynamic result = await AuthService.signIn(_email, _password);
                 if (result == null) {
-                  _displaySnackBar(context, 'Invalid Login Credentials');
+                  _displaySnackBar(context, 'Invalid Login Credentials', Styles.errorBold);
                 } else this.widget.refreshHomePage(); 
               }
             }
@@ -143,7 +143,7 @@ class _LogInState extends State<LogIn> {
             if (_passwordKey.currentState.validate()) {
               AuthService.resetPassword(_passResetEmail);
               Navigator.pop(context);
-              _displaySnackBar(context, 'Password Reset E-mail Sent');
+              _displaySnackBar(context, 'Password Reset E-mail Sent', Styles.smallBold);
             }
           }
         ),
@@ -151,8 +151,10 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  void _displaySnackBar(BuildContext context, String text) {
-    final snackbar = SnackBar(content: Text(text));
+  void _displaySnackBar(BuildContext context, String text, TextStyle style) {
+    final snackbar = SnackBar(
+      content: Text(text, style: style),
+      backgroundColor: Colors.grey[900]);
     _scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }

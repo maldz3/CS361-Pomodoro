@@ -74,26 +74,19 @@ class _RegisterState extends State<Register> {
 
                       // Error catch
                       if (result == null || result.uid == null) {
-                        _showSnackbar(context, 'Registration Error');
+                        _showSnackbar(context, 'Registration Error', Styles.errorBold);
                       } else {
                         //show registered dialogue
                         // Create new storage area for user in database
                         User.initDBEntry(result.uid, _username, _email);
 
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) {
-                            Future.delayed(Duration(seconds: 2), () {
-                              Navigator.popUntil(
-                                  context, ModalRoute.withName('/'));
-                            });
-                            return AlertDialog(
-                              title: Text(
-                                  'Registered! Please log in to access your account.'),
-                            );
-                          }
-                        );
+                        Future.delayed(Duration(seconds: 2), () {
+                          Navigator.popUntil(
+                            context, ModalRoute.withName('/'));
+                        });
+                        
+                        _showSnackbar(context, 'Registering...', Styles.smallBold);
+                        
                         await AuthService.signOut();
                       }
                     }
@@ -106,8 +99,11 @@ class _RegisterState extends State<Register> {
       )
     );
   }
-  void _showSnackbar(BuildContext context, String text) {
-    final snackbar = SnackBar(content: Text(text));
+  void _showSnackbar(BuildContext context, String text, TextStyle style) {
+    final snackbar = SnackBar(
+      content: Text(text, style: style),
+      backgroundColor: Colors.grey[900]
+    );
     Scaffold.of(context).showSnackBar(snackbar);
   }
 }
