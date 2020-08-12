@@ -2,6 +2,9 @@
 
 Hosting URL: [https://cs361-pomodoro.web.app](https://cs361-pomodoro.web.app)
 
+Sprint 3 video: 
+<img src='pomo.mp4' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 ## :construction: High Level Architecture
 ![Image of High Level Architecture](https://github.com/maldz3/CS361-Pomodoro/blob/master/high_level_architecture.png)
 
