@@ -159,7 +159,7 @@ class _StatsPageState extends State<StatsPage> {
     childos.addAll([
       Center(
         child: Text(
-          '~ Time By Task ~',
+          'Time By Task',
           style: Styles.headerLarge,
         ),
       ),
