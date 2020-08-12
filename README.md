@@ -11,3 +11,5 @@ Hosting URL: [https://cs361-pomodoro.web.app](https://cs361-pomodoro.web.app)
 - [Noah Johnston](https://github.com/NDJ-1701)
 - [Leonard LoBiondo](https://github.com/Len-LoBo)
 - [Justin Lin](https://github.com/jlin88)
+
+![Image which represents our experience](https://github.com/maldz3/CS361-Pomodoro/blob/master/experience.png)
